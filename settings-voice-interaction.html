@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nexus AI - Voice &amp; Interaction Settings</title>
+<style>
+        .space-grid {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+            background-attachment: fixed;
+            transition: background-position 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .audio-bar {
+            animation: barHeight 1.2s ease-in-out infinite alternate;
+        }
+        @keyframes barHeight {
+            from { height: 10%; }
+            to { height: 100%; }
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
+        }
+    </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script id="tailwind-config">
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+        extend: {
+            colors: {
+            "surface": "#f9f9fb",
+            "on-primary-fixed": "#ffffff",
+            "inverse-surface": "#2f3132",
+            "primary": "#000000",
+            "secondary": "#5f5e5e",
+            "tertiary-fixed": "#5e5e63",
+            "outline-variant": "#c6c6c6",
+            "on-tertiary-fixed": "#ffffff",
+            "tertiary-fixed-dim": "#46464b",
+            "tertiary": "#3a3b40",
+            "secondary-fixed": "#c8c6c5",
+            "on-secondary-container": "#1c1b1b",
+            "on-primary-fixed-variant": "#e2e2e2",
+            "outline": "#777777",
+            "on-secondary": "#ffffff",
+            "tertiary-container": "#747479",
+            "surface-dim": "#d9dadc",
+            "surface-container-highest": "#e2e2e4",
+            "surface-container-high": "#e8e8ea",
+            "on-primary-container": "#ffffff",
+            "secondary-fixed-dim": "#adabaa",
+            "surface-variant": "#e2e2e4",
+            "on-primary": "#e2e2e2",
+            "surface-container-lowest": "#ffffff",
+            "primary-container": "#3b3b3b",
+            "background": "#f9f9fb",
+            "inverse-on-surface": "#f0f0f2",
+            "secondary-container": "#d6d4d3",
+            "on-tertiary-container": "#ffffff",
+            "on-background": "#1a1c1d",
+            "on-error": "#ffffff",
+            "inverse-primary": "#c6c6c6",
+            "on-secondary-fixed-variant": "#3c3b3b",
+            "surface-container-low": "#f3f3f5",
+            "on-secondary-fixed": "#1c1b1b",
+            "primary-fixed-dim": "#474747",
+            "on-surface-variant": "#474747",
+            "error": "#ba1a1a",
+            "primary-fixed": "#5e5e5e",
+            "on-surface": "#1a1c1d",
+            "surface-container": "#eeeef0",
+            "on-error-container": "#410002",
+            "error-container": "#ffdad6",
+            "on-tertiary": "#e3e2e7",
+            "on-tertiary-fixed-variant": "#e3e2e7",
+            "surface-tint": "#5e5e5e",
+            "surface-bright": "#f9f9fb"
+            },
+            borderRadius: {
+            DEFAULT: "0.125rem",
+            lg: "0.25rem",
+            xl: "0.5rem",
+            full: "0.75rem"
+            },
+            fontFamily: {
+            headline: ["Space Grotesk"],
+            body: ["Inter"],
+            label: ["Inter"]
+            }
+        }
+        }
+    }
+</script><link rel="stylesheet" href="corporate-style.css"/></head>
+<body class="font-body bg-background text-on-surface min-h-screen flex flex-col overflow-x-hidden selection:bg-primary selection:text-white" id="main-body"><canvas id="canvas-mesh" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;"></canvas>
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-xl flex justify-between items-center px-8 h-16 shadow-[0px_20px_50px_rgba(0,0,0,0.02)]">
+<div class="flex items-center gap-4">
+<span class="text-xl font-bold tracking-tighter text-black font-headline cursor-pointer hover:opacity-80 transition-opacity">Nexus AI</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 text-sm group-focus-within:text-black transition-colors">search</span>
+<input class="bg-surface-container-low border-none rounded-full py-2 pl-10 pr-4 text-xs w-64 focus:ring-1 focus:ring-primary transition-all placeholder:text-zinc-400" placeholder="Search parameters..." type="text"/>
+</div>
+<div class="flex gap-4 items-center">
+<span class="material-symbols-outlined text-zinc-500 hover:text-black hover:bg-zinc-100 p-2 rounded-full cursor-pointer transition-all active:scale-90" data-icon="settings">settings</span>
+<span class="material-symbols-outlined text-zinc-500 hover:text-black hover:bg-zinc-100 p-2 rounded-full cursor-pointer transition-all active:scale-90" data-icon="help">help</span>
+<div class="w-8 h-8 rounded-full bg-zinc-200 overflow-hidden cursor-pointer hover:ring-2 hover:ring-black transition-all active:scale-95">
+<img alt="User profile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdEjJB6Lc5TjfHnMkq7SxxG8mnYChGD9OGPfjeb962MlO3yGBF6C2Kiw-NMLsriFPNxTUqKHxK7USi75T33jcYmB75Q2e-geaMFSquD_h7FDdZoOVWSnXXAK9RZjVAdxPNlWSU5IE9z8AT18Rr0sZKYPQwppu7HpPl25yuD_SgsWU8Yb6Ajx-vAl_ZLitKlZk4YlB829obfrhnyrsRL-MN_2EQgR9kUvRrsYNIgNHxuXXL2Oq_OgJB9HtiAHK5Gyu0sxp1rO2HtSCi"/>
+</div>
+</div>
+</div>
+</nav>
+<div class="flex pt-16 min-h-screen">
+<!-- SideNavBar (Celestial Precision Standard) -->
+<aside class="fixed left-0 top-0 h-full flex flex-col bg-surface/80 backdrop-blur-xl w-64 border-r border-outline-variant/10 z-50">
+<div class="p-8 pb-4">
+<h2 class="text-lg font-black text-black font-headline tracking-tighter">Nexus AI</h2>
+<p class="font-['Space_Grotesk'] text-[10px] tracking-widest uppercase font-medium text-zinc-400 mt-1">System Configuration</p>
+</div>
+<nav class="flex-1 px-4 py-4 space-y-1 overflow-y-auto">
+<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black hover:bg-white hover:shadow-sm transition-all duration-200 group rounded-lg active:scale-95" href="settings-profile.html">
+<span class="material-symbols-outlined group-hover:text-black transition-colors" data-icon="person">person</span>
+<span class="font-['Space_Grotesk'] text-sm tracking-wide uppercase font-medium">Profile</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black hover:bg-white hover:shadow-sm transition-all duration-200 group rounded-lg active:scale-95" href="settings-ai-behavior.html">
+<span class="material-symbols-outlined group-hover:text-black transition-colors" data-icon="psychology">psychology</span>
+<span class="font-['Space_Grotesk'] text-sm tracking-wide uppercase font-medium">AI Behavior</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-black border-r-2 border-black transition-all duration-300 bg-white shadow-sm rounded-l-lg" href="settings-voice-interaction.html">
+<span class="material-symbols-outlined" data-icon="record_voice_over">record_voice_over</span>
+<span class="font-['Space_Grotesk'] text-sm tracking-wide uppercase font-medium">Voice &amp; Interaction</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black hover:bg-white hover:shadow-sm transition-all duration-200 group rounded-lg active:scale-95" href="settings-system-permissions.html">
+<span class="material-symbols-outlined group-hover:text-black transition-colors" data-icon="key">key</span>
+<span class="font-['Space_Grotesk'] text-sm tracking-wide uppercase font-medium">System Permissions</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black hover:bg-white hover:shadow-sm transition-all duration-200 group rounded-lg active:scale-95" href="settings-automation.html">
+<span class="material-symbols-outlined group-hover:text-black transition-colors" data-icon="robot">robot</span>
+<span class="font-['Space_Grotesk'] text-sm tracking-wide uppercase font-medium">Automation Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black hover:bg-white hover:shadow-sm transition-all duration-200 group rounded-lg active:scale-95" href="settings-integrations.html">
+<span class="material-symbols-outlined group-hover:text-black transition-colors" data-icon="extension">extension</span>
+<span class="font-['Space_Grotesk'] text-sm tracking-wide uppercase font-medium">Integrations</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black hover:bg-white hover:shadow-sm transition-all duration-200 group rounded-lg active:scale-95" href="settings-notifications.html">
+<span class="material-symbols-outlined group-hover:text-black transition-colors" data-icon="notifications">notifications</span>
+<span class="font-['Space_Grotesk'] text-sm tracking-wide uppercase font-medium">Notifications</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black hover:bg-white hover:shadow-sm transition-all duration-200 group rounded-lg active:scale-95" href="settings-appearance.html">
+<span class="material-symbols-outlined group-hover:text-black transition-colors" data-icon="palette">palette</span>
+<span class="font-['Space_Grotesk'] text-sm tracking-wide uppercase font-medium">Appearance</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black hover:bg-white hover:shadow-sm transition-all duration-200 group rounded-lg active:scale-95" href="settings-security-privacy.html">
+<span class="material-symbols-outlined group-hover:text-black transition-colors" data-icon="shield">shield</span>
+<span class="font-['Space_Grotesk'] text-sm tracking-wide uppercase font-medium">Privacy &amp; Security</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black hover:bg-white hover:shadow-sm transition-all duration-200 group rounded-lg active:scale-95" href="settings-advanced.html">
+<span class="material-symbols-outlined group-hover:text-black transition-colors" data-icon="terminal">terminal</span>
+<span class="font-['Space_Grotesk'] text-sm tracking-wide uppercase font-medium">Advanced</span>
+</a>
+</nav>
+<div class="p-6">
+<button class="w-full py-4 bg-black text-white text-xs font-bold tracking-widest uppercase rounded shadow-lg active:scale-95 transition-all hover:bg-zinc-800 hover:shadow-xl">
+                Deploy Changes
+            </button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 p-12 max-w-7xl mx-auto w-full">
+<header class="fixed top-0 right-0 left-64 z-40 flex items-center justify-between px-8 bg-surface/80 backdrop-blur-md h-16 border-b border-outline-variant/10">
+<p class="text-primary-fixed text-[10px] font-bold tracking-[0.2em] uppercase mb-2">Configuration / 03</p>
+<h1 class="text-6xl font-headline font-bold text-on-background tracking-tighter leading-none mb-4">Voice &amp; Interaction</h1>
+<p class="text-zinc-500 max-w-2xl font-light leading-relaxed">Refine how the system perceives and projects audio feedback. Aural Logic utilizes advanced neural processing to ensure seamless verbal communication.</p>
+</header>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-8">
+<!-- Section: Aural Logic Visualizer -->
+<div class="col-span-12 lg:col-span-8 h-[320px] bg-black rounded overflow-hidden relative border border-black/5 group cursor-crosshair shadow-2xl">
+<div class="absolute inset-0 z-0">
+<div class="w-full h-full bg-black flex items-center justify-center p-20">
+<!-- Simulated Audio Waves -->
+<div class="flex items-end gap-1 h-32">
+<div class="w-2 bg-white/20 audio-bar" style="animation-delay: 0.1s; animation-duration: 0.8s;"></div>
+<div class="w-2 bg-white/40 audio-bar" style="animation-delay: 0.3s; animation-duration: 1.2s;"></div>
+<div class="w-2 bg-white/80 audio-bar" style="animation-delay: 0.5s; animation-duration: 0.6s;"></div>
+<div class="w-2 bg-white audio-bar" style="animation-delay: 0.2s; animation-duration: 1.5s;"></div>
+<div class="w-2 bg-white/60 audio-bar" style="animation-delay: 0.7s; animation-duration: 0.9s;"></div>
+<div class="w-2 bg-white/30 audio-bar" style="animation-delay: 0.4s; animation-duration: 1.1s;"></div>
+<div class="w-2 bg-white/90 audio-bar" style="animation-delay: 0.6s; animation-duration: 0.7s;"></div>
+<div class="w-2 bg-white/10 audio-bar" style="animation-delay: 0.8s; animation-duration: 1.3s;"></div>
+<div class="w-2 bg-white audio-bar" style="animation-delay: 0.3s; animation-duration: 1.0s;"></div>
+<div class="w-2 bg-white/50 audio-bar" style="animation-delay: 0.1s; animation-duration: 0.5s;"></div>
+<div class="w-2 bg-white/70 audio-bar" style="animation-delay: 0.9s; animation-duration: 1.4s;"></div>
+<div class="w-2 bg-white/20 audio-bar" style="animation-delay: 0.2s; animation-duration: 0.8s;"></div>
+</div>
+</div>
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
+<div class="absolute bottom-8 left-8 text-white">
+<span class="text-[10px] bg-white/20 backdrop-blur-md px-2 py-1 rounded-sm mb-2 inline-block font-bold tracking-widest uppercase">Active Stream</span>
+<h3 class="text-2xl font-headline font-bold">Aural Logic</h3>
+<p class="text-white/60 text-sm font-light">Real-time spectral analysis of environmental resonance.</p>
+</div>
+<div class="absolute top-8 right-8 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="bg-white/10 hover:bg-white/20 backdrop-blur-md p-2 rounded-full text-white transition-all">
+<span class="material-symbols-outlined text-sm">fullscreen</span>
+</button>
+</div>
+</div>
+<!-- Section: Voice Synthesis Selection -->
+<div class="col-span-12 lg:col-span-4 glass-card p-8 rounded-lg flex flex-col justify-between">
+<div>
+<label class="text-[10px] font-bold uppercase tracking-widest text-primary-fixed mb-6 block">Voice Synthesis</label>
+<div class="space-y-3" id="voice-synthesis-options">
+<button class="w-full flex items-center justify-between p-4 bg-black text-white rounded-lg group transition-all ring-2 ring-black active:scale-[0.98] voice-btn" data-voice="male">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-sm" data-icon="male">male</span>
+<span class="text-sm font-medium">Male</span>
+</div>
+<span class="material-symbols-outlined text-sm fill-icon" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</button>
+<button class="w-full flex items-center justify-between p-4 bg-white/50 border border-black/5 text-on-surface rounded-lg hover:bg-white hover:shadow-sm transition-all active:scale-[0.98] group voice-btn" data-voice="female">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-sm text-zinc-400 group-hover:text-black" data-icon="female">female</span>
+<span class="text-sm font-medium">Female</span>
+</div>
+<span class="material-symbols-outlined text-sm hidden fill-icon" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</button>
+<button class="w-full flex items-center justify-between p-4 bg-white/50 border border-black/5 text-on-surface rounded-lg hover:bg-white hover:shadow-sm transition-all active:scale-[0.98] group voice-btn" data-voice="custom">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-sm text-zinc-400 group-hover:text-black" data-icon="settings_input_component">settings_input_component</span>
+<span class="text-sm font-medium">Custom</span>
+</div>
+<span class="material-symbols-outlined text-xs text-zinc-400" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Section: Wake Command & Toggles -->
+<div class="col-span-12 lg:col-span-6 glass-card p-8 rounded-lg flex flex-col justify-between">
+<div>
+<label class="text-[10px] font-bold uppercase tracking-widest text-primary-fixed mb-6 block">Wake Command</label>
+<div class="flex gap-4 mb-8">
+<div class="flex-1 bg-white p-4 border-2 border-black rounded cursor-pointer transition-all active:scale-95 shadow-sm wake-option active-wake" onclick="selectWake(this)">
+<p class="text-[10px] text-zinc-400 mb-1 uppercase font-bold tracking-tight">Trigger 01</p>
+<p class="font-headline font-bold text-lg">Nexus</p>
+</div>
+<div class="flex-1 bg-white/50 p-4 border border-black/5 rounded cursor-pointer hover:bg-white hover:border-black/20 hover:shadow-sm transition-all active:scale-95 group wake-option" onclick="selectWake(this)">
+<p class="text-[10px] text-zinc-400 mb-1 uppercase font-bold tracking-tight group-hover:text-zinc-600 transition-colors">Trigger 02</p>
+<p class="font-headline font-bold text-lg">Computer</p>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between pt-6 border-t border-black/5">
+<div>
+<p class="font-medium text-sm">Ambient Filter</p>
+<p class="text-xs text-zinc-500 font-light">Suppress 50Hz and above environmental noise.</p>
+</div>
+<button class="w-12 h-6 bg-black rounded-full relative flex items-center px-1 transition-all active:scale-95" id="ambient-toggle" onclick="toggleSwitch(this)">
+<div class="w-4 h-4 bg-white rounded-full absolute right-1 transition-all duration-200 shadow-sm" id="toggle-circle"></div>
+</button>
+</div>
+</div>
+<!-- Section: Input Sensitivity Slider -->
+<div class="col-span-12 lg:col-span-6 glass-card p-8 flex flex-col justify-center rounded-lg">
+<div class="flex justify-between items-end mb-6">
+<label class="text-[10px] font-bold uppercase tracking-widest text-primary-fixed">Input Sensitivity</label>
+<span class="text-4xl font-headline font-bold" id="sensitivity-value">84<span class="text-lg text-zinc-400 font-normal">%</span></span>
+</div>
+<div class="relative h-2 w-full bg-zinc-200/50 rounded-full mb-8 cursor-pointer group" id="slider-track" onclick="moveSlider(event)">
+<div class="absolute h-full bg-black rounded-full" id="slider-fill" style="width: 84%;"></div>
+<div class="absolute h-6 w-6 bg-black rounded-full top-1/2 -translate-y-1/2 -ml-3 shadow-lg group-hover:scale-110 transition-transform cursor-grab active:cursor-grabbing border-2 border-white" id="slider-thumb" style="left: 84%;"></div>
+</div>
+<div class="flex justify-between text-[10px] text-zinc-400 font-bold uppercase tracking-widest">
+<span class="hover:text-black cursor-pointer transition-colors" onclick="updateSlider(10)">Low Gain</span>
+<span class="hover:text-black cursor-pointer transition-colors" onclick="updateSlider(50)">Direct Logic</span>
+<span class="hover:text-black cursor-pointer transition-colors" onclick="updateSlider(90)">Peak Intensity</span>
+</div>
+</div>
+<!-- Task-specific Focus: Engineering Specs -->
+<div class="col-span-12 glass-card p-10 flex flex-col lg:flex-row gap-12 items-start rounded-lg">
+<div class="lg:w-1/3">
+<h4 class="text-xl font-headline font-bold mb-4">Aural Core Parameters</h4>
+<p class="text-sm text-zinc-500 leading-relaxed font-light">The Nexus Voice System operates at 48kHz / 24-bit resolution. Active Interaction provides 0.3ms latency for real-time natural language processing.</p>
+</div>
+<div class="flex-1 grid grid-cols-2 md:grid-cols-4 gap-8 w-full">
+<div class="border-l-2 border-black/10 pl-6 hover:border-black transition-colors cursor-default group">
+<p class="text-[10px] uppercase font-bold tracking-widest text-zinc-400 mb-1 group-hover:text-black transition-colors">Sample Rate</p>
+<p class="text-xl font-headline font-bold">48.0 kHz</p>
+</div>
+<div class="border-l-2 border-black/10 pl-6 hover:border-black transition-colors cursor-default group">
+<p class="text-[10px] uppercase font-bold tracking-widest text-zinc-400 mb-1 group-hover:text-black transition-colors">Bit Depth</p>
+<p class="text-xl font-headline font-bold">24-bit Float</p>
+</div>
+<div class="border-l-2 border-black/10 pl-6 hover:border-black transition-colors cursor-default group">
+<p class="text-[10px] uppercase font-bold tracking-widest text-zinc-400 mb-1 group-hover:text-black transition-colors">Latency</p>
+<p class="text-xl font-headline font-bold">0.32 ms</p>
+</div>
+<div class="border-l-2 border-black/10 pl-6 hover:border-black transition-colors cursor-default group">
+<p class="text-[10px] uppercase font-bold tracking-widest text-zinc-400 mb-1 group-hover:text-black transition-colors">Echo Cancellation</p>
+<p class="text-xl font-headline font-bold text-black flex items-center gap-2">Enabled <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span></p>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<script>
+    // Space-time grid interaction (bending grid effect)
+    const body = document.getElementById('main-body');
+    document.addEventListener('mousemove', (e) => {
+        const x = e.clientX / window.innerWidth;
+        const y = e.clientY / window.innerHeight;
+        const moveX = (x - 0.5) * 40;
+        const moveY = (y - 0.5) * 40;
+        body.style.backgroundPosition = `${moveX}px ${moveY}px`;
+    });
+
+    // Voice Synthesis Selector
+    const voiceBtns = document.querySelectorAll('.voice-btn');
+    voiceBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            voiceBtns.forEach(b => {
+                b.classList.remove('bg-black', 'text-white', 'ring-2', 'ring-black');
+                b.classList.add('bg-white/50', 'text-on-surface', 'border-black/5');
+                b.querySelector('.fill-icon')?.classList.add('hidden');
+            });
+            btn.classList.add('bg-black', 'text-white', 'ring-2', 'ring-black');
+            btn.classList.remove('bg-white/50', 'text-on-surface', 'border-black/5');
+            btn.querySelector('.fill-icon')?.classList.remove('hidden');
+        });
+    });
+
+    // Wake Command Selector
+    function selectWake(element) {
+        document.querySelectorAll('.wake-option').forEach(opt => {
+            opt.classList.remove('border-2', 'border-black', 'active-wake');
+            opt.classList.add('bg-white/50', 'border-black/5');
+        });
+        element.classList.add('border-2', 'border-black', 'active-wake');
+        element.classList.remove('bg-white/50', 'border-black/5');
+    }
+
+    // Toggle Switch
+    function toggleSwitch(btn) {
+        const circle = btn.querySelector('div');
+        const isActive = btn.classList.contains('bg-black');
+        
+        if (isActive) {
+            btn.classList.replace('bg-black', 'bg-zinc-300');
+            circle.style.right = 'auto';
+            circle.style.left = '4px';
+        } else {
+            btn.classList.replace('bg-zinc-300', 'bg-black');
+            circle.style.left = 'auto';
+            circle.style.right = '4px';
+        }
+    }
+
+    // Interactive Slider
+    const sensitivityVal = document.getElementById('sensitivity-value');
+    const sliderFill = document.getElementById('slider-fill');
+    const sliderThumb = document.getElementById('slider-thumb');
+
+    function updateSlider(percent) {
+        sensitivityVal.innerHTML = `${percent}<span class="text-lg text-zinc-400 font-normal">%</span>`;
+        sliderFill.style.width = `${percent}%`;
+        sliderThumb.style.left = `${percent}%`;
+    }
+
+    function moveSlider(e) {
+        const rect = document.getElementById('slider-track').getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        let percent = Math.round((x / rect.width) * 100);
+        percent = Math.max(0, Math.min(100, percent));
+        updateSlider(percent);
+    }
+    
+    // Simple drag for slider
+    let isDragging = false;
+    sliderThumb.addEventListener('mousedown', () => isDragging = true);
+    document.addEventListener('mouseup', () => isDragging = false);
+    document.addEventListener('mousemove', (e) => {
+        if (isDragging) moveSlider(e);
+    });
+</script>
+<script src="corporate-interactivity.js"></script><script id="mesh-script">
+    const canvas = document.getElementById('canvas-mesh');
+    if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let mouse = { x: -1000, y: -1000 };
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resize);
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+
+        resize();
+
+        const gridSize = 45;
+        const centralForce = 220;
+        const mouseForce = 150;
+
+        function applyPhysics(x, y) {
+            let px = x;
+            let py = y;
+            
+            const dxM = px - mouse.x;
+            const dyM = py - mouse.y;
+            const distM = Math.sqrt(dxM * dxM + dyM * dyM);
+            
+            if (distM < mouseForce) {
+                // Liquid lens topographical push against mouse
+                const power = Math.pow((mouseForce - distM) / mouseForce, 2);
+                px += dxM * power * 1.5;
+                py += dyM * power * 1.5;
+            }
+            
+            return { x: px, y: py };
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, width, height);
+            ctx.strokeStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.lineWidth = 1;
+
+            for (let x = 0; x <= width; x += gridSize) {
+                ctx.beginPath();
+                for (let y = 0; y <= height; y += 4) {
+                    const pos = applyPhysics(x, y);
+                    if (y === 0) ctx.moveTo(pos.x, pos.y);
+                    else ctx.lineTo(pos.x, pos.y);
+                }
+                ctx.stroke();
+            }
+
+            for (let y = 0; y <= height; y += gridSize) {
+                ctx.beginPath();
+                for (let x = 0; x <= width; x += 4) {
+                    const pos = applyPhysics(x, y);
+                    if (x === 0) ctx.moveTo(pos.x, pos.y);
+                    else ctx.lineTo(pos.x, pos.y);
+                }
+                ctx.stroke();
+            }
+            requestAnimationFrame(draw);
+        }
+        draw();
+    }
+</script></body></html>

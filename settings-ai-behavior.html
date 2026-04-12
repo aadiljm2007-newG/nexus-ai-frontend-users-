@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nexus AI Settings - AI Behavior</title>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f9f9fb; }
+        .font-headline { font-family: 'Space Grotesk', sans-serif; }
+        
+        .space-time-grid {
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+            background-size: 60px 60px;
+            perspective: 1000px;
+            transform-style: preserve-3d;
+            transition: transform 0.2s cubic-bezier(0.2, 0, 0.2, 1);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.02);
+        }
+
+        .sidebar-link-active {
+            background-color: rgba(0, 0, 0, 0.05);
+            border-right: 2px solid #000;
+            color: #000;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .interactive-toggle:checked + .toggle-bg {
+            background-color: #000000;
+        }
+        .interactive-toggle:checked + .toggle-bg::after {
+            transform: translateX(1.25rem);
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 16px;
+            width: 16px;
+            border-radius: 50%;
+            background: #000;
+            cursor: pointer;
+            border: 2px solid #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        @keyframes pulse-custom {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .animate-pulse-custom {
+            animation: pulse-custom 2s infinite ease-in-out;
+        }
+    </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script id="tailwind-config">
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+        extend: {
+            colors: {
+            "surface": "#f9f9fb",
+            "on-primary-fixed": "#ffffff",
+            "inverse-surface": "#2f3132",
+            "primary": "#000000",
+            "secondary": "#5f5e5e",
+            "tertiary-fixed": "#5e5e63",
+            "outline-variant": "#c6c6c6",
+            "on-tertiary-fixed": "#ffffff",
+            "tertiary-fixed-dim": "#46464b",
+            "tertiary": "#3a3b40",
+            "secondary-fixed": "#c8c6c5",
+            "on-secondary-container": "#1c1b1b",
+            "on-primary-fixed-variant": "#e2e2e2",
+            "outline": "#777777",
+            "on-secondary": "#ffffff",
+            "tertiary-container": "#747479",
+            "surface-dim": "#d9dadc",
+            "surface-container-highest": "#e2e2e4",
+            "surface-container-high": "#e8e8ea",
+            "on-primary-container": "#ffffff",
+            "secondary-fixed-dim": "#adabaa",
+            "surface-variant": "#e2e2e4",
+            "on-primary": "#e2e2e2",
+            "surface-container-lowest": "#ffffff",
+            "primary-container": "#3b3b3b",
+            "background": "#f9f9fb",
+            "inverse-on-surface": "#f0f0f2",
+            "secondary-container": "#d6d4d3",
+            "on-tertiary-container": "#ffffff",
+            "on-background": "#1a1c1d",
+            "on-error": "#ffffff",
+            "inverse-primary": "#c6c6c6",
+            "on-secondary-fixed-variant": "#3c3b3b",
+            "surface-container-low": "#f3f3f5",
+            "on-secondary-fixed": "#1c1b1b",
+            "primary-fixed-dim": "#474747",
+            "on-surface-variant": "#474747",
+            "error": "#ba1a1a",
+            "primary-fixed": "#5e5e5e",
+            "on-surface": "#1a1c1d",
+            "surface-container": "#eeeef0",
+            "on-error-container": "#410002",
+            "error-container": "#ffdad6",
+            "on-tertiary": "#e3e2e7",
+            "on-tertiary-fixed-variant": "#e3e2e7",
+            "surface-tint": "#5e5e5e",
+            "surface-bright": "#f9f9fb"
+            },
+            borderRadius: {
+            DEFAULT: "0.125rem",
+            lg: "0.25rem",
+            xl: "0.5rem",
+            full: "0.75rem"
+            },
+            fontFamily: {
+            headline: ["Space Grotesk"],
+            body: ["Inter"],
+            label: ["Inter"]
+            }
+        }
+        }
+    }
+</script><link rel="stylesheet" href="corporate-style.css"/></head>
+<body class="font-body bg-background text-on-surface min-h-screen flex flex-col overflow-x-hidden selection:bg-primary selection:text-white"><canvas id="canvas-mesh" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;"></canvas>
+<!-- Interactive Space-Time Grid Background -->
+<div class="fixed inset-0 pointer-events-none z-0 overflow-hidden" id="grid-container">
+<div class="space-time-grid absolute inset-[-20%] w-[140%] h-[140%] origin-center" id="dynamic-grid"></div>
+</div>
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-white/70 backdrop-blur-xl border-b border-black/5 flex justify-between items-center px-8 h-16">
+<div class="flex items-center gap-2">
+<span class="text-xl font-bold tracking-tighter text-black font-headline">Nexus AI</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden md:flex items-center gap-8 text-zinc-500 font-headline tracking-tight">
+<a class="hover:text-black transition-colors" href="#">Dashboard</a>
+<a class="text-black font-semibold" href="#">Settings</a>
+<a class="hover:text-black transition-colors" href="#">History</a>
+</div>
+<div class="flex items-center gap-4 border-l border-zinc-200 pl-6">
+<span class="material-symbols-outlined text-zinc-900 cursor-pointer hover:rotate-90 transition-transform duration-500" data-icon="settings">settings</span>
+<span class="material-symbols-outlined text-zinc-900 cursor-pointer hover:scale-110 transition-transform" data-icon="help">help</span>
+<div class="w-8 h-8 rounded-full bg-zinc-200 overflow-hidden border border-black/10 hover:ring-2 hover:ring-black transition-all cursor-pointer">
+<img alt="User profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjncRaED8rGC271FtjPiP25ti-gs3meT15Ytmn_mkh-bhuCnvWRg9zh9GLn8ge3IU9SRoGW1Ktq72kbF6UNvJFqR0Nt4ddWa2AG1MJ0-QhrY2NzWY6iAHiNochfMzzy8-wDFoaPtaQsswpYQVNlZ2qdVJuRDtgMzu6_VQiyyEgyqQ59ai5e9JH1lFSkoeD9Hc8AqJSO-A1AxICddTc4Hx8Jpeb8Fo8Pw7K2StEfQI9-7c-GxLMgGNAFznGdUU3no_aQhc6M2Das4Be"/>
+</div>
+</div>
+</div>
+</nav>
+<div class="flex min-h-screen pt-16 relative z-10">
+<!-- SideNavBar (Identical to other settings pages) -->
+<aside class="fixed left-0 top-0 h-full flex flex-col bg-surface/80 backdrop-blur-xl w-64 border-r border-outline-variant/10 z-50">
+<div class="p-8">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-6 h-6 bg-black flex items-center justify-center">
+<span class="material-symbols-outlined text-[14px] text-white" data-icon="robot" style="font-variation-settings: 'FILL' 1;">robot</span>
+</div>
+<span class="text-lg font-bold text-black font-headline">Nexus AI</span>
+</div>
+<p class="text-[10px] uppercase tracking-[0.2em] font-bold text-zinc-400">System Configuration</p>
+</div>
+<nav class="flex-1 px-4 space-y-1 overflow-y-auto">
+<a class="group flex items-center gap-4 px-4 py-3 text-zinc-400 hover:text-black hover:bg-black/5 transition-all duration-200 font-headline text-xs tracking-[0.15em] uppercase font-medium" href="settings-profile.html">
+<span class="material-symbols-outlined text-xl group-hover:scale-110 transition-transform" data-icon="person">person</span>
+<span>Profile</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 sidebar-link-active font-headline text-xs tracking-[0.15em] uppercase font-bold" href="settings-ai-behavior.html">
+<span class="material-symbols-outlined text-xl" data-icon="psychology" style="font-variation-settings: 'FILL' 1;">psychology</span>
+<span>AI Behavior</span>
+</a>
+<a class="group flex items-center gap-4 px-4 py-3 text-zinc-400 hover:text-black hover:bg-black/5 transition-all duration-200 font-headline text-xs tracking-[0.15em] uppercase font-medium" href="settings-voice-interaction.html">
+<span class="material-symbols-outlined text-xl group-hover:scale-110 transition-transform" data-icon="record_voice_over">record_voice_over</span>
+<span>Voice &amp; Interaction</span>
+</a>
+<a class="group flex items-center gap-4 px-4 py-3 text-zinc-400 hover:text-black hover:bg-black/5 transition-all duration-200 font-headline text-xs tracking-[0.15em] uppercase font-medium" href="settings-system-permissions.html">
+<span class="material-symbols-outlined text-xl group-hover:scale-110 transition-transform" data-icon="key">key</span>
+<span>System Permissions</span>
+</a>
+<a class="group flex items-center gap-4 px-4 py-3 text-zinc-400 hover:text-black hover:bg-black/5 transition-all duration-200 font-headline text-xs tracking-[0.15em] uppercase font-medium" href="settings-automation.html">
+<span class="material-symbols-outlined text-xl group-hover:scale-110 transition-transform" data-icon="robot">robot</span>
+<span>Automation Settings</span>
+</a>
+<a class="group flex items-center gap-4 px-4 py-3 text-zinc-400 hover:text-black hover:bg-black/5 transition-all duration-200 font-headline text-xs tracking-[0.15em] uppercase font-medium" href="settings-integrations.html">
+<span class="material-symbols-outlined text-xl group-hover:scale-110 transition-transform" data-icon="extension">extension</span>
+<span>Integrations</span>
+</a>
+<a class="group flex items-center gap-4 px-4 py-3 text-zinc-400 hover:text-black hover:bg-black/5 transition-all duration-200 font-headline text-xs tracking-[0.15em] uppercase font-medium" href="settings-notifications.html">
+<span class="material-symbols-outlined text-xl group-hover:scale-110 transition-transform" data-icon="notifications">notifications</span>
+<span>Notifications</span>
+</a>
+<a class="group flex items-center gap-4 px-4 py-3 text-zinc-400 hover:text-black hover:bg-black/5 transition-all duration-200 font-headline text-xs tracking-[0.15em] uppercase font-medium" href="settings-appearance.html">
+<span class="material-symbols-outlined text-xl group-hover:scale-110 transition-transform" data-icon="palette">palette</span>
+<span>Appearance</span>
+</a>
+<a class="group flex items-center gap-4 px-4 py-3 text-zinc-400 hover:text-black hover:bg-black/5 transition-all duration-200 font-headline text-xs tracking-[0.15em] uppercase font-medium" href="settings-security-privacy.html">
+<span class="material-symbols-outlined text-xl group-hover:scale-110 transition-transform" data-icon="shield">shield</span>
+<span>Privacy &amp; Security</span>
+</a>
+</nav>
+<div class="p-6">
+<button class="w-full py-4 bg-black text-white font-bold tracking-[0.2em] text-[10px] uppercase hover:bg-zinc-800 active:scale-[0.98] transition-all">
+                Deploy Changes
+            </button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 p-12 overflow-y-auto">
+<header class="fixed top-0 right-0 left-64 z-40 flex items-center justify-between px-8 bg-surface/80 backdrop-blur-md h-16 border-b border-outline-variant/10">
+<div class="flex items-baseline gap-4 mb-2">
+<h1 class="text-6xl font-black font-headline tracking-tighter text-black">AI Behavior</h1>
+<span class="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Ver. 4.2.0-Alpha</span>
+</div>
+<p class="text-lg text-zinc-500 max-w-2xl font-light leading-relaxed">
+                Calibrate the core cognitive architecture of your Nexus instance. Adjust neural logic, response characteristics, and environmental awareness.
+            </p>
+</header>
+<div class="grid grid-cols-12 gap-8">
+<!-- Left Column -->
+<section class="col-span-12 lg:col-span-8 space-y-8">
+<!-- Neural Logic Card (Glassmorphic) -->
+<div class="glass-card p-10 relative group">
+<div class="absolute top-8 right-8 text-black/5 group-hover:text-black/10 transition-colors">
+<span class="material-symbols-outlined text-8xl" data-icon="neurology">neurology</span>
+</div>
+<div class="relative z-10">
+<h3 class="text-[10px] font-bold uppercase tracking-[0.25em] text-zinc-400 mb-8">Neural Logic Settings</h3>
+<div class="space-y-12">
+<div class="flex items-center justify-between group/row">
+<div class="max-w-md">
+<h4 class="text-xl font-headline font-bold text-black mb-1">Creativity Quotient</h4>
+<p class="text-sm text-zinc-500 font-light">Higher values allow the model to explore unconventional logic paths.</p>
+</div>
+<div class="w-64">
+<input class="w-full h-1 bg-black/10 rounded-full appearance-none cursor-pointer accent-black" max="100" min="0" type="range" value="75"/>
+<div class="flex justify-between mt-3 text-[9px] font-bold text-zinc-400 uppercase tracking-widest">
+<span>Deterministic</span>
+<span>Chaotic</span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<div class="max-w-md">
+<h4 class="text-xl font-headline font-bold text-black mb-1">Logical Rigor</h4>
+<p class="text-sm text-zinc-500 font-light">Strict adherence to mathematical and formal logic principles.</p>
+</div>
+<div class="flex items-center gap-1 bg-black/5 p-1">
+<button class="px-6 py-2 text-[10px] font-bold uppercase tracking-widest bg-white shadow-sm border border-black/5 active:scale-95 transition-all">Strict</button>
+<button class="px-6 py-2 text-[10px] font-bold uppercase tracking-widest text-zinc-400 hover:text-black active:scale-95 transition-all">Heuristic</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-8">
+<!-- Response Style -->
+<div class="glass-card p-8">
+<h3 class="text-[10px] font-bold uppercase tracking-[0.25em] text-zinc-400 mb-8">Response Style</h3>
+<div class="space-y-3">
+<label class="flex items-center justify-between p-4 bg-white/50 border border-black/5 cursor-pointer hover:border-black hover:bg-white transition-all group">
+<span class="font-headline font-semibold text-sm group-hover:text-black tracking-wide uppercase">Formal</span>
+<input checked="" class="w-4 h-4 text-black border-black/20 focus:ring-0 cursor-pointer" name="style" type="radio"/>
+</label>
+<label class="flex items-center justify-between p-4 bg-white/50 border border-black/5 cursor-pointer hover:border-black hover:bg-white transition-all group">
+<span class="font-headline font-semibold text-sm group-hover:text-black tracking-wide uppercase">Casual</span>
+<input class="w-4 h-4 text-black border-black/20 focus:ring-0 cursor-pointer" name="style" type="radio"/>
+</label>
+<label class="flex items-center justify-between p-4 bg-white/50 border border-black/5 cursor-pointer hover:border-black hover:bg-white transition-all group">
+<span class="font-headline font-semibold text-sm group-hover:text-black tracking-wide uppercase">Technical</span>
+<input class="w-4 h-4 text-black border-black/20 focus:ring-0 cursor-pointer" name="style" type="radio"/>
+</label>
+</div>
+</div>
+<!-- Response Length -->
+<div class="glass-card p-8 flex flex-col justify-between">
+<div>
+<h3 class="text-[10px] font-bold uppercase tracking-[0.25em] text-zinc-400 mb-4">Output Magnitude</h3>
+<p class="text-xs text-zinc-500 font-light leading-relaxed">Control the verbosity of generated responses.</p>
+</div>
+<div class="mt-8">
+<div class="flex items-center justify-between mb-3">
+<span class="text-[10px] font-bold uppercase tracking-widest text-black">Length</span>
+<span class="text-[10px] text-black font-bold tracking-tight">Medium (500 tokens)</span>
+</div>
+<input class="w-full h-1 bg-black/10 rounded-full appearance-none cursor-pointer accent-black" max="100" min="0" type="range" value="50"/>
+<div class="flex justify-between mt-3 text-[9px] font-bold text-zinc-400 uppercase tracking-widest">
+<span>Concise</span>
+<span>Verbose</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Right Column -->
+<section class="col-span-12 lg:col-span-4 space-y-8">
+<!-- Execution Mode -->
+<div class="bg-black p-10 text-white relative overflow-hidden group">
+<div class="absolute -right-8 -bottom-8 opacity-10 rotate-12 group-hover:rotate-0 transition-transform duration-700">
+<span class="material-symbols-outlined text-[160px]" data-icon="terminal">terminal</span>
+</div>
+<div class="relative z-10">
+<div class="flex items-center justify-between mb-10">
+<h3 class="text-[10px] font-bold uppercase tracking-[0.25em] text-zinc-500">Execution Mode</h3>
+<span class="material-symbols-outlined text-sm animate-pulse-custom" data-icon="fiber_manual_record">fiber_manual_record</span>
+</div>
+<div class="space-y-4">
+<button class="w-full p-6 border border-white/40 bg-white/10 text-left transition-all active:scale-[0.98] hover:bg-white/20">
+<div class="flex items-center justify-between mb-2">
+<span class="font-headline font-bold text-xl">Manual</span>
+<span class="material-symbols-outlined text-sm" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<p class="text-[10px] text-zinc-400 font-medium uppercase tracking-widest">Verification required for all actions</p>
+</button>
+<button class="w-full p-6 border border-white/5 bg-white/5 text-left opacity-60 hover:opacity-100 hover:bg-white/10 transition-all active:scale-[0.98]">
+<div class="flex items-center justify-between mb-2">
+<span class="font-headline font-bold text-xl">Auto-Pilot</span>
+<span class="material-symbols-outlined text-sm" data-icon="radio_button_unchecked">radio_button_unchecked</span>
+</div>
+<p class="text-[10px] text-zinc-400 font-medium uppercase tracking-widest">Autonomous execution enabled</p>
+</button>
+</div>
+</div>
+</div>
+<!-- Memory Engine (Glassmorphic) -->
+<div class="glass-card p-8">
+<div class="flex items-center justify-between mb-10">
+<h3 class="text-[10px] font-bold uppercase tracking-[0.25em] text-zinc-400">Memory Engine</h3>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer interactive-toggle" type="checkbox"/>
+<div class="w-11 h-6 bg-zinc-200 rounded-full peer-checked:bg-black transition-all duration-300 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-5 shadow-inner toggle-bg"></div>
+</label>
+</div>
+<h4 class="text-2xl font-headline font-bold mb-3 text-black">Long-term Memory</h4>
+<p class="text-sm text-zinc-500 font-light leading-relaxed mb-10">
+                        Enables persistent storage of preferences, context, and evolutionary learning across multiple user sessions.
+                    </p>
+<div class="flex flex-wrap gap-2 mb-10">
+<span class="px-3 py-1 bg-black/5 border border-black/5 text-[9px] font-bold uppercase tracking-widest">Vector-01</span>
+<span class="px-3 py-1 bg-black/5 border border-black/5 text-[9px] font-bold uppercase tracking-widest">Semantic Storage</span>
+</div>
+<div class="h-24 w-full bg-black/5 border border-black/5 p-4 flex flex-col justify-end overflow-hidden group/viz">
+<div class="flex items-end gap-[2px] h-full">
+<div class="w-1.5 bg-black/10 h-[40%] animate-[bounce_1.4s_infinite_ease-in-out]"></div>
+<div class="w-1.5 bg-black/30 h-[70%] animate-[bounce_2.1s_infinite_ease-in-out]"></div>
+<div class="w-1.5 bg-black/20 h-[30%] animate-[bounce_1.8s_infinite_ease-in-out]"></div>
+<div class="w-1.5 bg-black/80 h-[100%] animate-[bounce_2.5s_infinite_ease-in-out]"></div>
+<div class="w-1.5 bg-black/50 h-[60%] animate-[bounce_1.2s_infinite_ease-in-out]"></div>
+<div class="w-1.5 bg-black/40 h-[80%] animate-[bounce_3s_infinite_ease-in-out]"></div>
+<div class="w-1.5 bg-black/10 h-[20%] animate-[bounce_1.6s_infinite_ease-in-out]"></div>
+<div class="w-1.5 bg-black/60 h-[90%] animate-[bounce_2.2s_infinite_ease-in-out]"></div>
+<div class="w-1.5 bg-black/30 h-[50%] animate-[bounce_2.7s_infinite_ease-in-out]"></div>
+<div class="w-1.5 bg-black/90 h-[100%] animate-[bounce_1.9s_infinite_ease-in-out]"></div>
+<div class="w-1.5 bg-black/20 h-[40%] animate-[bounce_2.4s_infinite_ease-in-out]"></div>
+</div>
+<p class="text-[8px] font-bold text-zinc-400 uppercase mt-3 tracking-[0.2em] group-hover/viz:text-black transition-colors">Active Indexing Stream</p>
+</div>
+</div>
+<!-- Simulation Card -->
+<div class="bg-white p-6 shadow-2xl shadow-black/5 border border-black/5 rounded-sm relative group hover:scale-[1.02] transition-transform duration-500">
+<div class="absolute -top-3 -left-3 bg-black text-white p-2 rounded-full shadow-xl group-hover:rotate-[360deg] transition-transform duration-1000">
+<span class="material-symbols-outlined text-[16px]" data-icon="auto_awesome">auto_awesome</span>
+</div>
+<h5 class="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400 mb-4">Real-time Simulation</h5>
+<div class="bg-zinc-50 border border-black/5 p-4 italic text-sm font-light text-zinc-600 leading-relaxed">
+                        "Initializing neural logic update... Memory integration confirmed. System latency: 12ms. Ready for deployment."
+                    </div>
+</div>
+</section>
+</div>
+</main>
+</div>
+<!-- Floating Action Buttons -->
+<div class="fixed bottom-10 right-10 flex gap-4 z-50">
+<button class="bg-white/80 backdrop-blur-md p-5 border border-black/5 shadow-2xl hover:bg-white hover:rotate-180 transition-all duration-700 active:scale-95 group">
+<span class="material-symbols-outlined text-zinc-900" data-icon="refresh">refresh</span>
+</button>
+<button class="bg-black text-white px-10 py-5 font-headline font-bold text-xs tracking-[0.3em] uppercase shadow-2xl hover:bg-zinc-800 active:scale-95 transition-all flex items-center gap-4 group">
+        Commit Changes
+        <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform" data-icon="bolt" style="font-variation-settings: 'FILL' 1;">bolt</span>
+</button>
+</div>
+<script>
+    // Celestial Precision Interactive Grid Effect
+    const grid = document.getElementById('dynamic-grid');
+    const container = document.body;
+
+    container.addEventListener('mousemove', (e) => {
+        const x = (e.clientX / window.innerWidth - 0.5) * 30; // Increased range for "bending" feel
+        const y = (e.clientY / window.innerHeight - 0.5) * -30;
+        
+        grid.style.transform = `rotateX(${y}deg) rotateY(${x}deg) translateZ(0) scale(1.1)`;
+    });
+
+    // Smooth reset for the grid when mouse leaves
+    container.addEventListener('mouseleave', () => {
+        grid.style.transform = 'rotateX(0deg) rotateY(0deg) translateZ(0) scale(1)';
+    });
+
+    // Handle range inputs visual feedback
+    document.querySelectorAll('input[type="range"]').forEach(input => {
+        input.addEventListener('input', (e) => {
+            // Can add logic here to update text values if needed
+        });
+    });
+</script>
+<script src="corporate-interactivity.js"></script><script id="mesh-script">
+    const canvas = document.getElementById('canvas-mesh');
+    if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let mouse = { x: -1000, y: -1000 };
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resize);
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+
+        resize();
+
+        const gridSize = 45;
+        const centralForce = 220;
+        const mouseForce = 150;
+
+        function applyPhysics(x, y) {
+            let px = x;
+            let py = y;
+            
+            const dxM = px - mouse.x;
+            const dyM = py - mouse.y;
+            const distM = Math.sqrt(dxM * dxM + dyM * dyM);
+            
+            if (distM < mouseForce) {
+                // Liquid lens topographical push against mouse
+                const power = Math.pow((mouseForce - distM) / mouseForce, 2);
+                px += dxM * power * 1.5;
+                py += dyM * power * 1.5;
+            }
+            
+            return { x: px, y: py };
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, width, height);
+            ctx.strokeStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.lineWidth = 1;
+
+            for (let x = 0; x <= width; x += gridSize) {
+                ctx.beginPath();
+                for (let y = 0; y <= height; y += 4) {
+                    const pos = applyPhysics(x, y);
+                    if (y === 0) ctx.moveTo(pos.x, pos.y);
+                    else ctx.lineTo(pos.x, pos.y);
+                }
+                ctx.stroke();
+            }
+
+            for (let y = 0; y <= height; y += gridSize) {
+                ctx.beginPath();
+                for (let x = 0; x <= width; x += 4) {
+                    const pos = applyPhysics(x, y);
+                    if (x === 0) ctx.moveTo(pos.x, pos.y);
+                    else ctx.lineTo(pos.x, pos.y);
+                }
+                ctx.stroke();
+            }
+            requestAnimationFrame(draw);
+        }
+        draw();
+    }
+</script></body></html>

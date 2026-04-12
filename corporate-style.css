@@ -1,0 +1,79 @@
+:root {
+  --corp-bg: #f2f4f7;
+  --corp-surface: rgba(255, 255, 255, 0.92);
+  --corp-border: #d6dde5;
+  --corp-text: #1f2937;
+  --corp-muted: #5f6c7b;
+  --corp-primary: #0f4c81;
+  --corp-primary-strong: #0b3f6c;
+  --corp-accent: #0ea5a2;
+  --corp-shadow: 0 12px 34px rgba(17, 24, 39, 0.08);
+}
+
+html, body {
+  background: radial-gradient(circle at 15% 15%, #ffffff 0%, var(--corp-bg) 60%);
+  color: var(--corp-text);
+}
+
+body {
+  letter-spacing: 0.01em;
+}
+
+header, footer, aside, .glass-card, .obsidian-glass,
+[class*="surface"], [class*="container"], [class*="card"] {
+  border-color: var(--corp-border) !important;
+}
+
+header, footer {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(248, 250, 252, 0.9)) !important;
+  box-shadow: var(--corp-shadow);
+}
+
+h1, h2, h3, h4, .font-headline {
+  font-family: "Space Grotesk", "Segoe UI", sans-serif !important;
+  letter-spacing: 0.02em;
+}
+
+p, span, a, input, button, label, .font-body, .font-label {
+  font-family: "Inter", "Segoe UI", sans-serif !important;
+}
+
+a {
+  color: var(--corp-primary);
+}
+
+a:hover {
+  color: var(--corp-primary-strong);
+}
+
+button,
+[type="submit"],
+.glass-obsidian,
+.obsidian-glass {
+  background: linear-gradient(135deg, var(--corp-primary), var(--corp-primary-strong)) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(15, 76, 129, 0.35) !important;
+}
+
+input, select, textarea {
+  border: 1px solid var(--corp-border) !important;
+  background: #ffffff !important;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--corp-primary) !important;
+  box-shadow: 0 0 0 3px rgba(15, 76, 129, 0.12) !important;
+}
+
+main {
+  position: relative;
+}
+
+main::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(120deg, rgba(15, 76, 129, 0.04), rgba(14, 165, 162, 0.04));
+}

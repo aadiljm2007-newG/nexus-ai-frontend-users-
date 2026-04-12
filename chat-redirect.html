@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nexus AI | Celestial Precision</title>
+<style>
+        body {
+            background-image: 
+                linear-gradient(to right, rgba(0, 0, 0, 0.06) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 0, 0, 0.06) 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-attachment: fixed;
+            position: relative;
+        }
+        #warp-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            background: radial-gradient(circle 400px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(0,0,0,0.03) 0%, transparent 100%);
+            transition: background 0.1s ease;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .obsidian-glass {
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+        }
+        .sidebar-handle {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 32px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 50;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        /* Sidebar Transitions */
+        .sidebar-left-closed {
+            transform: translateX(calc(-100% - 24px));
+        }
+        
+        /* Right Sidebar Styles */
+        #sidebar-right {
+            transform: translateY(-50%);
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), right 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .sidebar-right-closed {
+            transform: translate(calc(100% + 24px), -50%) !important;
+        }
+
+        #user-profile {
+            z-index: 100;
+        }
+    </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script id="tailwind-config">
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+        extend: {
+            colors: {
+            "surface": "#f9f9fb",
+            "on-primary-fixed": "#ffffff",
+            "inverse-surface": "#2f3132",
+            "primary": "#000000",
+            "secondary": "#5f5e5e",
+            "tertiary-fixed": "#5e5e63",
+            "outline-variant": "#c6c6c6",
+            "on-tertiary-fixed": "#ffffff",
+            "tertiary-fixed-dim": "#46464b",
+            "tertiary": "#3a3b40",
+            "secondary-fixed": "#c8c6c5",
+            "on-secondary-container": "#1c1b1b",
+            "on-primary-fixed-variant": "#e2e2e2",
+            "outline": "#777777",
+            "on-secondary": "#ffffff",
+            "tertiary-container": "#747479",
+            "surface-dim": "#d9dadc",
+            "surface-container-highest": "#e2e2e4",
+            "surface-container-high": "#e8e8ea",
+            "on-primary-container": "#ffffff",
+            "secondary-fixed-dim": "#adabaa",
+            "surface-variant": "#e2e2e4",
+            "on-primary": "#e2e2e2",
+            "surface-container-lowest": "#ffffff",
+            "primary-container": "#3b3b3b",
+            "background": "#f9f9fb",
+            "inverse-on-surface": "#f0f0f2",
+            "secondary-container": "#d6d4d3",
+            "on-tertiary-container": "#ffffff",
+            "on-background": "#1a1c1d",
+            "on-error": "#ffffff",
+            "inverse-primary": "#c6c6c6",
+            "on-secondary-fixed-variant": "#3c3b3b",
+            "surface-container-low": "#f3f3f5",
+            "on-secondary-fixed": "#1c1b1b",
+            "primary-fixed-dim": "#474747",
+            "on-surface-variant": "#474747",
+            "error": "#ba1a1a",
+            "primary-fixed": "#5e5e5e",
+            "on-surface": "#1a1c1d",
+            "surface-container": "#eeeef0",
+            "on-error-container": "#410002",
+            "error-container": "#ffdad6",
+            "on-tertiary": "#e3e2e7",
+            "on-tertiary-fixed-variant": "#e3e2e7",
+            "surface-tint": "#5e5e5e",
+            "surface-bright": "#f9f9fb"
+            },
+            borderRadius: {
+            DEFAULT: "0.125rem",
+            lg: "0.25rem",
+            xl: "0.5rem",
+            full: "0.75rem"
+            },
+            fontFamily: {
+            headline: ["Space Grotesk"],
+            body: ["Inter"],
+            label: ["Inter"]
+            }
+        }
+        }
+    }
+</script><link rel="stylesheet" href="corporate-style.css"/></head>
+<body class="font-body bg-background text-on-surface min-h-screen flex flex-col overflow-x-hidden selection:bg-primary selection:text-white"><canvas id="canvas-mesh" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;"></canvas><header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/10">
+<div class="flex justify-between items-center px-8 py-5 w-full max-w-screen-2xl mx-auto">
+<a class="flex items-center gap-2" href="login.html">
+<span class="text-2xl font-bold tracking-tighter text-black uppercase font-headline">NEXUS AI</span>
+</a>
+<div class="flex items-center gap-8">
+<nav class="hidden md:flex gap-6">
+<a class="text-xs font-label uppercase tracking-widest text-primary hover:opacity-70 transition-opacity font-bold" href="login.html">Gateway</a>
+<a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="help-center.html">Help Center</a>
+<a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="system-status.html">System Status</a>
+<a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="settings-profile.html">Settings</a>
+</nav>
+<a class="material-symbols-outlined text-black cursor-pointer hover:opacity-70 transition-opacity" href="user-account.html">account_circle</a>
+</div>
+</div>
+</header>
+<div id="warp-overlay"></div>
+<!-- Floating Left Sidebar -->
+<aside class="fixed left-6 top-20 bottom-20 w-80 bg-white/80 backdrop-blur-xl border border-black/5 z-40 rounded-3xl shadow-xl transition-transform duration-500 sidebar-left-closed flex flex-col p-6" id="sidebar-left">
+<!-- Pull Tab Handle Left -->
+<div class="sidebar-handle -right-8 bg-white/80 backdrop-blur-xl border border-black/5 rounded-r-xl shadow-[4px_0_10px_-4px_rgba(0,0,0,0.1)]" onclick="toggleLeftSidebar()">
+<span class="material-symbols-outlined text-gray-400 text-lg transition-transform duration-300" id="left-arrow">chevron_right</span>
+</div>
+<div class="flex items-center mb-8 px-2">
+<div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-lg mr-4">
+<span class="material-symbols-outlined text-white text-base" style="font-variation-settings: 'FILL' 1;">deployed_code</span>
+</div>
+<h2 class="text-[11px] font-label font-bold uppercase tracking-[0.2em] text-black">Project Hub</h2>
+</div>
+<nav class="flex-1 space-y-2 overflow-y-auto pr-2">
+<div class="flex items-center gap-3 px-4 py-3 bg-black text-white rounded-xl cursor-pointer transition-all duration-300 shadow-md shadow-black/10 mb-6">
+<span class="material-symbols-outlined text-[20px]" data-icon="add">add</span>
+<span class="text-sm font-medium">New Project</span>
+</div>
+<div class="space-y-4">
+<h3 class="text-[10px] font-label font-bold uppercase tracking-widest text-gray-400 px-4">Message History</h3>
+<div class="space-y-2">
+<div class="px-4 py-3 hover:bg-black/5 rounded-xl cursor-pointer transition-colors border border-transparent hover:border-black/5 group">
+<p class="text-[11px] font-medium text-black line-clamp-1">Alpha-7 Kernel Optimization</p>
+<p class="text-[10px] text-gray-400 mt-1">2 hours ago</p>
+</div>
+<div class="px-4 py-3 hover:bg-black/5 rounded-xl cursor-pointer transition-colors border border-transparent hover:border-black/5 group">
+<p class="text-[11px] font-medium text-black line-clamp-1">Neural Topology Mapping</p>
+<p class="text-[10px] text-gray-400 mt-1">Yesterday</p>
+</div>
+<div class="px-4 py-3 hover:bg-black/5 rounded-xl cursor-pointer transition-colors border border-transparent hover:border-black/5 group">
+<p class="text-[11px] font-medium text-black line-clamp-1">Latent Space Visualization</p>
+<p class="text-[10px] text-gray-400 mt-1">Oct 24</p>
+</div>
+</div>
+</div>
+</nav>
+<div class="mt-auto space-y-1 pt-4 border-t border-black/5">
+<div class="flex items-center gap-3 px-4 py-3 text-gray-500 hover:bg-black/5 rounded-xl cursor-pointer transition-colors duration-200">
+<span class="material-symbols-outlined text-[20px]" data-icon="settings">settings</span>
+<span class="text-sm">Config</span>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col relative pt-24 pb-12" id="main-content">
+<!-- Floating Header Info -->
+<div class="fixed top-8 left-1/2 -translate-x-1/2 z-30" id="session-title">
+<span class="text-[10px] font-label tracking-[0.3em] text-primary-fixed uppercase whitespace-nowrap bg-white/60 backdrop-blur-md px-5 py-2.5 rounded-full border border-black/5 shadow-sm">Current Session: Alpha-7</span>
+</div>
+<!-- Integrated Account Profile -->
+<div class="fixed top-6 right-6" id="user-profile"><a class="block" href="{{DATA:SCREEN:SCREEN_30}}">
+<div class="w-12 h-12 rounded-full bg-white backdrop-blur-xl border border-black/5 shadow-lg flex items-center justify-center cursor-pointer hover:scale-105 transition-all group overflow-hidden">
+<span class="material-symbols-outlined text-[28px] text-on-surface-variant group-hover:text-primary" data-icon="account_circle">account_circle</span>
+</div>
+</a></div>
+<!-- Chat Canvas -->
+<section class="flex-1 overflow-y-auto px-8 pt-24 pb-36 space-y-12 max-w-4xl mx-auto w-full">
+<!-- Main canvas content -->
+</section>
+<!-- Fixed Floating Input Bar -->
+<div class="fixed bottom-8 z-30 left-0 right-0 px-8 pointer-events-none" id="floating-input-container">
+<div class="max-w-3xl mx-auto obsidian-glass rounded-3xl p-2.5 flex items-center gap-2 border border-white/10 shadow-2xl pointer-events-auto">
+<button class="w-10 h-10 flex items-center justify-center text-white/50 hover:text-white transition-colors">
+<span class="material-symbols-outlined" data-icon="attach_file">attach_file</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center text-white/50 hover:text-white transition-colors">
+<span class="material-symbols-outlined" data-icon="mic">mic</span>
+</button>
+<input class="flex-1 bg-transparent border-none focus:ring-0 text-white placeholder-white/30 text-sm py-2 px-3" placeholder="Command Nexus AI..." type="text"/>
+<button class="w-10 h-10 flex items-center justify-center text-white/50 hover:text-white transition-colors">
+<span class="material-symbols-outlined" data-icon="call">call</span>
+</button>
+<button class="h-10 px-8 bg-white text-black rounded-2xl font-label text-[11px] font-bold uppercase tracking-wider hover:scale-[1.02] active:scale-95 transition-all">
+                Execute
+            </button>
+</div>
+</div>
+</main>
+<!-- Floating Right Sidebar - EMPTY GLASSMORPHIC PANEL -->
+<aside class="fixed right-6 top-1/2 w-1/2 h-[60%] bg-white/80 backdrop-blur-xl border border-black/5 z-40 rounded-3xl shadow-xl transition-all duration-500 sidebar-right-closed flex flex-col p-8" id="sidebar-right">
+<!-- Pull Tab Handle Right -->
+<div class="sidebar-handle -left-8 bg-white/80 backdrop-blur-xl border border-black/5 rounded-l-xl shadow-[-4px_0_10px_-4px_rgba(0,0,0,0.1)]" onclick="toggleRightSidebar()">
+<span class="material-symbols-outlined text-gray-400 text-lg transition-transform duration-300" id="right-arrow">chevron_left</span>
+</div>
+<!-- Empty Container -->
+<div class="flex-1"></div>
+</aside>
+<script>
+    // Mouse movement grid reaction
+    document.addEventListener('mousemove', (e) => {
+        const x = e.clientX;
+        const y = e.clientY;
+        document.body.style.setProperty('--mouse-x', `${x}px`);
+        document.body.style.setProperty('--mouse-y', `${y}px`);
+    });
+
+    const sidebarLeft = document.getElementById('sidebar-left');
+    const sidebarRight = document.getElementById('sidebar-right');
+    const leftArrow = document.getElementById('left-arrow');
+    const rightArrow = document.getElementById('right-arrow');
+
+    function toggleLeftSidebar() {
+        const isClosed = sidebarLeft.classList.toggle('sidebar-left-closed');
+        // Rotate arrow based on state
+        leftArrow.style.transform = isClosed ? 'rotate(0deg)' : 'rotate(180deg)';
+    }
+
+    function toggleRightSidebar() {
+        const isClosed = sidebarRight.classList.toggle('sidebar-right-closed');
+        // Rotate arrow 180 degrees when open
+        rightArrow.style.transform = isClosed ? 'rotate(0deg)' : 'rotate(180deg)';
+    }
+</script>
+<footer class="relative z-20 w-full border-t border-outline-variant/10 bg-surface mt-auto">
+<div class="flex flex-col md:flex-row justify-between items-center px-12 py-10 w-full max-w-screen-2xl mx-auto">
+<div class="font-label text-[10px] tracking-widest uppercase text-secondary">
+            © 2024 NEXUS AI ECOSYSTEM
+        </div>
+<nav class="flex gap-8 mt-6 md:mt-0">
+<a class="font-label text-[10px] tracking-widest uppercase text-secondary hover:text-primary transition-colors duration-300" href="terms-and-conditions.html">Terms &amp; Conditions</a>
+<a class="font-label text-[10px] tracking-widest uppercase text-secondary hover:text-primary transition-colors duration-300" href="api-documentation.html">API Docs</a>
+<a class="font-label text-[10px] tracking-widest uppercase text-secondary hover:text-primary transition-colors duration-300" href="privacy-policy.html">Privacy</a>
+</nav>
+</div>
+</footer><script src="corporate-interactivity.js"></script><script id="mesh-script">
+    const canvas = document.getElementById('canvas-mesh');
+    if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let mouse = { x: -1000, y: -1000 };
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resize);
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+
+        resize();
+
+        const gridSize = 45;
+        const centralForce = 220;
+        const mouseForce = 150;
+
+        function applyPhysics(x, y) {
+            let px = x;
+            let py = y;
+            
+            const dxM = px - mouse.x;
+            const dyM = py - mouse.y;
+            const distM = Math.sqrt(dxM * dxM + dyM * dyM);
+            
+            if (distM < mouseForce) {
+                // Liquid lens topographical push against mouse
+                const power = Math.pow((mouseForce - distM) / mouseForce, 2);
+                px += dxM * power * 1.5;
+                py += dyM * power * 1.5;
+            }
+            
+            return { x: px, y: py };
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, width, height);
+            ctx.strokeStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.lineWidth = 1;
+
+            for (let x = 0; x <= width; x += gridSize) {
+                ctx.beginPath();
+                for (let y = 0; y <= height; y += 4) {
+                    const pos = applyPhysics(x, y);
+                    if (y === 0) ctx.moveTo(pos.x, pos.y);
+                    else ctx.lineTo(pos.x, pos.y);
+                }
+                ctx.stroke();
+            }
+
+            for (let y = 0; y <= height; y += gridSize) {
+                ctx.beginPath();
+                for (let x = 0; x <= width; x += 4) {
+                    const pos = applyPhysics(x, y);
+                    if (x === 0) ctx.moveTo(pos.x, pos.y);
+                    else ctx.lineTo(pos.x, pos.y);
+                }
+                ctx.stroke();
+            }
+            requestAnimationFrame(draw);
+        }
+        draw();
+    }
+</script></body></html>

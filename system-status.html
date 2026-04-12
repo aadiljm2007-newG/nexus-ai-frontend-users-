@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nexus AI | System Status</title>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .grid-background {
+            background-image: 
+                linear-gradient(to right, rgba(198, 198, 198, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(198, 198, 198, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .glass-card {
+            backdrop-filter: blur(20px);
+            background-color: rgba(255, 255, 255, 0.7);
+        }
+    </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script id="tailwind-config">
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+        extend: {
+            colors: {
+            "surface": "#f9f9fb",
+            "on-primary-fixed": "#ffffff",
+            "inverse-surface": "#2f3132",
+            "primary": "#000000",
+            "secondary": "#5f5e5e",
+            "tertiary-fixed": "#5e5e63",
+            "outline-variant": "#c6c6c6",
+            "on-tertiary-fixed": "#ffffff",
+            "tertiary-fixed-dim": "#46464b",
+            "tertiary": "#3a3b40",
+            "secondary-fixed": "#c8c6c5",
+            "on-secondary-container": "#1c1b1b",
+            "on-primary-fixed-variant": "#e2e2e2",
+            "outline": "#777777",
+            "on-secondary": "#ffffff",
+            "tertiary-container": "#747479",
+            "surface-dim": "#d9dadc",
+            "surface-container-highest": "#e2e2e4",
+            "surface-container-high": "#e8e8ea",
+            "on-primary-container": "#ffffff",
+            "secondary-fixed-dim": "#adabaa",
+            "surface-variant": "#e2e2e4",
+            "on-primary": "#e2e2e2",
+            "surface-container-lowest": "#ffffff",
+            "primary-container": "#3b3b3b",
+            "background": "#f9f9fb",
+            "inverse-on-surface": "#f0f0f2",
+            "secondary-container": "#d6d4d3",
+            "on-tertiary-container": "#ffffff",
+            "on-background": "#1a1c1d",
+            "on-error": "#ffffff",
+            "inverse-primary": "#c6c6c6",
+            "on-secondary-fixed-variant": "#3c3b3b",
+            "surface-container-low": "#f3f3f5",
+            "on-secondary-fixed": "#1c1b1b",
+            "primary-fixed-dim": "#474747",
+            "on-surface-variant": "#474747",
+            "error": "#ba1a1a",
+            "primary-fixed": "#5e5e5e",
+            "on-surface": "#1a1c1d",
+            "surface-container": "#eeeef0",
+            "on-error-container": "#410002",
+            "error-container": "#ffdad6",
+            "on-tertiary": "#e3e2e7",
+            "on-tertiary-fixed-variant": "#e3e2e7",
+            "surface-tint": "#5e5e5e",
+            "surface-bright": "#f9f9fb"
+            },
+            borderRadius: {
+            DEFAULT: "0.125rem",
+            lg: "0.25rem",
+            xl: "0.5rem",
+            full: "0.75rem"
+            },
+            fontFamily: {
+            headline: ["Space Grotesk"],
+            body: ["Inter"],
+            label: ["Inter"]
+            }
+        }
+        }
+    }
+</script><link rel="stylesheet" href="corporate-style.css"/></head>
+<body class="font-body bg-background text-on-surface min-h-screen flex flex-col overflow-x-hidden selection:bg-primary selection:text-white"><canvas id="canvas-mesh" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;"></canvas><header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/10">
+<div class="flex justify-between items-center px-8 py-5 w-full max-w-screen-2xl mx-auto">
+<a class="flex items-center gap-2" href="login.html">
+<span class="text-2xl font-bold tracking-tighter text-black uppercase font-headline">NEXUS AI</span>
+</a>
+<div class="flex items-center gap-8">
+<nav class="hidden md:flex gap-6">
+<a class="text-xs font-label uppercase tracking-widest text-primary hover:opacity-70 transition-opacity font-bold" href="login.html">Gateway</a>
+<a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="help-center.html">Help Center</a>
+<a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="system-status.html">System Status</a>
+<a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="settings-profile.html">Settings</a>
+</nav>
+<a class="material-symbols-outlined text-black cursor-pointer hover:opacity-70 transition-opacity" href="user-account.html">account_circle</a>
+</div>
+</div>
+</header>
+<!-- Top Navigation Bar -->
+<nav class="fixed top-0 w-full z-50 bg-white/85 backdrop-blur-xl border-b border-black/[0.05] shadow-[0_20_50px_rgba(0,0,0,0.04)]">
+<div class="flex justify-between items-center px-8 h-16 w-full max-w-screen-2xl mx-auto">
+<div class="flex items-center gap-12">
+<span class="text-xl font-bold tracking-tighter text-black font-headline">Nexus AI</span>
+<div class="hidden md:flex items-center gap-8 text-sm font-headline">
+<a class="text-gray-500 hover:text-black transition-colors" href="#">Models</a>
+<a class="text-gray-500 hover:text-black transition-colors" href="#">API</a>
+<a class="text-gray-500 hover:text-black transition-colors" href="#">Studio</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-gray-50 transition-all active:scale-95 duration-200">
+<span class="material-symbols-outlined text-gray-500">notifications</span>
+</button>
+<button class="p-2 hover:bg-gray-50 transition-all active:scale-95 duration-200">
+<span class="material-symbols-outlined text-gray-500">settings</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-container-high border border-outline-variant/20 overflow-hidden">
+<img alt="User profile" data-alt="close-up portrait of a professional user with neutral lighting and clean studio background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0dKWAcyi7N5RAnGg9CslSJ_x3cjAPKNVw7_69rS8qCG1qs9vRZZosq1o8NcU3hUcIKJwRBfBvqhNYARkBGEcTFBvAN0VRp6ad7DIZM-efo6hcbNIFrZ3Im2kqabNKm3B9_0yiZKJ0Sjb7gJmFUGljy21oecPklx9L-arRIexYgH81890yq266jvkR0WGn7HPo6EMijpMLzhsppp3SwBvk6JsTvOIG4759M9Sexb35SQqahFzPMa1z_sOJga33MH9Dz4f6rsly-mRm"/>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="pt-16 min-h-screen grid-background">
+<!-- Status Banner -->
+<section class="w-full px-8 pt-12 max-w-screen-2xl mx-auto">
+<div class="glass-card border border-outline-variant/15 p-4 flex items-center justify-between rounded-lg">
+<div class="flex items-center gap-4">
+<div class="relative flex h-3 w-3">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+</div>
+<div>
+<h2 class="font-headline font-bold text-sm tracking-tight">All Systems Operational</h2>
+<p class="text-xs text-on-surface-variant/70 font-label uppercase tracking-widest">Real-time status as of 14:02 UTC</p>
+</div>
+</div>
+<div class="hidden md:block">
+<span class="text-[10px] font-label text-on-surface-variant border border-outline-variant/30 px-3 py-1 rounded-full uppercase tracking-tighter">99.98% Uptime</span>
+</div>
+</div>
+</section>
+<!-- Dashboard Layout -->
+<section class="p-8 max-w-screen-2xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8">
+<!-- Node Health (Asymmetric Sidebar Style) -->
+<div class="md:col-span-4 space-y-8">
+<div class="glass-card border border-outline-variant/15 p-8 space-y-6">
+<div class="flex items-center justify-between">
+<h3 class="font-headline text-lg font-bold tracking-tight">Node Health</h3>
+<span class="material-symbols-outlined text-emerald-500">dns</span>
+</div>
+<div class="space-y-4">
+<!-- Node Item -->
+<div class="flex items-center justify-between p-3 bg-white/40 border border-black/[0.03] rounded">
+<div class="flex items-center gap-3">
+<div class="w-1.5 h-1.5 rounded-full bg-emerald-500"></div>
+<span class="text-xs font-mono">us-east-alpha-01</span>
+</div>
+<span class="text-[10px] font-label text-on-surface-variant">42ms</span>
+</div>
+<!-- Node Item -->
+<div class="flex items-center justify-between p-3 bg-white/40 border border-black/[0.03] rounded">
+<div class="flex items-center gap-3">
+<div class="w-1.5 h-1.5 rounded-full bg-emerald-500"></div>
+<span class="text-xs font-mono">eu-west-beta-04</span>
+</div>
+<span class="text-[10px] font-label text-on-surface-variant">108ms</span>
+</div>
+<!-- Node Item -->
+<div class="flex items-center justify-between p-3 bg-white/40 border border-black/[0.03] rounded">
+<div class="flex items-center gap-3">
+<div class="w-1.5 h-1.5 rounded-full bg-emerald-500"></div>
+<span class="text-xs font-mono">ap-south-gamma-09</span>
+</div>
+<span class="text-[10px] font-label text-on-surface-variant">240ms</span>
+</div>
+<!-- Node Item -->
+<div class="flex items-center justify-between p-3 bg-white/40 border border-black/[0.03] rounded">
+<div class="flex items-center gap-3">
+<div class="w-1.5 h-1.5 rounded-full bg-emerald-500"></div>
+<span class="text-xs font-mono">sa-east-delta-02</span>
+</div>
+<span class="text-[10px] font-label text-on-surface-variant">195ms</span>
+</div>
+</div>
+<button class="w-full py-3 bg-primary text-on-primary text-xs font-label uppercase tracking-widest hover:opacity-90 transition-opacity active:scale-[0.98] duration-200">
+                        Detailed Topology
+                    </button>
+</div>
+<!-- Secondary Metric -->
+<div class="glass-card border border-outline-variant/15 p-8">
+<p class="text-[10px] font-label text-on-surface-variant uppercase tracking-widest mb-2">Memory Saturation</p>
+<div class="flex items-end gap-2">
+<span class="text-4xl font-headline font-bold">34.2</span>
+<span class="text-sm font-label text-on-surface-variant mb-1.5">%</span>
+</div>
+<div class="mt-4 h-1 w-full bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-black w-[34%]"></div>
+</div>
+</div>
+</div>
+<!-- Global Latency & System Logs (Bento Style) -->
+<div class="md:col-span-8 grid grid-cols-1 gap-8">
+<!-- Latency Graph Card -->
+<div class="glass-card border border-outline-variant/15 p-8 flex flex-col min-h-[400px]">
+<div class="flex items-center justify-between mb-8">
+<div>
+<h3 class="font-headline text-lg font-bold tracking-tight">Global Latency</h3>
+<p class="text-xs text-on-surface-variant font-label">Weighted average across 42 ingress points</p>
+</div>
+<div class="flex gap-2">
+<span class="px-3 py-1 bg-black text-white text-[10px] font-label uppercase tracking-tighter">P99</span>
+<span class="px-3 py-1 bg-surface-container-high text-on-surface-variant text-[10px] font-label uppercase tracking-tighter">P50</span>
+</div>
+</div>
+<div class="flex-grow relative overflow-hidden flex items-end">
+<div class="absolute inset-0 flex items-center justify-center opacity-10">
+<!-- Faint map background placeholder -->
+<img alt="Map Data Viz" class="w-full h-full object-contain" data-alt="minimalist wireframe map of the world with thin grey technical lines on a white background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDEwWMG2PsCZ58fQQggiU9zRu4YRMqSPiqmxg2K7bx1zXw9hgSG9gHyzrnjcqAoPv_4-5MP1uSKq8N_VwnJ7a2p4bOw5EoU_JT9TIyUtR8-z77TjtUAYZESTEQ1k-8AbYps55po8T4FUkN6s5icxTEeaZyHoVv1k5hMrG3SgtLOzEJ3jofFkMNcofuB4-bbLAndQ1z-NqY1d5YxnasUfJLUeGCKIP-SUx2JwsKYb_NltH2xPO6EDcx-FWiReTDBJcGLWt9VnF07fqh_"/>
+</div>
+<!-- Visual Latency Graph (SVG Line) -->
+<div class="w-full h-48 relative z-10">
+<svg class="w-full h-full overflow-visible" viewbox="0 0 1000 200">
+<path d="M0,150 Q100,140 200,160 T400,130 T600,145 T800,120 T1000,140" fill="none" stroke="black" stroke-width="2"></path>
+<circle cx="1000" cy="140" fill="black" r="4"></circle>
+<line stroke="black" stroke-dasharray="4" x1="1000" x2="1000" y1="140" y2="200"></line>
+</svg>
+</div>
+</div>
+<div class="grid grid-cols-4 pt-8 border-t border-outline-variant/15 mt-8">
+<div>
+<p class="text-[10px] font-label text-on-surface-variant uppercase tracking-widest">Amsterdam</p>
+<p class="font-headline font-bold">12ms</p>
+</div>
+<div>
+<p class="text-[10px] font-label text-on-surface-variant uppercase tracking-widest">New York</p>
+<p class="font-headline font-bold">24ms</p>
+</div>
+<div>
+<p class="text-[10px] font-label text-on-surface-variant uppercase tracking-widest">Tokyo</p>
+<p class="font-headline font-bold">112ms</p>
+</div>
+<div>
+<p class="text-[10px] font-label text-on-surface-variant uppercase tracking-widest">Sydney</p>
+<p class="font-headline font-bold">184ms</p>
+</div>
+</div>
+</div>
+<!-- System Logs (Terminal) -->
+<div class="bg-black/95 text-emerald-400 p-8 font-mono text-xs rounded-lg overflow-hidden border border-white/10 shadow-2xl">
+<div class="flex items-center gap-2 mb-6 border-b border-white/10 pb-4 opacity-50">
+<div class="w-2.5 h-2.5 rounded-full bg-red-500/30"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-yellow-500/30"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-green-500/30"></div>
+<span class="ml-4 tracking-widest uppercase text-[10px]">nexus-os-terminal — system.log</span>
+</div>
+<div class="space-y-1 overflow-y-auto max-h-64">
+<p class="opacity-40">Initializing secure tunnel to node.us-east-01...</p>
+<p class="text-white/60">[OK] Handshake verified via RSA-4096</p>
+<p><span class="text-white">[INFO]</span> Load balancer shifting 12.5% traffic to backup cluster AP-SOUTH-1</p>
+<p class="text-white/60">[LOG] Indexing primary knowledge graph for model-nexus-v4</p>
+<p><span class="text-white">[INFO]</span> Latency spike detected in SA-EAST; rerouting via ATL-TRENCH</p>
+<p class="text-white/60">[OK] Packet optimization protocol v2.1 applied</p>
+<p class="text-yellow-400/80">[WARN] Cooling fan speed increased on rack-C12</p>
+<p class="text-white/60">[LOG] Periodic heartbeat received from all edge nodes</p>
+<p class="animate-pulse">_</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer Component -->
+<footer class="relative z-20 w-full border-t border-outline-variant/10 bg-surface mt-auto">
+<div class="flex flex-col md:flex-row justify-between items-center px-12 py-10 w-full max-w-screen-2xl mx-auto">
+<div class="font-label text-[10px] tracking-widest uppercase text-secondary">
+            © 2024 NEXUS AI ECOSYSTEM
+        </div>
+<nav class="flex gap-8 mt-6 md:mt-0">
+<a class="font-label text-[10px] tracking-widest uppercase text-secondary hover:text-primary transition-colors duration-300" href="terms-and-conditions.html">Terms &amp; Conditions</a>
+<a class="font-label text-[10px] tracking-widest uppercase text-secondary hover:text-primary transition-colors duration-300" href="api-documentation.html">API Docs</a>
+<a class="font-label text-[10px] tracking-widest uppercase text-secondary hover:text-primary transition-colors duration-300" href="privacy-policy.html">Privacy</a>
+</nav>
+</div>
+</footer>
+<script src="corporate-interactivity.js"></script><script id="mesh-script">
+    const canvas = document.getElementById('canvas-mesh');
+    if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let mouse = { x: -1000, y: -1000 };
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resize);
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+
+        resize();
+
+        const gridSize = 45;
+        const centralForce = 220;
+        const mouseForce = 150;
+
+        function applyPhysics(x, y) {
+            let px = x;
+            let py = y;
+            
+            const dxM = px - mouse.x;
+            const dyM = py - mouse.y;
+            const distM = Math.sqrt(dxM * dxM + dyM * dyM);
+            
+            if (distM < mouseForce) {
+                // Liquid lens topographical push against mouse
+                const power = Math.pow((mouseForce - distM) / mouseForce, 2);
+                px += dxM * power * 1.5;
+                py += dyM * power * 1.5;
+            }
+            
+            return { x: px, y: py };
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, width, height);
+            ctx.strokeStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.lineWidth = 1;
+
+            for (let x = 0; x <= width; x += gridSize) {
+                ctx.beginPath();
+                for (let y = 0; y <= height; y += 4) {
+                    const pos = applyPhysics(x, y);
+                    if (y === 0) ctx.moveTo(pos.x, pos.y);
+                    else ctx.lineTo(pos.x, pos.y);
+                }
+                ctx.stroke();
+            }
+
+            for (let y = 0; y <= height; y += gridSize) {
+                ctx.beginPath();
+                for (let x = 0; x <= width; x += 4) {
+                    const pos = applyPhysics(x, y);
+                    if (x === 0) ctx.moveTo(pos.x, pos.y);
+                    else ctx.lineTo(pos.x, pos.y);
+                }
+                ctx.stroke();
+            }
+            requestAnimationFrame(draw);
+        }
+        draw();
+    }
+</script></body></html>

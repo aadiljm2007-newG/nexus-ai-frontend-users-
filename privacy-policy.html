@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>NEXUS AI - Privacy Policy</title>
+<!-- Fonts -->
+<!-- Material Symbols -->
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .grid-pattern {
+            background-image: linear-gradient(to right, rgba(198, 198, 198, 0.05) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(198, 198, 198, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .progress-bar {
+            height: 2px;
+            width: 35%;
+            background: #000000;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+    </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script id="tailwind-config">
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+        extend: {
+            colors: {
+            "surface": "#f9f9fb",
+            "on-primary-fixed": "#ffffff",
+            "inverse-surface": "#2f3132",
+            "primary": "#000000",
+            "secondary": "#5f5e5e",
+            "tertiary-fixed": "#5e5e63",
+            "outline-variant": "#c6c6c6",
+            "on-tertiary-fixed": "#ffffff",
+            "tertiary-fixed-dim": "#46464b",
+            "tertiary": "#3a3b40",
+            "secondary-fixed": "#c8c6c5",
+            "on-secondary-container": "#1c1b1b",
+            "on-primary-fixed-variant": "#e2e2e2",
+            "outline": "#777777",
+            "on-secondary": "#ffffff",
+            "tertiary-container": "#747479",
+            "surface-dim": "#d9dadc",
+            "surface-container-highest": "#e2e2e4",
+            "surface-container-high": "#e8e8ea",
+            "on-primary-container": "#ffffff",
+            "secondary-fixed-dim": "#adabaa",
+            "surface-variant": "#e2e2e4",
+            "on-primary": "#e2e2e2",
+            "surface-container-lowest": "#ffffff",
+            "primary-container": "#3b3b3b",
+            "background": "#f9f9fb",
+            "inverse-on-surface": "#f0f0f2",
+            "secondary-container": "#d6d4d3",
+            "on-tertiary-container": "#ffffff",
+            "on-background": "#1a1c1d",
+            "on-error": "#ffffff",
+            "inverse-primary": "#c6c6c6",
+            "on-secondary-fixed-variant": "#3c3b3b",
+            "surface-container-low": "#f3f3f5",
+            "on-secondary-fixed": "#1c1b1b",
+            "primary-fixed-dim": "#474747",
+            "on-surface-variant": "#474747",
+            "error": "#ba1a1a",
+            "primary-fixed": "#5e5e5e",
+            "on-surface": "#1a1c1d",
+            "surface-container": "#eeeef0",
+            "on-error-container": "#410002",
+            "error-container": "#ffdad6",
+            "on-tertiary": "#e3e2e7",
+            "on-tertiary-fixed-variant": "#e3e2e7",
+            "surface-tint": "#5e5e5e",
+            "surface-bright": "#f9f9fb"
+            },
+            borderRadius: {
+            DEFAULT: "0.125rem",
+            lg: "0.25rem",
+            xl: "0.5rem",
+            full: "0.75rem"
+            },
+            fontFamily: {
+            headline: ["Space Grotesk"],
+            body: ["Inter"],
+            label: ["Inter"]
+            }
+        }
+        }
+    }
+</script><link rel="stylesheet" href="corporate-style.css"/></head>
+<body class="font-body bg-background text-on-surface min-h-screen flex flex-col overflow-x-hidden selection:bg-primary selection:text-white"><canvas id="canvas-mesh" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;"></canvas>
+<!-- Progress Indicator -->
+<div class="fixed top-0 left-0 w-full h-0.5 bg-surface-container z-[60]">
+<div class="progress-bar"></div>
+</div>
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 h-16 bg-white/85 dark:bg-black/85 backdrop-blur-2xl border-b border-zinc-900/5 dark:border-zinc-100/5 shadow-[0px_20px_50px_rgba(0,0,0,0.04)]">
+<div class="flex justify-between items-center px-8 max-w-[1440px] mx-auto h-full">
+<div class="text-xl font-bold tracking-tighter text-zinc-950 dark:text-zinc-50 font-['Space_Grotesk']">
+                NEXUS AI
+            </div>
+<div class="hidden md:flex gap-8 items-center font-['Space_Grotesk'] tracking-tight">
+<a class="text-zinc-500 dark:text-zinc-400 font-medium hover:text-zinc-950 dark:hover:text-zinc-50 transition-colors duration-300" href="#">Platform</a>
+<a class="text-zinc-500 dark:text-zinc-400 font-medium hover:text-zinc-950 dark:hover:text-zinc-50 transition-colors duration-300" href="#">Security</a>
+<a class="text-zinc-950 dark:text-zinc-50 font-semibold border-b-2 border-zinc-950 dark:border-zinc-50 pb-1" href="#">Legal</a>
+</div>
+<button class="px-6 py-2 bg-primary text-on-primary text-sm font-semibold rounded-full scale-95 active:opacity-80 transition-all">
+                Connect
+            </button>
+</div>
+</nav>
+<!-- SideNavBar (Legal Anchor) -->
+<aside class="fixed right-8 top-1/2 -translate-y-1/2 z-40 hidden lg:block">
+<div class="flex flex-col gap-6 items-end font-['Inter'] text-[10px] uppercase tracking-[0.05em]">
+<div class="text-primary-fixed mb-4">
+<p class="font-bold">LEGAL</p>
+<p class="opacity-50">V 2.0.4</p>
+</div>
+<div class="group flex items-center gap-3 cursor-pointer text-zinc-300 dark:text-zinc-700 hover:text-zinc-500 transition-transform duration-500 hover:scale-110">
+<span>Introduction</span>
+<span class="material-symbols-outlined text-lg">info</span>
+</div>
+<div class="group flex items-center gap-3 cursor-pointer text-zinc-950 dark:text-zinc-50 font-bold scale-110">
+<span>Privacy</span>
+<span class="material-symbols-outlined text-lg">security</span>
+</div>
+<div class="group flex items-center gap-3 cursor-pointer text-zinc-300 dark:text-zinc-700 hover:text-zinc-500 transition-transform duration-500 hover:scale-110">
+<span>Governance</span>
+<span class="material-symbols-outlined text-lg">gavel</span>
+</div>
+<div class="group flex items-center gap-3 cursor-pointer text-zinc-300 dark:text-zinc-700 hover:text-zinc-500 transition-transform duration-500 hover:scale-110">
+<span>Compliance</span>
+<span class="material-symbols-outlined text-lg">verified_user</span>
+</div>
+</div>
+</aside>
+<!-- Hero Section -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/10">
+<div class="flex justify-between items-center px-8 py-5 w-full max-w-screen-2xl mx-auto">
+<a class="flex items-center gap-2" href="login.html">
+<span class="text-2xl font-bold tracking-tighter text-black uppercase font-headline">NEXUS AI</span>
+</a>
+<div class="flex items-center gap-8">
+<nav class="hidden md:flex gap-6">
+<a class="text-xs font-label uppercase tracking-widest text-primary hover:opacity-70 transition-opacity font-bold" href="login.html">Gateway</a>
+<a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="help-center.html">Help Center</a>
+<a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="system-status.html">System Status</a>
+<a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="settings-profile.html">Settings</a>
+</nav>
+<a class="material-symbols-outlined text-black cursor-pointer hover:opacity-70 transition-opacity" href="user-account.html">account_circle</a>
+</div>
+</div>
+</header>
+<!-- Content Sections (Bento-style storytelling) -->
+<main class="relative z-10 max-w-[1440px] mx-auto px-8 py-24 pt-24 pb-12">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- Data Collection -->
+<section class="md:col-span-8 group">
+<div class="glass-card p-12 rounded-lg border border-outline-variant/15 shadow-sm transition-all duration-700 hover:shadow-xl hover:-translate-y-1">
+<div class="flex justify-between items-start mb-12">
+<span class="material-symbols-outlined text-4xl text-primary" data-icon="data_usage">data_usage</span>
+<span class="font-headline text-6xl font-bold opacity-5">01</span>
+</div>
+<h2 class="font-headline text-4xl font-bold mb-6 tracking-tight">Data Collection</h2>
+<p class="text-lg text-secondary leading-relaxed mb-8 max-w-2xl">
+                        NEXUS AI operates on a principle of radical data minimization. We only ingest telemetry that directly serves the alignment of our neural architectures with your specific enterprise requirements.
+                    </p>
+<div class="grid md:grid-cols-3 gap-6">
+<div class="p-6 bg-surface-container-low rounded-lg">
+<h4 class="font-label text-[10px] font-bold uppercase tracking-widest mb-3">Identity</h4>
+<p class="text-sm opacity-70">Encrypted unique identifiers only.</p>
+</div>
+<div class="p-6 bg-surface-container-low rounded-lg">
+<h4 class="font-label text-[10px] font-bold uppercase tracking-widest mb-3">Interaction</h4>
+<p class="text-sm opacity-70">Synthesized logic patterns.</p>
+</div>
+<div class="p-6 bg-surface-container-low rounded-lg">
+<h4 class="font-label text-[10px] font-bold uppercase tracking-widest mb-3">Environment</h4>
+<p class="text-sm opacity-70">System metadata for optimization.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Small Detail Card -->
+<aside class="md:col-span-4 h-full">
+<div class="bg-primary text-on-primary p-12 rounded-lg h-full flex flex-col justify-end">
+<span class="material-symbols-outlined text-5xl mb-8" data-icon="lock_open">lock_open</span>
+<h3 class="font-headline text-3xl font-bold mb-4 leading-none">Anonymity by Default</h3>
+<p class="text-sm opacity-60 leading-relaxed">
+                        Every piece of data that enters our perimeter is stripped of PII before hitting the primary processing core. We don't just protect identity; we delete it.
+                    </p>
+</div>
+</aside>
+<!-- Processing Logic -->
+<section class="md:col-span-12">
+<div class="relative overflow-hidden rounded-lg min-h-[500px] flex items-center">
+<div class="absolute inset-0 z-0">
+<img alt="Abstract high-tech visualization" class="w-full h-full object-cover opacity-10 grayscale" data-alt="Abstract visualization of flowing digital data particles in a dark void with sharp geometric lines and blue highlights" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCniM91Pb7hyxjbYnX9b0XnPtzj5TRutzpKv30PsFfSUDOb-mi6vwlh-N8o3hwzEYt5s0W3sJjczER0NskMteYup88SarR3d69lWJul5cb9agGH1g4HVmwwlWu_Z2BHaNw25H6Bq_hrxhVSa23pCUJl7PhMtC8AzAhbRPR-vT4kTSu2KFpOB9ajCpavjcRalUwG-W6pLAgdX_KFBKtvtXXr7KzDgeySwf2wDsFawQnjPEh6h19XanzvezpoXbUOf7WHYGMd7nHS4gkv"/>
+</div>
+<div class="relative z-10 p-12 md:p-24 w-full">
+<div class="max-w-3xl">
+<span class="font-headline text-6xl font-bold opacity-10 block mb-4">02</span>
+<h2 class="font-headline text-5xl md:text-6xl font-bold mb-8 tracking-tighter">Processing Logic</h2>
+<p class="text-xl md:text-2xl text-secondary leading-relaxed mb-10">
+                                Our AI models are siloed. Your data is used to optimize your private instance, but it never escapes to the public mesh or the global training set.
+                            </p>
+<div class="flex flex-wrap gap-4">
+<span class="px-4 py-2 border border-outline-variant/30 rounded-full text-xs font-medium uppercase tracking-tighter">Private Learning Path</span>
+<span class="px-4 py-2 border border-outline-variant/30 rounded-full text-xs font-medium uppercase tracking-tighter">Ephemeral Memory Cycles</span>
+<span class="px-4 py-2 border border-outline-variant/30 rounded-full text-xs font-medium uppercase tracking-tighter">Zero-Knowledge Proofs</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Encryption Standards -->
+<section class="md:col-span-6">
+<div class="glass-card p-12 rounded-lg border border-outline-variant/15 h-full">
+<div class="flex items-center gap-4 mb-8">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="encrypted">encrypted</span>
+</div>
+<h2 class="font-headline text-3xl font-bold tracking-tight">Encryption Standards</h2>
+</div>
+<ul class="space-y-6">
+<li class="flex gap-4">
+<span class="text-primary font-bold">AES-256-GCM</span>
+<span class="text-secondary opacity-70">Military-grade data rest protection.</span>
+</li>
+<li class="flex gap-4">
+<span class="text-primary font-bold">TLS 1.3</span>
+<span class="text-secondary opacity-70">Quantum-resistant transit security.</span>
+</li>
+<li class="flex gap-4">
+<span class="text-primary font-bold">Hardware HSM</span>
+<span class="text-secondary opacity-70">Physical entropy for key generation.</span>
+</li>
+</ul>
+</div>
+</section>
+<!-- Third Party Mesh -->
+<section class="md:col-span-6">
+<div class="surface-container-low p-12 rounded-lg h-full border border-transparent hover:border-outline-variant/20 transition-colors">
+<h2 class="font-headline text-3xl font-bold mb-6 tracking-tight">Third-Party Mesh</h2>
+<p class="text-secondary leading-relaxed mb-8">
+                        We maintain a strict whitelist. If a partner doesn't meet the NEXUS security protocol (NSP-1), they are disconnected. Currently, only 3 critical infrastructure providers handle any sub-process.
+                    </p>
+<div class="space-y-4">
+<div class="flex justify-between items-center pb-4 border-b border-outline-variant/10">
+<span class="font-medium">Infrastructure Layer</span>
+<span class="text-[10px] font-bold uppercase py-1 px-2 bg-on-surface text-surface rounded">Verified</span>
+</div>
+<div class="flex justify-between items-center pb-4 border-b border-outline-variant/10">
+<span class="font-medium">Audit Compliance</span>
+<span class="text-[10px] font-bold uppercase py-1 px-2 bg-on-surface text-surface rounded">Verified</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-medium">Payment Processing</span>
+<span class="text-[10px] font-bold uppercase py-1 px-2 bg-on-surface text-surface rounded">Verified</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- CTA Section -->
+<section class="max-w-[1440px] mx-auto px-8 py-24 mb-24">
+<div class="bg-surface-container-lowest p-16 md:p-32 rounded-lg text-center border border-outline-variant/5">
+<h2 class="font-headline text-5xl md:text-7xl font-bold tracking-tighter mb-8">Questions of Trust?</h2>
+<p class="text-xl text-secondary max-w-xl mx-auto mb-12">
+                Our DPO is available for technical deep-dives into our governance framework.
+            </p>
+<div class="flex flex-col md:flex-row gap-4 justify-center">
+<button class="px-10 py-4 bg-primary text-on-primary font-bold rounded-full transition-transform hover:scale-105 active:scale-95">
+                    Download Full PDF
+                </button>
+<button class="px-10 py-4 bg-transparent border border-outline-variant text-primary font-bold rounded-full hover:bg-surface-container-low transition-all">
+                    Inquire Ethics Board
+                </button>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="relative z-20 w-full border-t border-outline-variant/10 bg-surface mt-auto">
+<div class="flex flex-col md:flex-row justify-between items-center px-12 py-10 w-full max-w-screen-2xl mx-auto">
+<div class="font-label text-[10px] tracking-widest uppercase text-secondary">
+            © 2024 NEXUS AI ECOSYSTEM
+        </div>
+<nav class="flex gap-8 mt-6 md:mt-0">
+<a class="font-label text-[10px] tracking-widest uppercase text-secondary hover:text-primary transition-colors duration-300" href="terms-and-conditions.html">Terms &amp; Conditions</a>
+<a class="font-label text-[10px] tracking-widest uppercase text-secondary hover:text-primary transition-colors duration-300" href="api-documentation.html">API Docs</a>
+<a class="font-label text-[10px] tracking-widest uppercase text-secondary hover:text-primary transition-colors duration-300" href="privacy-policy.html">Privacy</a>
+</nav>
+</div>
+</footer>
+<script src="corporate-interactivity.js"></script><script id="mesh-script">
+    const canvas = document.getElementById('canvas-mesh');
+    if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let mouse = { x: -1000, y: -1000 };
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resize);
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+
+        resize();
+
+        const gridSize = 45;
+        const centralForce = 220;
+        const mouseForce = 150;
+
+        function applyPhysics(x, y) {
+            let px = x;
+            let py = y;
+            
+            const dxM = px - mouse.x;
+            const dyM = py - mouse.y;
+            const distM = Math.sqrt(dxM * dxM + dyM * dyM);
+            
+            if (distM < mouseForce) {
+                // Liquid lens topographical push against mouse
+                const power = Math.pow((mouseForce - distM) / mouseForce, 2);
+                px += dxM * power * 1.5;
+                py += dyM * power * 1.5;
+            }
+            
+            return { x: px, y: py };
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, width, height);
+            ctx.strokeStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.lineWidth = 1;
+
+            for (let x = 0; x <= width; x += gridSize) {
+                ctx.beginPath();
+                for (let y = 0; y <= height; y += 4) {
+                    const pos = applyPhysics(x, y);
+                    if (y === 0) ctx.moveTo(pos.x, pos.y);
+                    else ctx.lineTo(pos.x, pos.y);
+                }
+                ctx.stroke();
+            }
+
+            for (let y = 0; y <= height; y += gridSize) {
+                ctx.beginPath();
+                for (let x = 0; x <= width; x += 4) {
+                    const pos = applyPhysics(x, y);
+                    if (x === 0) ctx.moveTo(pos.x, pos.y);
+                    else ctx.lineTo(pos.x, pos.y);
+                }
+                ctx.stroke();
+            }
+            requestAnimationFrame(draw);
+        }
+        draw();
+    }
+</script></body></html>
