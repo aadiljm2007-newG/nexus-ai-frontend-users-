@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html class="light" lang="en"><head>
 <meta charset="utf-8"/>
@@ -8,6 +8,15 @@
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <!-- Material Symbols -->
 <style>
+        #canvas-mesh {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
         body {
             background-color: #f9f9fb;
             overflow-x: hidden;
@@ -30,7 +39,8 @@
 
         .glass-card {
             background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+      backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.3);
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.02);
@@ -137,104 +147,112 @@
         }
         }
     }
-</script><link rel="stylesheet" href="corporate-theme.css">
-</head>
-<body class="font-body bg-background text-on-surface min-h-screen flex flex-col overflow-x-hidden selection:bg-primary selection:text-white"><canvas id="canvas-mesh" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;"></canvas>
+</script></head>
+<body class="font-body bg-background text-on-surface min-h-screen flex flex-col overflow-x-hidden selection:bg-primary selection:text-white"><canvas id="canvas-mesh"></canvas>
+
+    <!-- Global Navigation Header -->
+    <header class="fixed top-0 w-full z-[100] bg-surface/80 backdrop-blur-xl border-b border-outline-variant/10">
+      <div class="flex justify-between items-center px-8 py-5 w-full max-w-screen-2xl mx-auto">
+        <a class="flex items-center gap-2" href="login.html">
+          <span class="text-2xl font-bold tracking-tighter text-black uppercase font-headline">NEXUS AI</span>
+        </a>
+        <div class="flex items-center gap-8">
+          <nav class="hidden md:flex gap-6">
+            <a class="text-xs font-label uppercase tracking-widest text-primary hover:opacity-70 transition-opacity font-bold" href="login.html">Gateway</a>
+            <a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="help-center.html">Help Center</a>
+            <a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="system-status.html">System Status</a>
+            <a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="settings-profile.html">Settings</a>
+          </nav>
+          <a class="material-symbols-outlined text-black cursor-pointer hover:opacity-70 transition-opacity" href="user-account.html">account_circle</a>
+        </div>
+      </div>
+    </header>
+
 <!-- Interactive Background -->
 <!-- TopNavBar -->
-<nav class="fixed top-0 w-full z-50 bg-white/80 dark:bg-black/80 backdrop-blur-xl border-b border-black/5 flex justify-between items-center px-8 h-16">
-<div class="flex items-center gap-10">
-<span class="text-xl font-bold tracking-tighter text-black font-headline cursor-pointer hover:opacity-70 transition-opacity">Nexus AI</span>
-<div class="hidden md:flex gap-8">
-<a class="text-zinc-500 font-['Space_Grotesk'] tracking-tight hover:text-black transition-colors" href="#dashboard">Dashboard</a>
-<a class="text-black font-semibold font-['Space_Grotesk'] tracking-tight hover:opacity-70 transition-opacity" href="#settings">Settings</a>
-<a class="text-zinc-500 font-['Space_Grotesk'] tracking-tight hover:text-black transition-colors" href="#fleet">Fleet</a>
-</div>
-</div>
-<div class="flex items-center gap-5">
-<div class="relative group">
-<span class="material-symbols-outlined text-zinc-500 p-2 hover:bg-zinc-100 active:scale-90 rounded-full cursor-pointer transition-all">search</span>
-</div>
-<span class="material-symbols-outlined text-zinc-500 p-2 hover:bg-zinc-100 active:scale-90 rounded-full cursor-pointer transition-all">settings</span>
-<span class="material-symbols-outlined text-zinc-500 p-2 hover:bg-zinc-100 active:scale-90 rounded-full cursor-pointer transition-all">help</span>
-<div class="w-8 h-8 rounded-full bg-zinc-200 overflow-hidden ml-2 ring-1 ring-black/5 cursor-pointer hover:ring-black/20 transition-all active:scale-95">
-<img alt="User profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC57ydda4IveJMlbA3HmYpOMiFqEhKetmrvR73tIW-R-RXUa-c-wJA1ZHG2qiHqIfGI9xkyJ5lmmgb6v2J3lhljgCNOtq55ERE9uM2P2HhJI4RRbkpG_0equKu7WAK4VvKc29C_WD3ndvk7KtbWhN9kUV0ZLYtJTjPAWKujdlT9gTzGf0BYCEus8nNsg1NUXWc2qAxXNqfynFDDFDa__gYVuuF0saHoCmTb0iijnPFYWr0WoKIkoLOAzFmUihZMpuFqq_sXV2__roYj"/>
-</div>
-</div>
-</nav>
+
+    
+    
+    
+    
+
+
 <div class="flex pt-16 min-h-screen">
 <!-- SideNavBar - Standardized 'Celestial Precision' Layout -->
-<aside class="fixed left-0 top-0 h-full flex flex-col bg-surface/80 backdrop-blur-xl w-64 border-r border-outline-variant/10 z-50">
-<div class="p-8 pb-4">
-<div class="flex items-center gap-3 mb-6">
-<div class="w-10 h-10 bg-black rounded-xl flex items-center justify-center shadow-lg shadow-black/10">
-<span class="material-symbols-outlined text-white text-xl" style="font-variation-settings: 'FILL' 1;">deployed_code</span>
+<aside class="fixed left-0 top-20 h-full flex flex-col bg-surface/80 backdrop-blur-xl w-64 border-r border-outline-variant/10 z-50">
+<div class="p-8">
+<h1 class="text-2xl font-bold tracking-tighter text-zinc-900 dark:text-zinc-50 font-headline uppercase">Nexus AI</h1>
+<p class="text-[10px] uppercase tracking-[0.2em] text-zinc-400 mt-1 font-label">Celestial Precision</p>
 </div>
-<div>
-<h2 class="text-lg font-black text-black font-headline leading-tight">Nexus AI</h2>
-<p class="text-[10px] uppercase tracking-widest text-zinc-400 font-bold">System Configuration</p>
-</div>
-</div>
-</div>
-<nav class="flex-1 px-4 space-y-1 mb-8">
-<a class="group relative flex items-center gap-3 px-5 py-3.5 text-zinc-500 font-['Space_Grotesk'] text-xs tracking-widest uppercase font-bold hover:text-black hover:bg-white transition-all duration-200 rounded-xl" href="settings-profile.html">
-<span class="material-symbols-outlined text-lg opacity-70 group-hover:opacity-100">person</span>
-<span>Profile</span>
+<nav class="flex-1 px-4 space-y-1 overflow-y-auto custom-scrollbar">
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings_profile_unified.html">
+<span class="material-symbols-outlined text-xl" data-icon="person">person</span>
+<span class="text-sm">Profile</span>
 </a>
-<a class="group relative flex items-center gap-3 px-5 py-3.5 text-zinc-500 font-['Space_Grotesk'] text-xs tracking-widest uppercase font-bold hover:text-black hover:bg-white transition-all duration-200 rounded-xl" href="settings-ai-behavior.html">
-<span class="material-symbols-outlined text-lg opacity-70 group-hover:opacity-100">psychology</span>
-<span>AI Behavior</span>
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings_ai_behavior_unified.html">
+<span class="material-symbols-outlined text-xl" data-icon="psychology">psychology</span>
+<span class="text-sm">AI Behavior</span>
 </a>
-<a class="group relative flex items-center gap-3 px-5 py-3.5 text-zinc-500 font-['Space_Grotesk'] text-xs tracking-widest uppercase font-bold hover:text-black hover:bg-white transition-all duration-200 rounded-xl" href="settings-voice-interaction.html">
-<span class="material-symbols-outlined text-lg opacity-70 group-hover:opacity-100">record_voice_over</span>
-<span>Voice &amp; Interaction</span>
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings_voice_interaction_unified.html">
+<span class="material-symbols-outlined text-xl" data-icon="settings_voice">settings_voice</span>
+<span class="text-sm">Voice &amp; Interaction</span>
 </a>
-<a class="group relative flex items-center gap-3 px-5 py-3.5 text-zinc-500 font-['Space_Grotesk'] text-xs tracking-widest uppercase font-bold hover:text-black hover:bg-white transition-all duration-200 rounded-xl" href="settings-system-permissions.html">
-<span class="material-symbols-outlined text-lg opacity-70 group-hover:opacity-100">key</span>
-<span>System Permissions</span>
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings_system_permissions_unified.html">
+<span class="material-symbols-outlined text-xl" data-icon="verified_user">verified_user</span>
+<span class="text-sm">System Permissions</span>
 </a>
-<a class="group relative flex items-center gap-3 px-5 py-3.5 text-zinc-500 font-['Space_Grotesk'] text-xs tracking-widest uppercase font-bold hover:text-black hover:bg-white transition-all duration-200 rounded-xl" href="settings-automation.html">
-<span class="material-symbols-outlined text-lg opacity-70 group-hover:opacity-100">robot</span>
-<span>Automation Settings</span>
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings_automation_unified.html">
+<span class="material-symbols-outlined text-xl" data-icon="settings_suggest">settings_suggest</span>
+<span class="text-sm">Automation Settings</span>
 </a>
-<a class="group relative flex items-center gap-3 px-5 py-3.5 text-zinc-500 font-['Space_Grotesk'] text-xs tracking-widest uppercase font-bold hover:text-black hover:bg-white transition-all duration-200 rounded-xl" href="settings-integrations.html">
-<span class="material-symbols-outlined text-lg opacity-70 group-hover:opacity-100">extension</span>
-<span>Integrations</span>
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings_integrations_unified.html">
+<span class="material-symbols-outlined text-xl" data-icon="hub">hub</span>
+<span class="text-sm">Integrations</span>
 </a>
-<!-- Active Tab: Notifications -->
-<a class="nav-item-active relative flex items-center gap-3 px-5 py-3.5 text-black font-['Space_Grotesk'] text-xs tracking-widest uppercase font-bold border border-black/5 rounded-xl active:scale-[0.98]" href="settings-notifications.html">
-<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">notifications</span>
-<span>Notifications</span>
-<div class="sidebar-indicator"></div>
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-900 dark:text-zinc-50 font-bold active bg-zinc-100/50 dark:bg-zinc-900/50 font-headline tracking-tight cursor-pointer" href="settings_notifications_unified.html">
+<span class="material-symbols-outlined text-xl" data-icon="notifications">notifications</span>
+<span class="text-sm">Notifications</span>
 </a>
-<a class="group relative flex items-center gap-3 px-5 py-3.5 text-zinc-500 font-['Space_Grotesk'] text-xs tracking-widest uppercase font-bold hover:text-black hover:bg-white transition-all duration-200 rounded-xl" href="settings-appearance.html">
-<span class="material-symbols-outlined text-lg opacity-70 group-hover:opacity-100">palette</span>
-<span>Appearance</span>
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings_appearance_unified.html">
+<span class="material-symbols-outlined text-xl" data-icon="palette">palette</span>
+<span class="text-sm">Appearance</span>
 </a>
-<a class="group relative flex items-center gap-3 px-5 py-3.5 text-zinc-500 font-['Space_Grotesk'] text-xs tracking-widest uppercase font-bold hover:text-black hover:bg-white transition-all duration-200 rounded-xl" href="settings-security-privacy.html">
-<span class="material-symbols-outlined text-lg opacity-70 group-hover:opacity-100">shield</span>
-<span>Privacy &amp; Security</span>
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings_security_privacy_unified.html">
+<span class="material-symbols-outlined text-xl" data-icon="security">security</span>
+<span class="text-sm">Privacy &amp; Security</span>
 </a>
-<a class="group relative flex items-center gap-3 px-5 py-3.5 text-zinc-500 font-['Space_Grotesk'] text-xs tracking-widest uppercase font-bold hover:text-black hover:bg-white transition-all duration-200 rounded-xl" href="settings-advanced.html">
-<span class="material-symbols-outlined text-lg opacity-70 group-hover:opacity-100">terminal</span>
-<span>Advanced</span>
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings_api_keys_unified.html">
+<span class="material-symbols-outlined text-xl" data-icon="key">key</span>
+<span class="text-sm">API Keys</span>
+</a>
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings_advanced_unified.html">
+<span class="material-symbols-outlined text-xl" data-icon="manufacturing">manufacturing</span>
+<span class="text-sm">Advanced</span>
 </a>
 </nav>
-<div class="p-6 mt-auto">
-<button class="w-full py-4 bg-black text-white font-headline text-[10px] tracking-[0.2em] uppercase font-black rounded-xl hover:bg-zinc-800 active:scale-[0.97] transition-all duration-300 shadow-xl shadow-black/10">
-                    Deploy Changes
-                </button>
+<div class="p-6 border-t border-zinc-200/10 dark:border-zinc-800/10">
+<div class="flex items-center gap-3 group cursor-pointer">
+<img alt="Dr. Aris Thorne" class="w-10 h-10 rounded-full border border-zinc-200/20 shadow-sm transition-transform group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFZcVhStw82T7UXsxELE0USEE75b3DIIRE6nCaOm1HY4a0JVKx4MnhNOIm-P0Guom5LeM1d2UV7vryx1CAkdxbBAVlFejP9NZbpRA-5HbgrWnMp9TOHf7vqRuRBHOaW9R_6GCSTzwvaZQxwjS3GMXE7ksH2SIbkcRcF7oaIhVTKVAUHw0x8y61CYv4Vm7mHVSjqZ38yKHVO9E6EXKkxDq9SnSmyjL7YiAlqdhpz167ZXYcQry7g2Dm_4VuPwXlTi1uR6pY5DbpTLZR"/>
+<div class="overflow-hidden">
+<p class="text-sm font-bold font-headline truncate">Dr. Aris Thorne</p>
+<p class="text-[10px] text-zinc-400 uppercase tracking-widest truncate">Enterprise Tier</p>
+</div>
+</div>
 </div>
 </aside>
 <!-- Right Content Panel -->
-<main class="flex-1 ml-72 p-12 max-w-6xl relative">
-<header class="fixed top-0 right-0 left-64 z-40 flex items-center justify-between px-8 bg-surface/80 backdrop-blur-md h-16 border-b border-outline-variant/10">
-<h1 class="text-7xl font-black font-headline tracking-tight text-on-surface mb-6">Notification Architecture</h1>
-<p class="text-xl text-zinc-500 font-body max-w-2xl leading-relaxed">Calibrate the signal-to-noise ratio for system alerts with high-fidelity precision.</p>
-</header>
+
+    
+    
+    
+    
+
+
+    <main class="flex-1 ml-72 p-12 max-w-6xl relative bg-transparent">
+    
 <div class="grid grid-cols-12 gap-10">
 <!-- Section: System Signals -->
-<section class="col-span-12 lg:col-span-7">
+<section class="col-span-12 lg:col-span-7 bg-transparent">
 <div class="glass-card p-10 rounded-3xl">
 <div class="flex items-center gap-3 mb-10">
 <span class="material-symbols-outlined text-zinc-400">sensors</span>
@@ -307,7 +325,7 @@
 <!-- Right Column Sections -->
 <div class="col-span-12 lg:col-span-5 space-y-10">
 <!-- Section: Delivery Channels -->
-<section class="glass-card p-10 rounded-3xl">
+<section class="glass-card p-10 rounded-3xl bg-transparent">
 <div class="flex items-center gap-3 mb-8">
 <span class="material-symbols-outlined text-zinc-400">hub</span>
 <h3 class="text-[10px] font-black uppercase tracking-[0.3em] font-headline text-zinc-500">Delivery Channels</h3>
@@ -331,7 +349,7 @@
 </div>
 </section>
 <!-- Section: Quiet Mode -->
-<section class="glass-card p-10 rounded-3xl">
+<section class="glass-card p-10 rounded-3xl bg-transparent">
 <div class="flex items-center gap-3 mb-8">
 <span class="material-symbols-outlined text-zinc-400">notifications_paused</span>
 <h3 class="text-[10px] font-black uppercase tracking-[0.3em] font-headline text-zinc-500">Quiet Mode</h3>
@@ -340,7 +358,7 @@
 <div class="flex justify-between items-start mb-6">
 <div>
 <p class="text-[10px] uppercase tracking-[0.2em] text-zinc-400 font-black mb-2">Active Schedule</p>
-<p class="text-3xl font-black font-headline">22:00 â€” 07:00</p>
+<p class="text-3xl font-black font-headline">22:00 — 07:00</p>
 </div>
 <span class="material-symbols-outlined text-zinc-300 group-hover:rotate-180 transition-transform duration-500">event_repeat</span>
 </div>
@@ -419,7 +437,7 @@
 <span class="material-symbols-outlined text-white cursor-pointer active:scale-90 transition-all" style="font-variation-settings: 'FILL' 1;">settings</span>
 <span class="material-symbols-outlined opacity-50 cursor-pointer hover:opacity-100 active:scale-90 transition-all">account_circle</span>
 </div>
-<script id="mesh-script">
+<script src="interactivity.js"></script><script id="mesh-script">
     const canvas = document.getElementById('canvas-mesh');
     if (canvas) {
         const ctx = canvas.getContext('2d');
@@ -440,42 +458,36 @@
         resize();
 
         const gridSize = 45;
-        const centralForce = 220;
+        
         const mouseForce = 150;
 
-        function applyPhysics(x, y, centerX, centerY) {
+        function applyPhysics(x, y) {
             let px = x;
             let py = y;
-            const dxC = px - centerX;
-            const dyC = py - centerY;
-            const distC = Math.sqrt(dxC * dxC + dyC * dyC);
-            if (distC < centralForce) {
-                const power = Math.pow((centralForce - distC) / centralForce, 2);
-                px += (dxC / distC) * 45 * power;
-                py += (dyC / distC) * 45 * power;
-            }
+            
             const dxM = px - mouse.x;
             const dyM = py - mouse.y;
             const distM = Math.sqrt(dxM * dxM + dyM * dyM);
+            
             if (distM < mouseForce) {
-                const power = Math.pow((mouseForce - distM) / mouseForce, 1.5);
-                px -= (dxM / distM) * 30 * power;
-                py -= (dyM / distM) * 30 * power;
+                // Liquid lens topographical push against mouse
+                const power = Math.pow((mouseForce - distM) / mouseForce, 2);
+                px += dxM * power * 1.5;
+                py += dyM * power * 1.5;
             }
+            
             return { x: px, y: py };
         }
 
         function draw() {
             ctx.clearRect(0, 0, width, height);
-            ctx.strokeStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)';
             ctx.lineWidth = 1;
-            const centerX = width > 1024 ? width * 0.65 : width / 2;
-            const centerY = height / 2;
 
             for (let x = 0; x <= width; x += gridSize) {
                 ctx.beginPath();
-                for (let y = 0; y <= height; y += 10) {
-                    const pos = applyPhysics(x, y, centerX, centerY);
+                for (let y = 0; y <= height; y += 4) {
+                    const pos = applyPhysics(x, y);
                     if (y === 0) ctx.moveTo(pos.x, pos.y);
                     else ctx.lineTo(pos.x, pos.y);
                 }
@@ -484,8 +496,8 @@
 
             for (let y = 0; y <= height; y += gridSize) {
                 ctx.beginPath();
-                for (let x = 0; x <= width; x += 10) {
-                    const pos = applyPhysics(x, y, centerX, centerY);
+                for (let x = 0; x <= width; x += 4) {
+                    const pos = applyPhysics(x, y);
                     if (x === 0) ctx.moveTo(pos.x, pos.y);
                     else ctx.lineTo(pos.x, pos.y);
                 }
@@ -496,4 +508,3 @@
         draw();
     }
 </script></body></html>
-

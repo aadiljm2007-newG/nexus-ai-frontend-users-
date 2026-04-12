@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html class="light" lang="en"><head>
 <meta charset="utf-8"/>
@@ -12,7 +12,7 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 0;
+            z-index: 5;
         }
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
@@ -20,8 +20,9 @@
         }
         .glass-panel {
             background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
+      backdrop-filter: blur(20px);
+            
             border: 1px solid rgba(0, 0, 0, 0.05);
         }
         .dark .glass-panel {
@@ -38,6 +39,10 @@
             border-right-color: white;
             background: rgba(255,255,255,0.03);
         }
+    
+        #canvas-mesh { position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index: 5; }
+    
+        .fill-icon { font-variation-settings: 'FILL' 1; }
     </style>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script id="tailwind-config">
     tailwind.config = {
@@ -107,100 +112,111 @@
         }
         }
     }
-</script><link rel="stylesheet" href="corporate-theme.css">
-</head>
-<body class="font-body bg-background text-on-surface min-h-screen flex flex-col overflow-x-hidden selection:bg-primary selection:text-white"><canvas id="canvas-mesh" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;"></canvas>
+</script></head>
+<body class="font-body bg-background text-on-surface min-h-screen flex flex-col overflow-x-hidden selection:bg-primary selection:text-white"><canvas id="canvas-mesh"></canvas><canvas id="canvas-mesh" ></canvas>
+
+    <!-- Global Navigation Header -->
+    <header class="fixed top-0 w-full z-[100] bg-surface/80 backdrop-blur-xl border-b border-outline-variant/10">
+      <div class="flex justify-between items-center px-8 py-5 w-full max-w-screen-2xl mx-auto">
+        <a class="flex items-center gap-2" href="login.html">
+          <span class="text-2xl font-bold tracking-tighter text-black uppercase font-headline">NEXUS AI</span>
+        </a>
+        <div class="flex items-center gap-8">
+          <nav class="hidden md:flex gap-6">
+            <a class="text-xs font-label uppercase tracking-widest text-primary hover:opacity-70 transition-opacity font-bold" href="login.html">Gateway</a>
+            <a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="help-center.html">Help Center</a>
+            <a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="system-status.html">System Status</a>
+            <a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="settings-profile.html">Settings</a>
+          </nav>
+          <a class="material-symbols-outlined text-black cursor-pointer hover:opacity-70 transition-opacity" href="user-account.html">account_circle</a>
+        </div>
+      </div>
+    </header>
+
 <!-- TopNavBar -->
-<nav class="fixed top-0 w-full z-50 bg-white/80 dark:bg-black/80 backdrop-blur-xl flex justify-between items-center px-8 h-16 border-b border-black/5">
-<div class="flex items-center gap-8">
-<span class="text-xl font-bold tracking-tighter text-black dark:text-white font-headline cursor-default">Nexus AI</span>
-<div class="hidden md:flex gap-6">
-<a class="text-black dark:text-white font-semibold font-headline tracking-tight transition-opacity hover:opacity-70 active:scale-95" href="#">Dashboard</a>
-<a class="text-zinc-500 dark:text-zinc-400 font-headline tracking-tight transition-opacity hover:opacity-70 active:scale-95" href="#">Models</a>
-<a class="text-zinc-500 dark:text-zinc-400 font-headline tracking-tight transition-opacity hover:opacity-70 active:scale-95" href="#">Intelligence</a>
-</div>
-</div>
-<div class="flex items-center gap-4">
-<div class="relative group cursor-pointer hover:opacity-70 active:scale-95 duration-200">
-<span class="material-symbols-outlined text-zinc-500">search</span>
-</div>
-<span class="material-symbols-outlined text-zinc-500 cursor-pointer hover:opacity-70 active:scale-95 duration-200" data-icon="settings">settings</span>
-<span class="material-symbols-outlined text-zinc-500 cursor-pointer hover:opacity-70 active:scale-95 duration-200" data-icon="help">help</span>
-<div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant/20 cursor-pointer hover:ring-2 ring-primary/20 transition-all">
-<img alt="User profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEKUJvlBwL7RPcNcbkzYPopqXdJKFFWImSj6shbw6bDiEG8sIlXEEED_r6fboucSUPdUAnw_T79vY8aj7pRw-GHocQwxiCBqEoudM34mFPP7V5Km2FiqV5l7qwgyc-bHNAl-6hAxogAbvosvGgLd5b0tQ0oYwSkfeVnkI65T5Y6XlQB_Aa6AeiBEdxyZuQ5-bIUGWW9EXodJGQE_3YTFmVOU9m2fc2XqPk5Kef4pxGFMo4nNjA6R56casX_1ey5-ckv4IwXUJFKD5t"/>
-</div>
-</div>
-</nav>
+
+    
+    
+    
+    
+
+
 <div class="flex pt-16 min-h-screen relative z-10">
 <!-- SideNavBar - Celestial Precision Theme -->
-<aside class="fixed left-0 top-0 h-full flex flex-col bg-surface/80 backdrop-blur-xl w-64 border-r border-outline-variant/10 z-50">
-<div class="p-8 pb-4">
-<div class="flex items-center gap-3 mb-1">
-<div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
-<span class="text-lg font-black text-black dark:text-white font-headline">Nexus AI</span>
+<aside class="fixed left-0 top-20 h-full flex flex-col bg-surface/80 backdrop-blur-xl w-64 border-r border-outline-variant/10 z-50">
+<div class="p-8">
+<h1 class="text-2xl font-bold tracking-tighter text-zinc-900 dark:text-zinc-50 font-headline uppercase">Nexus AI</h1>
+<p class="text-[10px] uppercase tracking-[0.2em] text-zinc-400 mt-1 font-label">Celestial Precision</p>
 </div>
-<p class="text-[10px] uppercase tracking-[0.2em] font-bold text-zinc-400">System Configuration</p>
-</div>
-<nav class="flex-1 overflow-y-auto py-4 px-4 space-y-1">
-<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black dark:hover:text-white transition-all duration-300 ease-in-out hover:bg-black/5 dark:hover:bg-white/5 group" href="settings-profile.html">
-<span class="material-symbols-outlined text-sm" data-icon="person">person</span>
-<span class="font-headline text-sm tracking-wide uppercase font-medium">Profile</span>
+<nav class="flex-1 px-4 space-y-1 overflow-y-auto custom-scrollbar">
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings_profile_unified.html">
+<span class="material-symbols-outlined text-xl" data-icon="person">person</span>
+<span class="text-sm">Profile</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black dark:hover:text-white transition-all duration-300 ease-in-out hover:bg-black/5 dark:hover:bg-white/5 group" href="settings-ai-behavior.html">
-<span class="material-symbols-outlined text-sm" data-icon="psychology">psychology</span>
-<span class="font-headline text-sm tracking-wide uppercase font-medium">AI Behavior</span>
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings_ai_behavior_unified.html">
+<span class="material-symbols-outlined text-xl" data-icon="psychology">psychology</span>
+<span class="text-sm">AI Behavior</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black dark:hover:text-white transition-all duration-300 ease-in-out hover:bg-black/5 dark:hover:bg-white/5 group" href="settings-voice-interaction.html">
-<span class="material-symbols-outlined text-sm" data-icon="record_voice_over">record_voice_over</span>
-<span class="font-headline text-sm tracking-wide uppercase font-medium">Voice &amp; Interaction</span>
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings_voice_interaction_unified.html">
+<span class="material-symbols-outlined text-xl" data-icon="settings_voice">settings_voice</span>
+<span class="text-sm">Voice &amp; Interaction</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-3 nav-link-active transition-all duration-300 ease-in-out group" href="settings-system-permissions.html">
-<span class="material-symbols-outlined text-sm" data-icon="key">key</span>
-<span class="font-headline text-sm tracking-wide uppercase font-medium">System Permissions</span>
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings_system_permissions_unified.html">
+<span class="material-symbols-outlined text-xl" data-icon="verified_user">verified_user</span>
+<span class="text-sm">System Permissions</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black dark:hover:text-white transition-all duration-300 ease-in-out hover:bg-black/5 dark:hover:bg-white/5 group" href="settings-automation.html">
-<span class="material-symbols-outlined text-sm" data-icon="robot">robot</span>
-<span class="font-headline text-sm tracking-wide uppercase font-medium">Automation Settings</span>
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings_automation_unified.html">
+<span class="material-symbols-outlined text-xl" data-icon="settings_suggest">settings_suggest</span>
+<span class="text-sm">Automation Settings</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black dark:hover:text-white transition-all duration-300 ease-in-out hover:bg-black/5 dark:hover:bg-white/5 group" href="settings-integrations.html">
-<span class="material-symbols-outlined text-sm" data-icon="extension">extension</span>
-<span class="font-headline text-sm tracking-wide uppercase font-medium">Integrations</span>
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings_integrations_unified.html">
+<span class="material-symbols-outlined text-xl" data-icon="hub">hub</span>
+<span class="text-sm">Integrations</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black dark:hover:text-white transition-all duration-300 ease-in-out hover:bg-black/5 dark:hover:bg-white/5 group" href="settings-notifications.html">
-<span class="material-symbols-outlined text-sm" data-icon="notifications">notifications</span>
-<span class="font-headline text-sm tracking-wide uppercase font-medium">Notifications</span>
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings_notifications_unified.html">
+<span class="material-symbols-outlined text-xl" data-icon="notifications">notifications</span>
+<span class="text-sm">Notifications</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black dark:hover:text-white transition-all duration-300 ease-in-out hover:bg-black/5 dark:hover:bg-white/5 group" href="settings-appearance.html">
-<span class="material-symbols-outlined text-sm" data-icon="palette">palette</span>
-<span class="font-headline text-sm tracking-wide uppercase font-medium">Appearance</span>
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings_appearance_unified.html">
+<span class="material-symbols-outlined text-xl" data-icon="palette">palette</span>
+<span class="text-sm">Appearance</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black dark:hover:text-white transition-all duration-300 ease-in-out hover:bg-black/5 dark:hover:bg-white/5 group" href="settings-security-privacy.html">
-<span class="material-symbols-outlined text-sm" data-icon="shield">shield</span>
-<span class="font-headline text-sm tracking-wide uppercase font-medium">Privacy &amp; Security</span>
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-900 dark:text-zinc-50 font-bold active bg-zinc-100/50 dark:bg-zinc-900/50 font-headline tracking-tight cursor-pointer" href="settings_security_privacy_unified.html">
+<span class="material-symbols-outlined text-xl" data-icon="security">security</span>
+<span class="text-sm">Privacy &amp; Security</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black dark:hover:text-white transition-all duration-300 ease-in-out hover:bg-black/5 dark:hover:bg-white/5 group" href="settings-advanced.html">
-<span class="material-symbols-outlined text-sm" data-icon="terminal">terminal</span>
-<span class="font-headline text-sm tracking-wide uppercase font-medium">Advanced</span>
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings_api_keys_unified.html">
+<span class="material-symbols-outlined text-xl" data-icon="key">key</span>
+<span class="text-sm">API Keys</span>
+</a>
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings_advanced_unified.html">
+<span class="material-symbols-outlined text-xl" data-icon="manufacturing">manufacturing</span>
+<span class="text-sm">Advanced</span>
 </a>
 </nav>
-<div class="p-6 border-t border-black/5">
-<button class="w-full py-3 bg-black text-white dark:bg-white dark:text-black font-headline text-[10px] tracking-[0.2em] uppercase font-bold rounded-sm hover:opacity-90 transition-all active:scale-[0.98]">
-                    Deploy Changes
-                </button>
+<div class="p-6 border-t border-zinc-200/10 dark:border-zinc-800/10">
+<div class="flex items-center gap-3 group cursor-pointer">
+<img alt="Dr. Aris Thorne" class="w-10 h-10 rounded-full border border-zinc-200/20 shadow-sm transition-transform group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFZcVhStw82T7UXsxELE0USEE75b3DIIRE6nCaOm1HY4a0JVKx4MnhNOIm-P0Guom5LeM1d2UV7vryx1CAkdxbBAVlFejP9NZbpRA-5HbgrWnMp9TOHf7vqRuRBHOaW9R_6GCSTzwvaZQxwjS3GMXE7ksH2SIbkcRcF7oaIhVTKVAUHw0x8y61CYv4Vm7mHVSjqZ38yKHVO9E6EXKkxDq9SnSmyjL7YiAlqdhpz167ZXYcQry7g2Dm_4VuPwXlTi1uR6pY5DbpTLZR"/>
+<div class="overflow-hidden">
+<p class="text-sm font-bold font-headline truncate">Dr. Aris Thorne</p>
+<p class="text-[10px] text-zinc-400 uppercase tracking-widest truncate">Enterprise Tier</p>
+</div>
+</div>
 </div>
 </aside>
 <!-- Main Content -->
-<main class="flex-1 p-12 max-w-7xl mx-auto">
-<header class="fixed top-0 right-0 left-64 z-40 flex items-center justify-between px-8 bg-surface/80 backdrop-blur-md h-16 border-b border-outline-variant/10">
-<p class="text-[10px] uppercase tracking-[0.4em] font-bold text-primary/40 mb-4">Core Infrastructure</p>
-<h1 class="text-7xl font-headline font-bold tracking-tighter text-on-surface leading-[0.9]">System Permissions <br/>&amp; Security</h1>
-<p class="mt-6 text-zinc-500 font-light max-w-2xl leading-relaxed text-lg">
-                    Configure granular access controls, storage protocols, and biometric verification layers for the Nexus AI core. Changes are propagated across all nodes instantly.
-                </p>
-</header>
+
+    
+    
+    
+    
+
+
+    <main class="flex-1 p-12 max-w-7xl mx-auto bg-transparent">
+    
 <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
 <!-- Bento Block 1: Node Permissions (Glassmorphic) -->
-<section class="md:col-span-8 glass-panel p-8 shadow-sm">
+<section class="md:col-span-8 glass-panel p-8 shadow-sm bg-transparent">
 <div class="flex justify-between items-start mb-10">
 <div>
 <h2 class="text-2xl font-headline font-bold tracking-tight text-black">System access control</h2>
@@ -263,7 +279,7 @@
 </div>
 </section>
 <!-- Bento Block 2: Data Storage -->
-<section class="md:col-span-4 glass-panel p-8 flex flex-col justify-between shadow-sm">
+<section class="md:col-span-4 glass-panel p-8 flex flex-col justify-between shadow-sm bg-transparent">
 <div>
 <h3 class="font-headline font-bold text-xl mb-2 text-black">Storage Protocol</h3>
 <p class="text-xs text-zinc-500 leading-relaxed mb-8">Define data persistence across the Nexus ecosystem.</p>
@@ -273,7 +289,7 @@
 <span class="text-[10px] font-black tracking-tighter uppercase">Local Mesh</span>
 <span class="text-xs text-zinc-400">On-device only</span>
 </div>
-<span class="material-symbols-outlined text-black check-icon" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="material-symbols-outlined text-black check-icon" data-icon="check_circle" class="fill-icon">check_circle</span>
 </button>
 <button class="w-full p-4 bg-white/50 border border-black/5 flex items-center justify-between group opacity-60 hover:opacity-100 hover:border-black/20 transition-all active:scale-[0.98] storage-option" data-storage="cloud">
 <div class="flex flex-col items-start text-left">
@@ -291,7 +307,7 @@
 </div>
 </section>
 <!-- Bento Block 3: Authentication (Dark Accent) -->
-<section class="md:col-span-4 bg-black p-8 text-white flex flex-col justify-between group shadow-xl">
+<section class="md:col-span-4 bg-black p-8 text-white flex flex-col justify-between group shadow-xl bg-transparent">
 <span class="material-symbols-outlined text-4xl mb-6 text-white/40 group-hover:text-white transition-colors" data-icon="security">security</span>
 <div>
 <h3 class="font-headline font-bold text-2xl mb-2">Two-Factor Authentication</h3>
@@ -305,7 +321,7 @@
 </div>
 </section>
 <!-- Bento Block 4: Active Sessions -->
-<section class="md:col-span-8 glass-panel p-8 shadow-sm">
+<section class="md:col-span-8 glass-panel p-8 shadow-sm bg-transparent">
 <div class="flex justify-between items-center mb-8">
 <h3 class="font-headline font-bold text-xl text-black">Active session management</h3>
 <button class="text-[10px] font-bold tracking-[0.2em] uppercase hover:opacity-60 transition-all">Terminate All</button>
@@ -315,8 +331,8 @@
 <div class="flex items-center gap-4">
 <span class="material-symbols-outlined text-zinc-400 group-hover:text-black transition-colors" data-icon="laptop_mac">laptop_mac</span>
 <div>
-<p class="text-sm font-semibold text-black">Nexus Hub Pro â€” Palo Alto, CA</p>
-<p class="text-xs text-zinc-400">Current Session â€¢ Active now</p>
+<p class="text-sm font-semibold text-black">Nexus Hub Pro — Palo Alto, CA</p>
+<p class="text-xs text-zinc-400">Current Session • Active now</p>
 </div>
 </div>
 <span class="text-[10px] font-bold px-2 py-1 bg-green-50 text-green-700 tracking-wider">PRIMARY</span>
@@ -325,7 +341,7 @@
 <div class="flex items-center gap-4">
 <span class="material-symbols-outlined text-zinc-400 group-hover:text-black transition-colors" data-icon="smartphone">smartphone</span>
 <div>
-<p class="text-sm font-semibold text-black">Mobile Interface â€” London, UK</p>
+<p class="text-sm font-semibold text-black">Mobile Interface — London, UK</p>
 <p class="text-xs text-zinc-400">Last activity: 14 mins ago</p>
 </div>
 </div>
@@ -335,7 +351,7 @@
 <div class="flex items-center gap-4">
 <span class="material-symbols-outlined text-zinc-400 group-hover:text-black transition-colors" data-icon="terminal">terminal</span>
 <div>
-<p class="text-sm font-semibold text-black">SSH Console â€” Node-774</p>
+<p class="text-sm font-semibold text-black">SSH Console — Node-774</p>
 <p class="text-xs text-zinc-400">Last activity: 2 hours ago</p>
 </div>
 </div>
@@ -362,7 +378,7 @@
 </footer>
 </main>
 </div>
-<script id="mesh-script">
+<script src="interactivity.js"></script><script id="mesh-script">
     const canvas = document.getElementById('canvas-mesh');
     if (canvas) {
         const ctx = canvas.getContext('2d');
@@ -383,42 +399,36 @@
         resize();
 
         const gridSize = 45;
-        const centralForce = 220;
+        
         const mouseForce = 150;
 
-        function applyPhysics(x, y, centerX, centerY) {
+        function applyPhysics(x, y) {
             let px = x;
             let py = y;
-            const dxC = px - centerX;
-            const dyC = py - centerY;
-            const distC = Math.sqrt(dxC * dxC + dyC * dyC);
-            if (distC < centralForce) {
-                const power = Math.pow((centralForce - distC) / centralForce, 2);
-                px += (dxC / distC) * 45 * power;
-                py += (dyC / distC) * 45 * power;
-            }
+            
             const dxM = px - mouse.x;
             const dyM = py - mouse.y;
             const distM = Math.sqrt(dxM * dxM + dyM * dyM);
+            
             if (distM < mouseForce) {
-                const power = Math.pow((mouseForce - distM) / mouseForce, 1.5);
-                px -= (dxM / distM) * 30 * power;
-                py -= (dyM / distM) * 30 * power;
+                // Liquid lens topographical push against mouse
+                const power = Math.pow((mouseForce - distM) / mouseForce, 2);
+                px += dxM * power * 1.5;
+                py += dyM * power * 1.5;
             }
+            
             return { x: px, y: py };
         }
 
         function draw() {
             ctx.clearRect(0, 0, width, height);
-            ctx.strokeStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)';
             ctx.lineWidth = 1;
-            const centerX = width > 1024 ? width * 0.65 : width / 2;
-            const centerY = height / 2;
 
             for (let x = 0; x <= width; x += gridSize) {
                 ctx.beginPath();
-                for (let y = 0; y <= height; y += 10) {
-                    const pos = applyPhysics(x, y, centerX, centerY);
+                for (let y = 0; y <= height; y += 4) {
+                    const pos = applyPhysics(x, y);
                     if (y === 0) ctx.moveTo(pos.x, pos.y);
                     else ctx.lineTo(pos.x, pos.y);
                 }
@@ -427,8 +437,8 @@
 
             for (let y = 0; y <= height; y += gridSize) {
                 ctx.beginPath();
-                for (let x = 0; x <= width; x += 10) {
-                    const pos = applyPhysics(x, y, centerX, centerY);
+                for (let x = 0; x <= width; x += 4) {
+                    const pos = applyPhysics(x, y);
                     if (x === 0) ctx.moveTo(pos.x, pos.y);
                     else ctx.lineTo(pos.x, pos.y);
                 }
@@ -439,4 +449,3 @@
         draw();
     }
 </script></body></html>
-

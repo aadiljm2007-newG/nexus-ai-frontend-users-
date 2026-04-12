@@ -17,16 +17,18 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 0;
+            z-index: 5;
         }
         .glass-card {
             background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+      backdrop-filter: blur(20px);
             border: 1px solid rgba(198, 198, 198, 0.15);
         }
         .obsidian-glass {
             background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+      backdrop-filter: blur(25px);
         }
     </style>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script id="tailwind-config">
@@ -99,31 +101,41 @@
     }
 </script><link rel="stylesheet" href="corporate-theme.css">
 </head>
-<body class="font-body bg-background text-on-surface min-h-screen flex flex-col overflow-x-hidden selection:bg-primary selection:text-white"><canvas id="canvas-mesh" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;"></canvas>
+<body class="font-body bg-background text-on-surface min-h-screen flex flex-col overflow-x-hidden selection:bg-primary selection:text-white"><canvas id="canvas-mesh"></canvas>
+
+    <!-- Global Navigation Header -->
+    <header class="fixed top-0 w-full z-[100] bg-surface/80 backdrop-blur-xl border-b border-outline-variant/10">
+      <div class="flex justify-between items-center px-8 py-5 w-full max-w-screen-2xl mx-auto">
+        <a class="flex items-center gap-2" href="login.html">
+          <span class="text-2xl font-bold tracking-tighter text-black uppercase font-headline">NEXUS AI</span>
+        </a>
+        <div class="flex items-center gap-8">
+          <nav class="hidden md:flex gap-6">
+            <a class="text-xs font-label uppercase tracking-widest text-primary hover:opacity-70 transition-opacity font-bold" href="login.html">Gateway</a>
+            <a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="help-center.html">Help Center</a>
+            <a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="system-status.html">System Status</a>
+            <a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="settings-profile.html">Settings</a>
+          </nav>
+          <a class="material-symbols-outlined text-black cursor-pointer hover:opacity-70 transition-opacity" href="user-account.html">account_circle</a>
+        </div>
+      </div>
+    </header>
+
 <!-- Interactive Space-Time Grid Layer -->
 <div class="relative z-10 min-h-screen flex flex-col">
 <!-- Centered Main Content Canvas -->
-<main class="flex-1 max-w-5xl mx-auto w-full p-8 md:p-12 lg:p-20 pt-24 pb-12">
-<!-- Top App Bar -->
-<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/10">
-<div class="flex justify-between items-center px-8 py-5 w-full max-w-screen-2xl mx-auto">
-<a class="flex items-center gap-2" href="login.html">
-<span class="text-2xl font-bold tracking-tighter text-black uppercase font-headline">NEXUS AI</span>
-</a>
-<div class="flex items-center gap-8">
-<nav class="hidden md:flex gap-6">
-<a class="text-xs font-label uppercase tracking-widest text-primary hover:opacity-70 transition-opacity font-bold" href="login.html">Gateway</a>
-<a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="help-center.html">Help Center</a>
-<a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="system-status.html">System Status</a>
-<a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="settings-profile.html">Settings</a>
-</nav>
-<a class="material-symbols-outlined text-black cursor-pointer hover:opacity-70 transition-opacity" href="user-account.html">account_circle</a>
-</div>
-</div>
-</header>
+
+    
+    
+    
+    
+
+
+    <main class="flex-1 max-w-5xl mx-auto w-full p-8 md:p-12 lg:p-20 pt-24 pb-12 bg-transparent">
+    <!-- Top App Bar -->
 <div class="grid grid-cols-12 gap-8">
 <!-- Profile Header Card -->
-<section class="col-span-12 glass-card p-10 flex flex-col md:flex-row items-center gap-12 group transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.04)]">
+<section class="col-span-12 glass-card p-10 flex flex-col md:flex-row items-center gap-12 group transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.04)] bg-transparent">
 <div class="relative">
 <div class="w-32 h-32 rounded-full overflow-hidden border-4 border-white shadow-xl">
 <img class="w-full h-full object-cover" data-alt="portrait of a focused tech professional wearing a charcoal blazer, clean minimalist background with natural sunlight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAh1iIyzDS3zyTDfxreXhetn3KJXhsJYOib0Kxpu2KAYLMcJCr1hjRat0cGdQIKtRpee5NHjQCt7_RQNtkUgKxGHccjr-obrEnQ71uNiIF3oCHNoZUQ-r3uMv76W7SAuJfhBeVWp13zQ43yy4-Xh9hyebUVRyNTOPAg4Ke6YfoAtReT4VIgrFEJr2y5VqnZiULdO66DkiceYk9gy5hLIJB0XqlTTdV9tz3mITCmppZhKixrMP7eCErMGdn_G-TfZGOL_wwpGcreEkh1"/>
@@ -152,7 +164,7 @@
 </div>
 </section>
 <!-- API Management -->
-<section class="col-span-12 lg:col-span-8 space-y-8">
+<section class="col-span-12 lg:col-span-8 space-y-8 bg-transparent">
 <div class="glass-card p-10 h-full flex flex-col">
 <div class="flex flex-col sm:flex-row justify-between items-start gap-6 mb-12">
 <div>
@@ -192,7 +204,7 @@
 </div>
 </section>
 <!-- Subscription Overview -->
-<section class="col-span-12 lg:col-span-4 glass-card p-10 flex flex-col border-l-4 border-black">
+<section class="col-span-12 lg:col-span-4 glass-card p-10 flex flex-col border-l-4 border-black bg-transparent">
 <h3 class="font-headline text-xl font-bold uppercase tracking-tight mb-8">Plan Overview</h3>
 <div class="space-y-6 flex-1">
 <div class="p-4 bg-surface-container-low rounded-lg">
@@ -213,7 +225,7 @@
                     </button>
 </section>
 <!-- Security Management -->
-<section class="col-span-12 glass-card p-10">
+<section class="col-span-12 glass-card p-10 bg-transparent">
 <div class="flex justify-between items-center mb-10">
 <div>
 <h3 class="font-headline text-xl font-bold uppercase tracking-tight">Security</h3>
@@ -263,7 +275,7 @@
 <footer class="relative z-20 w-full border-t border-outline-variant/10 bg-surface mt-auto">
 <div class="flex flex-col md:flex-row justify-between items-center px-12 py-10 w-full max-w-screen-2xl mx-auto">
 <div class="font-label text-[10px] tracking-widest uppercase text-secondary">
-            Â© 2024 NEXUS AI ECOSYSTEM
+            © 2024 NEXUS AI ECOSYSTEM
         </div>
 <nav class="flex gap-8 mt-6 md:mt-0">
 <a class="font-label text-[10px] tracking-widest uppercase text-secondary hover:text-primary transition-colors duration-300" href="terms-and-conditions.html">Terms &amp; Conditions</a>
@@ -297,20 +309,13 @@
         resize();
 
         const gridSize = 45;
-        const centralForce = 220;
+        
         const mouseForce = 150;
 
-        function applyPhysics(x, y, centerX, centerY) {
+        function applyPhysics(x, y) {
             let px = x;
             let py = y;
-            const dxC = px - centerX;
-            const dyC = py - centerY;
-            const distC = Math.sqrt(dxC * dxC + dyC * dyC);
-            if (distC < centralForce) {
-                const power = Math.pow((centralForce - distC) / centralForce, 2);
-                px += (dxC / distC) * 45 * power;
-                py += (dyC / distC) * 45 * power;
-            }
+            
             const dxM = px - mouse.x;
             const dyM = py - mouse.y;
             const distM = Math.sqrt(dxM * dxM + dyM * dyM);
@@ -324,15 +329,15 @@
 
         function draw() {
             ctx.clearRect(0, 0, width, height);
-            ctx.strokeStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)';
             ctx.lineWidth = 1;
-            const centerX = width > 1024 ? width * 0.65 : width / 2;
-            const centerY = height / 2;
+            
+            
 
             for (let x = 0; x <= width; x += gridSize) {
                 ctx.beginPath();
                 for (let y = 0; y <= height; y += 10) {
-                    const pos = applyPhysics(x, y, centerX, centerY);
+                    const pos = applyPhysics(x, y);
                     if (y === 0) ctx.moveTo(pos.x, pos.y);
                     else ctx.lineTo(pos.x, pos.y);
                 }
@@ -342,7 +347,7 @@
             for (let y = 0; y <= height; y += gridSize) {
                 ctx.beginPath();
                 for (let x = 0; x <= width; x += 10) {
-                    const pos = applyPhysics(x, y, centerX, centerY);
+                    const pos = applyPhysics(x, y);
                     if (x === 0) ctx.moveTo(pos.x, pos.y);
                     else ctx.lineTo(pos.x, pos.y);
                 }

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html class="light" lang="en"><head>
 <meta charset="utf-8"/>
@@ -11,7 +11,7 @@
         #grid-canvas {
             position: fixed;
             inset: 0;
-            z-index: 0;
+            z-index: 5;
             pointer-events: none;
             opacity: 0.15;
             background: #f9f9fb;
@@ -23,8 +23,9 @@
 
         .glass-card {
             background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
+      backdrop-filter: blur(24px);
+            
             border: 1px solid rgba(0, 0, 0, 0.05);
         }
         
@@ -79,6 +80,10 @@
         .scroll-mt-24 {
             scroll-margin-top: 6rem;
         }
+    
+        #canvas-mesh { position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index: 5; }
+    
+        .fill-icon { font-variation-settings: 'FILL' 1; }
     </style>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script id="tailwind-config">
     tailwind.config = {
@@ -148,53 +153,75 @@
         }
         }
     }
-</script><link rel="stylesheet" href="corporate-theme.css">
-</head>
-<body class="font-body bg-background text-on-surface min-h-screen flex flex-col overflow-x-hidden selection:bg-primary selection:text-white"><canvas id="canvas-mesh" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;"></canvas>
+</script></head>
+<body class="font-body bg-background text-on-surface min-h-screen flex flex-col overflow-x-hidden selection:bg-primary selection:text-white"><canvas id="canvas-mesh"></canvas><canvas id="canvas-mesh" ></canvas>
+
+    <!-- Global Navigation Header -->
+    <header class="fixed top-0 w-full z-[100] bg-surface/80 backdrop-blur-xl border-b border-outline-variant/10">
+      <div class="flex justify-between items-center px-8 py-5 w-full max-w-screen-2xl mx-auto">
+        <a class="flex items-center gap-2" href="login.html">
+          <span class="text-2xl font-bold tracking-tighter text-black uppercase font-headline">NEXUS AI</span>
+        </a>
+        <div class="flex items-center gap-8">
+          <nav class="hidden md:flex gap-6">
+            <a class="text-xs font-label uppercase tracking-widest text-primary hover:opacity-70 transition-opacity font-bold" href="login.html">Gateway</a>
+            <a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="help-center.html">Help Center</a>
+            <a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="system-status.html">System Status</a>
+            <a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="settings-profile.html">Settings</a>
+          </nav>
+          <a class="material-symbols-outlined text-black cursor-pointer hover:opacity-70 transition-opacity" href="user-account.html">account_circle</a>
+        </div>
+      </div>
+    </header>
+
 <!-- SideNavBar Shell -->
-<aside class="fixed left-0 top-0 h-full flex flex-col bg-surface/80 backdrop-blur-xl w-64 border-r border-outline-variant/10 z-50">
+<aside class="fixed left-0 top-20 h-full flex flex-col bg-surface/80 backdrop-blur-xl w-64 border-r border-outline-variant/10 z-50">
 <div class="p-8">
 <h1 class="text-2xl font-bold tracking-tighter text-zinc-900 dark:text-zinc-50 font-headline uppercase">Nexus AI</h1>
 <p class="text-[10px] uppercase tracking-[0.2em] text-zinc-400 mt-1 font-label">Celestial Precision</p>
 </div>
 <nav class="flex-1 px-4 space-y-1 overflow-y-auto custom-scrollbar">
-<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-900 dark:text-zinc-50 font-bold active bg-zinc-100/50 dark:bg-zinc-900/50 font-headline tracking-tight cursor-pointer" href="settings-profile.html">
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-900 dark:text-zinc-50 font-bold active bg-zinc-100/50 dark:bg-zinc-900/50 font-headline tracking-tight cursor-pointer" href="settings_profile_unified.html">
 <span class="material-symbols-outlined text-xl" data-icon="person">person</span>
 <span class="text-sm">Profile</span>
 </a>
-<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings-ai-behavior.html">
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings_ai_behavior_unified.html">
 <span class="material-symbols-outlined text-xl" data-icon="psychology">psychology</span>
 <span class="text-sm">AI Behavior</span>
 </a>
-<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings-voice-interaction.html">
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings_voice_interaction_unified.html">
 <span class="material-symbols-outlined text-xl" data-icon="settings_voice">settings_voice</span>
 <span class="text-sm">Voice &amp; Interaction</span>
 </a>
-<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings-system-permissions.html">
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings_system_permissions_unified.html">
 <span class="material-symbols-outlined text-xl" data-icon="verified_user">verified_user</span>
 <span class="text-sm">System Permissions</span>
 </a>
-<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings-automation.html">
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings_automation_unified.html">
 <span class="material-symbols-outlined text-xl" data-icon="settings_suggest">settings_suggest</span>
 <span class="text-sm">Automation Settings</span>
 </a>
-<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings-integrations.html">
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings_integrations_unified.html">
 <span class="material-symbols-outlined text-xl" data-icon="hub">hub</span>
 <span class="text-sm">Integrations</span>
 </a>
-<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings-notifications.html">
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings_notifications_unified.html">
 <span class="material-symbols-outlined text-xl" data-icon="notifications">notifications</span>
 <span class="text-sm">Notifications</span>
 </a>
-<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings-appearance.html">
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings_appearance_unified.html">
 <span class="material-symbols-outlined text-xl" data-icon="palette">palette</span>
 <span class="text-sm">Appearance</span>
 </a>
-<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings-security-privacy.html">
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings_security_privacy_unified.html">
 <span class="material-symbols-outlined text-xl" data-icon="security">security</span>
 <span class="text-sm">Privacy &amp; Security</span>
 </a>
-<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings-advanced.html">
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings_api_keys_unified.html">
+<span class="material-symbols-outlined text-xl" data-icon="key">key</span>
+<span class="text-sm">API Keys</span>
+</a>
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings_advanced_unified.html">
 <span class="material-symbols-outlined text-xl" data-icon="manufacturing">manufacturing</span>
 <span class="text-sm">Advanced</span>
 </a>
@@ -210,27 +237,17 @@
 </div>
 </aside>
 <!-- TopAppBar Shell -->
-<header class="fixed top-0 right-0 left-64 z-40 flex items-center justify-between px-8 bg-surface/80 backdrop-blur-md h-16 border-b border-outline-variant/10">
-<h2 class="text-xl font-bold tracking-tighter text-zinc-900 dark:text-zinc-50 font-headline uppercase">Nexus Settings</h2>
-<div class="flex items-center gap-6">
-<div class="relative group">
-<input class="bg-white/50 dark:bg-zinc-900/50 border border-zinc-200/20 dark:border-zinc-800/20 rounded-full px-4 py-1.5 text-sm w-64 focus:ring-1 focus:ring-primary outline-none font-label transition-all focus:w-80" placeholder="Search parameters..." type="text"/>
-<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 text-sm" data-icon="search">search</span>
-</div>
-<div class="flex gap-4">
-<button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors">
-<span class="material-symbols-outlined text-lg" data-icon="help_outline">help_outline</span>
-</button>
-<button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors" onclick="window.location.href='login.html'">
-<span class="material-symbols-outlined text-lg" data-icon="logout">logout</span>
-</button>
-</div>
-</div>
-</header>
+
+    
+    
+    
+    
+
+
 <!-- Main Content Canvas -->
-<main class="ml-64 pt-32 p-12 relative z-10 space-y-24 max-w-6xl mx-auto">
+<main class="ml-64 pt-40 p-12 relative z-10 space-y-24 max-w-6xl mx-auto bg-transparent">
 <!-- Section: Profile -->
-<section class="grid grid-cols-12 gap-12 scroll-mt-24" id="profile">
+<section class="grid grid-cols-12 gap-12 scroll-mt-24 bg-transparent" id="profile">
 <div class="col-span-4">
 <h3 class="text-4xl font-headline font-bold tracking-tighter leading-none mb-4">Profile Identity</h3>
 <p class="text-zinc-500 dark:text-zinc-400 text-sm font-label leading-relaxed">Core identity markers for your personalized neural interface. These values calibrate interaction tone and security clearance.</p>
@@ -247,22 +264,22 @@
 <div class="flex-1 grid grid-cols-2 gap-6">
 <div class="space-y-1">
 <label class="text-[10px] uppercase tracking-widest text-zinc-400 font-bold">Full Name</label>
-<input class="w-full bg-transparent border-b border-zinc-200 dark:border-zinc-800 py-1 focus:border-primary dark:focus:border-white outline-none font-headline font-medium transition-colors" type="text" value="Dr. Aris Thorne"/>
+<input class="w-full bg-transparent border-b border-zinc-200 dark:border-zinc-800 py-1 focus:border-primary dark:focus:border-white outline-none font-headline font-medium transition-colors" type="text" value="Dr. Aris Thorne" title="Input field" aria-label="Input field" />
 </div>
 <div class="space-y-1">
 <label class="text-[10px] uppercase tracking-widest text-zinc-400 font-bold">Primary Email</label>
-<input class="w-full bg-transparent border-b border-zinc-200 dark:border-zinc-800 py-1 focus:border-primary dark:focus:border-white outline-none font-headline font-medium transition-colors" type="email" value="thorne.a@nexus.ai"/>
+<input class="w-full bg-transparent border-b border-zinc-200 dark:border-zinc-800 py-1 focus:border-primary dark:focus:border-white outline-none font-headline font-medium transition-colors" type="email" value="thorne.a@nexus.ai" title="Input field" aria-label="Input field" />
 </div>
 </div>
 </div>
 <div class="grid grid-cols-3 gap-6 mb-8">
 <div class="space-y-1">
 <label class="text-[10px] uppercase tracking-widest text-zinc-400 font-bold">Phone Number</label>
-<input class="w-full bg-transparent border-b border-zinc-200 dark:border-zinc-800 py-1 focus:border-primary outline-none text-sm transition-colors" type="text" value="+1 (555) 012-9982"/>
+<input class="w-full bg-transparent border-b border-zinc-200 dark:border-zinc-800 py-1 focus:border-primary outline-none text-sm transition-colors" type="text" value="+1 (555) 012-9982" title="Input field" aria-label="Input field" />
 </div>
 <div class="space-y-1">
 <label class="text-[10px] uppercase tracking-widest text-zinc-400 font-bold">Gender Identity</label>
-<select class="w-full bg-transparent border-b border-zinc-200 dark:border-zinc-800 py-1 focus:border-primary outline-none text-sm appearance-none cursor-pointer">
+<select class="w-full bg-transparent border-b border-zinc-200 dark:border-zinc-800 py-1 focus:border-primary outline-none text-sm appearance-none cursor-pointer" title="Input field" aria-label="Input field">
 <option>Non-binary</option>
 <option>Female</option>
 <option>Male</option>
@@ -271,7 +288,7 @@
 </div>
 <div class="space-y-1">
 <label class="text-[10px] uppercase tracking-widest text-zinc-400 font-bold">Biological Age</label>
-<input class="w-full bg-transparent border-b border-zinc-200 dark:border-zinc-800 py-1 focus:border-primary outline-none text-sm transition-colors" type="number" value="34"/>
+<input class="w-full bg-transparent border-b border-zinc-200 dark:border-zinc-800 py-1 focus:border-primary outline-none text-sm transition-colors" type="number" value="34" title="Input field" aria-label="Input field" />
 </div>
 </div>
 <div class="pt-8 border-t border-zinc-200 dark:border-zinc-800 flex flex-col gap-6">
@@ -293,7 +310,7 @@
 </div>
 </section>
 <!-- Section: AI Behavior -->
-<section class="grid grid-cols-12 gap-12 scroll-mt-24" id="behavior">
+<section class="grid grid-cols-12 gap-12 scroll-mt-24 bg-transparent" id="behavior">
 <div class="col-span-4 order-last">
 <h3 class="text-4xl font-headline font-bold tracking-tighter leading-none mb-4">Neural Logic</h3>
 <p class="text-zinc-500 dark:text-zinc-400 text-sm font-label leading-relaxed">Configure the cognitive engine's output parameters. These settings govern the density, tone, and autonomy of Nexus.</p>
@@ -305,14 +322,14 @@
 <label class="text-[10px] uppercase tracking-widest text-zinc-400 font-bold mb-4 block">Response Style</label>
 <div class="flex flex-col gap-3">
 <label class="flex items-center gap-3 p-4 bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 rounded-lg cursor-pointer hover:border-black dark:hover:border-white transition-all group">
-<input checked="" class="text-black focus:ring-0 cursor-pointer" name="style" type="radio"/>
+<input checked="" class="text-black focus:ring-0 cursor-pointer" name="style" type="radio" title="Select option" aria-label="Select option" />
 <div class="flex-1">
 <p class="text-sm font-bold font-headline group-hover:translate-x-1 transition-transform">Technical</p>
 <p class="text-[10px] text-zinc-500">Precise, data-heavy, high accuracy.</p>
 </div>
 </label>
 <label class="flex items-center gap-3 p-4 border border-zinc-200/50 dark:border-zinc-800/50 rounded-lg cursor-pointer hover:bg-zinc-50 dark:hover:bg-zinc-900/50 transition-all group">
-<input class="text-black focus:ring-0 cursor-pointer" name="style" type="radio"/>
+<input class="text-black focus:ring-0 cursor-pointer" name="style" type="radio" title="Select option" aria-label="Select option" />
 <div class="flex-1">
 <p class="text-sm font-bold font-headline group-hover:translate-x-1 transition-transform">Formal</p>
 <p class="text-[10px] text-zinc-500">Professional, structured syntax.</p>
@@ -325,7 +342,7 @@
 <label class="text-[10px] uppercase tracking-widest text-zinc-400 font-bold">Response Length</label>
 <span class="text-[10px] font-mono text-zinc-400 bg-zinc-100 dark:bg-zinc-900 px-2 py-0.5 rounded">850 Tokens</span>
 </div>
-<input class="w-full accent-black dark:accent-white h-1 bg-zinc-200 dark:bg-zinc-800 appearance-none rounded-full cursor-pointer" type="range"/>
+<input class="w-full accent-black dark:accent-white h-1 bg-zinc-200 dark:bg-zinc-800 appearance-none rounded-full cursor-pointer" type="range" title="Select value" aria-label="Select value" />
 </div>
 </div>
 <div class="space-y-6">
@@ -355,7 +372,7 @@
 </div>
 </section>
 <!-- Section: Voice & Interaction -->
-<section class="grid grid-cols-12 gap-12 scroll-mt-24" id="voice">
+<section class="grid grid-cols-12 gap-12 scroll-mt-24 bg-transparent" id="voice">
 <div class="col-span-4">
 <h3 class="text-4xl font-headline font-bold tracking-tighter leading-none mb-4">Aural Logic</h3>
 <p class="text-zinc-500 dark:text-zinc-400 text-sm font-label leading-relaxed">Customize the vocal fingerprint and auditory sensitivity of the system. High-fidelity synthesis engine enabled.</p>
@@ -364,7 +381,7 @@
 <div class="grid grid-cols-2 gap-6">
 <div class="glass-card p-6 rounded-xl hover:shadow-md transition-all">
 <label class="text-[10px] uppercase tracking-widest text-zinc-400 font-bold mb-4 block">Voice Synthesis</label>
-<select class="w-full bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 p-3 text-xs font-headline font-bold rounded-lg cursor-pointer outline-none focus:ring-1 focus:ring-primary/20">
+<select class="w-full bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 p-3 text-xs font-headline font-bold rounded-lg cursor-pointer outline-none focus:ring-1 focus:ring-primary/20" title="Input field" aria-label="Input field">
 <option>Atlas-7 (Deep/Resonant)</option>
 <option>Vela-1 (Soft/Empathetic)</option>
 <option>Lyra-4 (Neutral/Concise)</option>
@@ -377,7 +394,7 @@
 <div class="glass-card p-6 rounded-xl hover:shadow-md transition-all">
 <label class="text-[10px] uppercase tracking-widest text-zinc-400 font-bold mb-4 block">Wake Command</label>
 <div class="relative">
-<input class="w-full bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 p-3 text-xs font-headline font-bold rounded-lg focus:ring-1 focus:ring-primary/20" type="text" value="Computer, Nexus"/>
+<input class="w-full bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 p-3 text-xs font-headline font-bold rounded-lg focus:ring-1 focus:ring-primary/20" type="text" value="Computer, Nexus" title="Input field" aria-label="Input field" />
 <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-black transition-colors cursor-pointer" data-icon="mic">mic</span>
 </div>
 <p class="mt-2 text-[10px] text-zinc-500">Wake word processing uses local DSP cores.</p>
@@ -408,7 +425,7 @@
 </div>
 </section>
 <!-- Bento Grid Mixed Section -->
-<section class="grid grid-cols-12 gap-8 h-auto pb-24">
+<section class="grid grid-cols-12 gap-8 h-auto pb-24 bg-transparent">
 <!-- Appearance -->
 <div class="col-span-12 lg:col-span-6 glass-card p-8 rounded-xl flex flex-col justify-between scroll-mt-24" id="appearance">
 <div>
@@ -466,15 +483,15 @@
 <div class="space-y-3 flex-1">
 <label class="flex items-center justify-between p-3 bg-zinc-50 dark:bg-zinc-900/50 rounded-lg cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors">
 <span class="text-[10px] font-bold uppercase tracking-wider">Critical Errors</span>
-<input checked="" class="rounded border-zinc-300 text-black focus:ring-0" type="checkbox"/>
+<input checked="" class="rounded border-zinc-300 text-black focus:ring-0" type="checkbox" title="Toggle option" aria-label="Toggle option" />
 </label>
 <label class="flex items-center justify-between p-3 bg-zinc-50 dark:bg-zinc-900/50 rounded-lg cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors">
 <span class="text-[10px] font-bold uppercase tracking-wider">Tasks Done</span>
-<input checked="" class="rounded border-zinc-300 text-black focus:ring-0" type="checkbox"/>
+<input checked="" class="rounded border-zinc-300 text-black focus:ring-0" type="checkbox" title="Toggle option" aria-label="Toggle option" />
 </label>
 <label class="flex items-center justify-between p-3 bg-zinc-50 dark:bg-zinc-900/50 rounded-lg cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors">
 <span class="text-[10px] font-bold uppercase tracking-wider">Neural Insights</span>
-<input class="rounded border-zinc-300 text-black focus:ring-0" type="checkbox"/>
+<input class="rounded border-zinc-300 text-black focus:ring-0" type="checkbox" title="Toggle option" aria-label="Toggle option" />
 </label>
 </div>
 <button class="w-full mt-6 py-2 border border-zinc-200 dark:border-zinc-800 text-[9px] font-bold uppercase tracking-widest hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all rounded">Reset Logs</button>
@@ -508,11 +525,11 @@
 <!-- Footer -->
 <footer class="pt-12 border-t border-zinc-200 dark:border-zinc-800 flex items-center justify-between pb-12">
 <div class="flex items-center gap-12">
-<p class="text-[9px] text-zinc-400 font-bold uppercase tracking-[0.4em]">Â© 2024 NEXUS SYSTEMS INTERFACE</p>
+<p class="text-[9px] text-zinc-400 font-bold uppercase tracking-[0.4em]">© 2024 NEXUS SYSTEMS INTERFACE</p>
 <div class="flex gap-8">
-<a class="text-[9px] font-bold uppercase tracking-widest text-zinc-500 hover:text-black dark:hover:text-white transition-all" href="terms-and-conditions.html">Terms</a>
+<a class="text-[9px] font-bold uppercase tracking-widest text-zinc-500 hover:text-black dark:hover:text-white transition-all" href="terms_conditions_nexus_ai.html">Terms</a>
 <a class="text-[9px] font-bold uppercase tracking-widest text-zinc-500 hover:text-black dark:hover:text-white transition-all" href="#">Neural Safety</a>
-<a class="text-[9px] font-bold uppercase tracking-widest text-zinc-500 hover:text-black dark:hover:text-white transition-all" href="contact-us.html">Support</a>
+<a class="text-[9px] font-bold uppercase tracking-widest text-zinc-500 hover:text-black dark:hover:text-white transition-all" href="contact_us_nexus_ai_clean_header.html">Support</a>
 </div>
 </div>
 <div class="flex items-center gap-3">
@@ -521,7 +538,7 @@
 </div>
 </footer>
 </main>
-<script id="mesh-script">
+<script src="interactivity.js"></script><script id="mesh-script">
     const canvas = document.getElementById('canvas-mesh');
     if (canvas) {
         const ctx = canvas.getContext('2d');
@@ -542,42 +559,36 @@
         resize();
 
         const gridSize = 45;
-        const centralForce = 220;
+        
         const mouseForce = 150;
 
-        function applyPhysics(x, y, centerX, centerY) {
+        function applyPhysics(x, y) {
             let px = x;
             let py = y;
-            const dxC = px - centerX;
-            const dyC = py - centerY;
-            const distC = Math.sqrt(dxC * dxC + dyC * dyC);
-            if (distC < centralForce) {
-                const power = Math.pow((centralForce - distC) / centralForce, 2);
-                px += (dxC / distC) * 45 * power;
-                py += (dyC / distC) * 45 * power;
-            }
+            
             const dxM = px - mouse.x;
             const dyM = py - mouse.y;
             const distM = Math.sqrt(dxM * dxM + dyM * dyM);
+            
             if (distM < mouseForce) {
-                const power = Math.pow((mouseForce - distM) / mouseForce, 1.5);
-                px -= (dxM / distM) * 30 * power;
-                py -= (dyM / distM) * 30 * power;
+                // Liquid lens topographical push against mouse
+                const power = Math.pow((mouseForce - distM) / mouseForce, 2);
+                px += dxM * power * 1.5;
+                py += dyM * power * 1.5;
             }
+            
             return { x: px, y: py };
         }
 
         function draw() {
             ctx.clearRect(0, 0, width, height);
-            ctx.strokeStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)';
             ctx.lineWidth = 1;
-            const centerX = width > 1024 ? width * 0.65 : width / 2;
-            const centerY = height / 2;
 
             for (let x = 0; x <= width; x += gridSize) {
                 ctx.beginPath();
-                for (let y = 0; y <= height; y += 10) {
-                    const pos = applyPhysics(x, y, centerX, centerY);
+                for (let y = 0; y <= height; y += 4) {
+                    const pos = applyPhysics(x, y);
                     if (y === 0) ctx.moveTo(pos.x, pos.y);
                     else ctx.lineTo(pos.x, pos.y);
                 }
@@ -586,8 +597,8 @@
 
             for (let y = 0; y <= height; y += gridSize) {
                 ctx.beginPath();
-                for (let x = 0; x <= width; x += 10) {
-                    const pos = applyPhysics(x, y, centerX, centerY);
+                for (let x = 0; x <= width; x += 4) {
+                    const pos = applyPhysics(x, y);
                     if (x === 0) ctx.moveTo(pos.x, pos.y);
                     else ctx.lineTo(pos.x, pos.y);
                 }
@@ -598,4 +609,3 @@
         draw();
     }
 </script></body></html>
-

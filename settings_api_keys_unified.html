@@ -1,59 +1,59 @@
 <!DOCTYPE html>
 
-<html class="light" lang="en"><head>
+<html class="light" lang="en">
+<head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Nexus AI - Automation Settings</title>
-<!-- Fonts -->
-<!-- Material Icons -->
+<title>Nexus AI | API Keys Settings</title>
 <style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
+        body { font-family: 'Inter', sans-serif; }
+        .font-headline { font-family: 'Space Grotesk', sans-serif; }
         
-        /* Celestial Precision Background */
-        #interactive-canvas {
+        #grid-canvas {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
+            inset: 0;
+            z-index: 5;
+            pointer-events: none;
+            opacity: 0.15;
             background: #f9f9fb;
         }
 
         .glass-card {
-            background: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.7);
             -webkit-backdrop-filter: blur(24px);
       backdrop-filter: blur(24px);
             
             border: 1px solid rgba(0, 0, 0, 0.05);
         }
 
-        /* Nav Transition */
-        .nav-link-active {
-            color: #000 !important;
-            border-right: 2px solid #000;
-        }
-        
-        /* Custom Scrollbar for side nav */
-        aside::-webkit-scrollbar {
-            width: 2px;
-        }
-        aside::-webkit-scrollbar-thumb {
-            background: rgba(0,0,0,0.1);
+        .obsidian-button {
+            background: #000000;
+            color: #ffffff;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Range Input Styling */
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            height: 16px;
-            width: 16px;
-            border-radius: 50%;
-            background: #000;
-            cursor: pointer;
-            border: 2px solid white;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        .obsidian-button:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+        
+        .obsidian-button:active {
+            transform: scale(0.98);
+        }
+
+        .nav-item {
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 20%;
+            height: 60%;
+            width: 2px;
+            background: currentColor;
         }
     
         #canvas-mesh { position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index: 5; }
@@ -149,9 +149,7 @@
       </div>
     </header>
 
-<!-- Celestial Precision Interactive Grid -->
-<div class="flex min-h-screen relative z-10">
-<!-- SideNavBar (Celestial Precision Standard) -->
+<!-- SideNavBar Shell -->
 <aside class="fixed left-0 top-20 h-full flex flex-col bg-surface/80 backdrop-blur-xl w-64 border-r border-outline-variant/10 z-50">
 <div class="p-8">
 <h1 class="text-2xl font-bold tracking-tighter text-zinc-900 dark:text-zinc-50 font-headline uppercase">Nexus AI</h1>
@@ -174,7 +172,7 @@
 <span class="material-symbols-outlined text-xl" data-icon="verified_user">verified_user</span>
 <span class="text-sm">System Permissions</span>
 </a>
-<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-900 dark:text-zinc-50 font-bold active bg-zinc-100/50 dark:bg-zinc-900/50 font-headline tracking-tight cursor-pointer" href="settings_automation_unified.html">
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings_automation_unified.html">
 <span class="material-symbols-outlined text-xl" data-icon="settings_suggest">settings_suggest</span>
 <span class="text-sm">Automation Settings</span>
 </a>
@@ -194,7 +192,7 @@
 <span class="material-symbols-outlined text-xl" data-icon="security">security</span>
 <span class="text-sm">Privacy &amp; Security</span>
 </a>
-<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings_api_keys_unified.html">
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-900 dark:text-zinc-50 font-bold active bg-zinc-100/50 dark:bg-zinc-900/50 font-headline tracking-tight cursor-pointer" href="settings_api_keys_unified.html">
 <span class="material-symbols-outlined text-xl" data-icon="key">key</span>
 <span class="text-sm">API Keys</span>
 </a>
@@ -213,7 +211,7 @@
 </div>
 </div>
 </aside>
-<!-- Main Content Panel -->
+<!-- TopAppBar Shell -->
 
     
     
@@ -221,170 +219,109 @@
     
 
 
-    <main class="flex-1 min-h-screen relative overflow-y-auto bg-transparent">
-    <!-- TopAppBar -->
-<!-- Scrollable Canvas -->
-<div class="pt-20 pb-20 px-12 max-w-7xl mx-auto">
-<div class="mb-20">
-<h1 class="text-6xl font-headline font-black text-black tracking-tighter mb-6">Automation &amp; Autonomous Logic</h1>
-<p class="text-zinc-500 text-xl max-w-2xl leading-relaxed">Define the parameters for self-executing system tasks and cognitive initiative thresholds with surgical precision.</p>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-40 p-12 relative z-10 space-y-24 max-w-5xl mx-auto bg-transparent">
+<section class="grid grid-cols-12 gap-12 bg-transparent" id="api-keys">
+<div class="col-span-4">
+<h3 class="text-4xl font-headline font-bold tracking-tighter leading-none mb-4">API Key Access</h3>
+<p class="text-zinc-500 text-sm font-label leading-relaxed mb-6">Manage your secret keys for accessing the Nexus API endpoints externally.</p>
+<div class="bg-red-50 border border-red-200 rounded-lg p-4 text-red-800 text-xs">
+<strong class="block mb-1 font-bold">Security Warning</strong>
+                    Do not share your API keys in publicly accessible areas like GitHub, client-side code, or public forums. 
+                </div>
 </div>
-<!-- Bento Grid Layout -->
-<div class="grid grid-cols-12 gap-10">
-<!-- Scheduled Sequences -->
-<div class="col-span-8 glass-card p-10 rounded-sm shadow-2xl shadow-black/[0.02]">
-<div class="flex justify-between items-center mb-10">
-<div>
-<h3 class="text-xs font-headline uppercase tracking-[0.3em] font-black text-zinc-400 mb-2">Scheduled Sequences</h3>
-<p class="text-zinc-500 text-sm">Active recurring automation protocols</p>
-</div>
-<button class="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-black border border-black px-6 py-3 hover:bg-black hover:text-white transition-all active:scale-95">
-<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
-                            Create Protocol
+<div class="col-span-8">
+<div class="glass-card p-8 rounded-xl shadow-sm mb-8">
+<div class="flex justify-between items-center mb-6 border-b border-zinc-100 pb-4">
+<h4 class="font-headline font-bold text-lg">Active Keys</h4>
+<button class="obsidian-button px-4 py-2 text-xs font-bold uppercase tracking-widest rounded flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">add</span>
+                            Create new secret key
                         </button>
 </div>
 <div class="space-y-4">
-<!-- Protocol Item -->
-<div class="group flex items-center justify-between p-6 bg-white/50 border border-transparent hover:border-black/10 hover:bg-white/80 transition-all cursor-pointer rounded-sm">
-<div class="flex items-center gap-6">
-<div class="w-12 h-12 bg-black flex items-center justify-center rounded-sm">
-<span class="material-symbols-outlined text-white text-xl" data-icon="bolt">bolt</span>
-</div>
+<!-- Key Item 1 -->
+<div class="flex items-center justify-between p-4 bg-white border border-zinc-200 rounded-lg transition-all hover:border-zinc-300">
 <div>
-<h4 class="font-bold text-black text-base tracking-tight">Daily System Optimization</h4>
-<p class="text-xs text-zinc-400 mt-1">Executes at 04:00 UTC • 12 Modules affected</p>
+<h5 class="font-bold text-sm">Production Key Main</h5>
+<div class="flex items-center gap-3 mt-1">
+<!-- Scripted masking will reveal text when button clicked -->
+<span class="font-mono text-xs text-zinc-500 tracking-wider js-api-key" data-key="sk_live_51Mv9L2KxY7j8N3qR4wE5tY6uI7oO8pP9aA0sS1dD2fF3gG4hH5jJ6kK7lL">sk_live_*******************************************</span>
+<button class="text-zinc-400 hover:text-black transition-colors" onclick="toggleKeyVisibility(this)" title="Show/Hide">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+</button>
+</div>
+<p class="text-[10px] text-zinc-400 uppercase tracking-widest mt-2">Created: Apr 10, 2026 • Last Used: Today</p>
+</div>
+<div class="flex gap-2">
+<button class="p-2 border border-zinc-200 rounded text-zinc-500 hover:text-black hover:bg-zinc-50 transition-colors" onclick="copyKey('sk_live_51Mv9L2KxY7j8N3qR4wE5tY6uI7oO8pP9aA0sS1dD2fF3gG4hH5jJ6kK7lL')" title="Copy Key">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+</button>
+<button class="p-2 border border-red-100 bg-red-50 rounded text-red-600 hover:bg-red-100 transition-colors" title="Revoke Key">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
 </div>
 </div>
-<div class="flex items-center gap-6">
-<span class="text-[9px] font-black uppercase tracking-[0.2em] text-green-600 bg-green-50 px-3 py-1.5 rounded-full">Active</span>
-<button class="material-symbols-outlined text-zinc-300 hover:text-black transition-colors" data-icon="more_vert">more_vert</button>
-</div>
-</div>
-<div class="group flex items-center justify-between p-6 bg-white/50 border border-transparent hover:border-black/10 hover:bg-white/80 transition-all cursor-pointer rounded-sm">
-<div class="flex items-center gap-6">
-<div class="w-12 h-12 bg-black flex items-center justify-center rounded-sm">
-<span class="material-symbols-outlined text-white text-xl" data-icon="cached">cached</span>
-</div>
+<!-- Key Item 2 -->
+<div class="flex items-center justify-between p-4 bg-white border border-zinc-200 rounded-lg hover:border-zinc-300 transition-all">
 <div>
-<h4 class="font-bold text-black text-base tracking-tight">Neural Cache Cleanup</h4>
-<p class="text-xs text-zinc-400 mt-1">Weekly every Sunday • Frees ~14GB system memory</p>
+<h5 class="font-bold text-sm">Testing Environment Key</h5>
+<div class="flex items-center gap-3 mt-1">
+<span class="font-mono text-xs text-zinc-500 tracking-wider js-api-key" data-key="sk_test_9A7BcD6eF5gH4iJ3kL2mN1oP0qR9sT8uV7wX6yZ5aB4cD3eF">sk_test_****************************************</span>
+<button class="text-zinc-400 hover:text-black transition-colors" onclick="toggleKeyVisibility(this)" title="Show/Hide">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+</button>
 </div>
+<p class="text-[10px] text-zinc-400 uppercase tracking-widest mt-2">Created: Mar 15, 2026 • Last Used: Apr 02, 2026</p>
 </div>
-<div class="flex items-center gap-6">
-<span class="text-[9px] font-black uppercase tracking-[0.2em] text-green-600 bg-green-50 px-3 py-1.5 rounded-full">Active</span>
-<button class="material-symbols-outlined text-zinc-300 hover:text-black transition-colors" data-icon="more_vert">more_vert</button>
-</div>
-</div>
-<div class="group flex items-center justify-between p-6 bg-white/50 border border-transparent hover:border-black/10 hover:bg-white/80 transition-all cursor-pointer rounded-sm opacity-50 hover:opacity-100">
-<div class="flex items-center gap-6">
-<div class="w-12 h-12 bg-zinc-100 flex items-center justify-center rounded-sm">
-<span class="material-symbols-outlined text-zinc-400 text-xl" data-icon="cloud_sync">cloud_sync</span>
-</div>
-<div>
-<h4 class="font-bold text-black text-base tracking-tight">Remote Asset Synchronization</h4>
-<p class="text-xs text-zinc-400 mt-1">Pending server connection</p>
-</div>
-</div>
-<div class="flex items-center gap-6">
-<span class="text-[9px] font-black uppercase tracking-[0.2em] text-zinc-400 bg-zinc-100 px-3 py-1.5 rounded-full">Standby</span>
-<button class="material-symbols-outlined text-zinc-300 hover:text-black transition-colors" data-icon="more_vert">more_vert</button>
+<div class="flex gap-2">
+<button class="p-2 border border-zinc-200 rounded text-zinc-500 hover:text-black hover:bg-zinc-50 transition-colors" onclick="copyKey('sk_test_9A7BcD6eF5gH4iJ3kL2mN1oP0qR9sT8uV7wX6yZ5aB4cD3eF')" title="Copy Key">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+</button>
+<button class="p-2 border border-red-100 bg-red-50 rounded text-red-600 hover:bg-red-100 transition-colors" title="Revoke Key">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
 </div>
 </div>
 </div>
 </div>
-<!-- Right Column: Sensitivity & Image -->
-<div class="col-span-4 flex flex-col gap-10">
-<!-- Trigger Sensitivity -->
-<div class="glass-card p-10 rounded-sm shadow-2xl shadow-black/[0.02] flex-1">
-<h3 class="text-xs font-headline uppercase tracking-[0.3em] font-black text-zinc-400 mb-10">Trigger Sensitivity</h3>
-<div class="space-y-10">
-<div>
-<div class="flex justify-between items-end mb-6">
-<label class="text-sm font-bold text-black uppercase tracking-widest">Autonomous Initiative</label>
-<span class="text-xs font-mono text-zinc-400 font-bold">Lvl: <span id="sensitivity-value">0.74</span></span>
 </div>
-<input class="w-full h-1 bg-zinc-200 appearance-none cursor-pointer outline-none" id="sensitivity-range" max="100" min="0" type="range" value="74" title="Select value" aria-label="Select value" />
-<div class="flex justify-between mt-4">
-<span class="text-[9px] uppercase font-black text-zinc-300 tracking-[0.2em]">Passive</span>
-<span class="text-[9px] uppercase font-black text-zinc-300 tracking-[0.2em]">Aggressive</span>
-</div>
-</div>
-<p class="text-xs text-zinc-400 leading-relaxed italic border-l-2 border-zinc-100 pl-4 py-1">
-                                Determines the degree of predictive action the AI takes before requesting explicit user confirmation.
-                            </p>
-</div>
-</div>
-<!-- Visual Module -->
-<div class="rounded-sm overflow-hidden h-52 relative group cursor-pointer shadow-xl border border-black/5">
-<img alt="System visual" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-105" data-alt="Abstract glowing network nodes and complex data patterns in deep blue and silver representing AI neural connections" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCL_fHat5p4Ms54DwWeIs03FiFjvnKsjCjK_I0ooJAEkJMNpQtxvLDi8qq_7Abnj1Hga3YSgszRRiKMlEBI3jMg2_Uj23DLOoDtDk2z0PIUhjbTY7JIRISwuvCehvqiRYn-HzD_PZrcImhLttEG3txla95V1HvBheIvwGzB6WIbwzdlTur-1zsfUIvftnjZtffiLhPKOGYSYiOBGcAdKzMyIbF4goUTzu8DgEvnGHz0fQGSZWh87EJ8DX5uF4hFqMT83qixIfMQ7SFS"/>
-<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6">
-<div class="flex items-center gap-2">
-<div class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></div>
-<span class="text-[10px] font-black uppercase tracking-[0.2em] text-white">Neural Mapping Active</span>
-</div>
-</div>
-</div>
-</div>
-<!-- Conflict Resolution -->
-<div class="col-span-12 glass-card p-10 rounded-sm shadow-2xl shadow-black/[0.02]">
-<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-12">
-<div class="max-w-xl">
-<h3 class="text-xs font-headline uppercase tracking-[0.3em] font-black text-zinc-400 mb-6">Conflict Resolution</h3>
-<p class="text-sm text-zinc-500 leading-relaxed">Define the core logic hierarchy when autonomous tasks overlap or encounter unexpected variables. Priority will be assigned based on these logic gates.</p>
-</div>
-<div class="flex flex-wrap gap-4">
-<!-- Custom Interactive Radios -->
-<label class="cursor-pointer group">
-<input checked="" class="peer hidden" name="conflict" type="radio" title="Select option" aria-label="Select option" />
-<div class="flex items-center gap-4 px-8 py-5 bg-white border border-black/5 peer-checked:bg-black peer-checked:text-white transition-all duration-300 rounded-sm hover:border-black/20 group-active:scale-95 shadow-sm">
-<span class="material-symbols-outlined text-[20px]" data-icon="back_hand">back_hand</span>
-<span class="text-xs font-black uppercase tracking-[0.2em]">Manual Override</span>
-</div>
-</label>
-<label class="cursor-pointer group">
-<input class="peer hidden" name="conflict" type="radio" title="Select option" aria-label="Select option" />
-<div class="flex items-center gap-4 px-8 py-5 bg-white border border-black/5 peer-checked:bg-black peer-checked:text-white transition-all duration-300 rounded-sm hover:border-black/20 group-active:scale-95 shadow-sm">
-<span class="material-symbols-outlined text-[20px]" data-icon="auto_awesome">auto_awesome</span>
-<span class="text-xs font-black uppercase tracking-[0.2em]">AI Optimized</span>
-</div>
-</label>
-<label class="cursor-pointer group">
-<input class="peer hidden" name="conflict" type="radio" title="Select option" aria-label="Select option" />
-<div class="flex items-center gap-4 px-8 py-5 bg-white border border-black/5 peer-checked:bg-black peer-checked:text-white transition-all duration-300 rounded-sm hover:border-black/20 group-active:scale-95 shadow-sm">
-<span class="material-symbols-outlined text-[20px]" data-icon="verified_user">verified_user</span>
-<span class="text-xs font-black uppercase tracking-[0.2em]">Safety Priority</span>
-</div>
-</label>
-</div>
-</div>
-</div>
-<!-- Footer Dashboard Metrics -->
-<div class="col-span-12 flex flex-col md:flex-row justify-between items-center pt-10 border-t border-black/5 gap-8">
-<div class="flex gap-16">
-<div class="group">
-<span class="text-[9px] uppercase font-black text-zinc-300 tracking-[0.2em] block mb-2 group-hover:text-black transition-colors">Compute Load</span>
-<span class="text-sm font-black text-black font-mono">12.4% OPTIMAL</span>
-</div>
-<div class="group">
-<span class="text-[9px] uppercase font-black text-zinc-300 tracking-[0.2em] block mb-2 group-hover:text-black transition-colors">Last Sync</span>
-<span class="text-sm font-black text-black font-mono">02 OCT 14:22</span>
-</div>
-<div class="group">
-<span class="text-[9px] uppercase font-black text-zinc-300 tracking-[0.2em] block mb-2 group-hover:text-black transition-colors">Latency</span>
-<span class="text-sm font-black text-black font-mono">0.4ms</span>
-</div>
-</div>
-<div class="flex gap-6 items-center">
-<button class="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 hover:text-black transition-colors px-4 py-2">Discard</button>
-<button class="bg-black text-white text-[10px] font-black uppercase tracking-[0.2em] px-10 py-4 rounded-sm hover:bg-zinc-800 active:scale-95 transition-all shadow-xl shadow-black/10">
-                            Synchronize Nodes
-                        </button>
-</div>
-</div>
-</div>
-</div>
+</section>
 </main>
+<!-- Toast Notification (Hidden by default) -->
+<div class="fixed bottom-10 right-10 bg-black text-white px-6 py-3 rounded-xl transform translate-y-20 opacity-0 transition-all duration-300 shadow-2xl z-50 flex items-center gap-3" id="toast">
+<span class="material-symbols-outlined text-green-400">check_circle</span>
+<span class="text-sm font-bold tracking-wide">Copied to clipboard</span>
 </div>
+<script>
+        function toggleKeyVisibility(btn) {
+            const container = btn.parentElement;
+            const span = container.querySelector('.js-api-key');
+            const icon = btn.querySelector('.material-symbols-outlined');
+            const realKey = span.getAttribute('data-key');
+            const isHidden = span.innerText.includes('*');
+
+            if (isHidden) {
+                span.innerText = realKey;
+                icon.innerText = 'visibility_off';
+            } else {
+                const prefix = realKey.split('_')[0] + '_' + realKey.split('_')[1] + '_';
+                span.innerText = prefix + '*'.repeat(realKey.length - prefix.length);
+                icon.innerText = 'visibility';
+            }
+        }
+
+        function copyKey(key) {
+            navigator.clipboard.writeText(key).then(() => {
+                const toast = document.getElementById('toast');
+                toast.classList.remove('translate-y-20', 'opacity-0');
+                
+                setTimeout(() => {
+                    toast.classList.add('translate-y-20', 'opacity-0');
+                }, 3000);
+            });
+        }
+    </script>
 <script src="interactivity.js"></script><script id="mesh-script">
     const canvas = document.getElementById('canvas-mesh');
     if (canvas) {
@@ -455,4 +392,5 @@
         }
         draw();
     }
-</script></body></html>
+</script></body>
+</html>

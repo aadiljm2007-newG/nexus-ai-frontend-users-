@@ -5,6 +5,15 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Nexus AI | System Status</title>
 <style>
+        #canvas-mesh {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
         }
@@ -15,7 +24,8 @@
             background-size: 40px 40px;
         }
         .glass-card {
-            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+      backdrop-filter: blur(20px);
             background-color: rgba(255, 255, 255, 0.7);
         }
     </style>
@@ -89,50 +99,44 @@
     }
 </script><link rel="stylesheet" href="corporate-theme.css">
 </head>
-<body class="font-body bg-background text-on-surface min-h-screen flex flex-col overflow-x-hidden selection:bg-primary selection:text-white"><canvas id="canvas-mesh" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;"></canvas><header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/10">
-<div class="flex justify-between items-center px-8 py-5 w-full max-w-screen-2xl mx-auto">
-<a class="flex items-center gap-2" href="login.html">
-<span class="text-2xl font-bold tracking-tighter text-black uppercase font-headline">NEXUS AI</span>
-</a>
-<div class="flex items-center gap-8">
-<nav class="hidden md:flex gap-6">
-<a class="text-xs font-label uppercase tracking-widest text-primary hover:opacity-70 transition-opacity font-bold" href="login.html">Gateway</a>
-<a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="help-center.html">Help Center</a>
-<a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="system-status.html">System Status</a>
-<a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="settings-profile.html">Settings</a>
-</nav>
-<a class="material-symbols-outlined text-black cursor-pointer hover:opacity-70 transition-opacity" href="user-account.html">account_circle</a>
-</div>
-</div>
-</header>
+<body class="font-body bg-background text-on-surface min-h-screen flex flex-col overflow-x-hidden selection:bg-primary selection:text-white"><canvas id="canvas-mesh"></canvas>
+
+    <!-- Global Navigation Header -->
+    <header class="fixed top-0 w-full z-[100] bg-surface/80 backdrop-blur-xl border-b border-outline-variant/10">
+      <div class="flex justify-between items-center px-8 py-5 w-full max-w-screen-2xl mx-auto">
+        <a class="flex items-center gap-2" href="login.html">
+          <span class="text-2xl font-bold tracking-tighter text-black uppercase font-headline">NEXUS AI</span>
+        </a>
+        <div class="flex items-center gap-8">
+          <nav class="hidden md:flex gap-6">
+            <a class="text-xs font-label uppercase tracking-widest text-primary hover:opacity-70 transition-opacity font-bold" href="login.html">Gateway</a>
+            <a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="help-center.html">Help Center</a>
+            <a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="system-status.html">System Status</a>
+            <a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="settings-profile.html">Settings</a>
+          </nav>
+          <a class="material-symbols-outlined text-black cursor-pointer hover:opacity-70 transition-opacity" href="user-account.html">account_circle</a>
+        </div>
+      </div>
+    </header>
+
+    
+    
+    
+    
+
+
 <!-- Top Navigation Bar -->
-<nav class="fixed top-0 w-full z-50 bg-white/85 backdrop-blur-xl border-b border-black/[0.05] shadow-[0_20_50px_rgba(0,0,0,0.04)]">
-<div class="flex justify-between items-center px-8 h-16 w-full max-w-screen-2xl mx-auto">
-<div class="flex items-center gap-12">
-<span class="text-xl font-bold tracking-tighter text-black font-headline">Nexus AI</span>
-<div class="hidden md:flex items-center gap-8 text-sm font-headline">
-<a class="text-gray-500 hover:text-black transition-colors" href="#">Models</a>
-<a class="text-gray-500 hover:text-black transition-colors" href="#">API</a>
-<a class="text-gray-500 hover:text-black transition-colors" href="#">Studio</a>
-</div>
-</div>
-<div class="flex items-center gap-4">
-<button class="p-2 hover:bg-gray-50 transition-all active:scale-95 duration-200">
-<span class="material-symbols-outlined text-gray-500">notifications</span>
-</button>
-<button class="p-2 hover:bg-gray-50 transition-all active:scale-95 duration-200">
-<span class="material-symbols-outlined text-gray-500">settings</span>
-</button>
-<div class="w-8 h-8 rounded-full bg-surface-container-high border border-outline-variant/20 overflow-hidden">
-<img alt="User profile" data-alt="close-up portrait of a professional user with neutral lighting and clean studio background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0dKWAcyi7N5RAnGg9CslSJ_x3cjAPKNVw7_69rS8qCG1qs9vRZZosq1o8NcU3hUcIKJwRBfBvqhNYARkBGEcTFBvAN0VRp6ad7DIZM-efo6hcbNIFrZ3Im2kqabNKm3B9_0yiZKJ0Sjb7gJmFUGljy21oecPklx9L-arRIexYgH81890yq266jvkR0WGn7HPo6EMijpMLzhsppp3SwBvk6JsTvOIG4759M9Sexb35SQqahFzPMa1z_sOJga33MH9Dz4f6rsly-mRm"/>
-</div>
-</div>
-</div>
-</nav>
+
+    
+    
+    
+    
+
+
 <!-- Main Content Canvas -->
-<main class="pt-16 min-h-screen grid-background">
+<main class="pt-16 min-h-screen grid-background bg-transparent">
 <!-- Status Banner -->
-<section class="w-full px-8 pt-12 max-w-screen-2xl mx-auto">
+<section class="w-full px-8 pt-12 max-w-screen-2xl mx-auto bg-transparent">
 <div class="glass-card border border-outline-variant/15 p-4 flex items-center justify-between rounded-lg">
 <div class="flex items-center gap-4">
 <div class="relative flex h-3 w-3">
@@ -150,7 +154,7 @@
 </div>
 </section>
 <!-- Dashboard Layout -->
-<section class="p-8 max-w-screen-2xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8">
+<section class="p-8 max-w-screen-2xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8 bg-transparent">
 <!-- Node Health (Asymmetric Sidebar Style) -->
 <div class="md:col-span-4 space-y-8">
 <div class="glass-card border border-outline-variant/15 p-8 space-y-6">
@@ -282,7 +286,7 @@
 <footer class="relative z-20 w-full border-t border-outline-variant/10 bg-surface mt-auto">
 <div class="flex flex-col md:flex-row justify-between items-center px-12 py-10 w-full max-w-screen-2xl mx-auto">
 <div class="font-label text-[10px] tracking-widest uppercase text-secondary">
-            Â© 2024 NEXUS AI ECOSYSTEM
+            © 2024 NEXUS AI ECOSYSTEM
         </div>
 <nav class="flex gap-8 mt-6 md:mt-0">
 <a class="font-label text-[10px] tracking-widest uppercase text-secondary hover:text-primary transition-colors duration-300" href="terms-and-conditions.html">Terms &amp; Conditions</a>
@@ -312,20 +316,13 @@
         resize();
 
         const gridSize = 45;
-        const centralForce = 220;
+        
         const mouseForce = 150;
 
-        function applyPhysics(x, y, centerX, centerY) {
+        function applyPhysics(x, y) {
             let px = x;
             let py = y;
-            const dxC = px - centerX;
-            const dyC = py - centerY;
-            const distC = Math.sqrt(dxC * dxC + dyC * dyC);
-            if (distC < centralForce) {
-                const power = Math.pow((centralForce - distC) / centralForce, 2);
-                px += (dxC / distC) * 45 * power;
-                py += (dyC / distC) * 45 * power;
-            }
+            
             const dxM = px - mouse.x;
             const dyM = py - mouse.y;
             const distM = Math.sqrt(dxM * dxM + dyM * dyM);
@@ -339,15 +336,15 @@
 
         function draw() {
             ctx.clearRect(0, 0, width, height);
-            ctx.strokeStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)';
             ctx.lineWidth = 1;
-            const centerX = width > 1024 ? width * 0.65 : width / 2;
-            const centerY = height / 2;
+            
+            
 
             for (let x = 0; x <= width; x += gridSize) {
                 ctx.beginPath();
                 for (let y = 0; y <= height; y += 10) {
-                    const pos = applyPhysics(x, y, centerX, centerY);
+                    const pos = applyPhysics(x, y);
                     if (y === 0) ctx.moveTo(pos.x, pos.y);
                     else ctx.lineTo(pos.x, pos.y);
                 }
@@ -357,7 +354,7 @@
             for (let y = 0; y <= height; y += gridSize) {
                 ctx.beginPath();
                 for (let x = 0; x <= width; x += 10) {
-                    const pos = applyPhysics(x, y, centerX, centerY);
+                    const pos = applyPhysics(x, y);
                     if (x === 0) ctx.moveTo(pos.x, pos.y);
                     else ctx.lineTo(pos.x, pos.y);
                 }

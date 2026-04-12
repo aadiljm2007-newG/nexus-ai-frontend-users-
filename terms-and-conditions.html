@@ -5,6 +5,15 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>NEXUS AI | Terms &amp; Conditions</title>
 <style>
+        #canvas-mesh {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
@@ -93,27 +102,38 @@
     }
 </script><link rel="stylesheet" href="corporate-theme.css">
 </head>
-<body class="font-body bg-background text-on-surface min-h-screen flex flex-col overflow-x-hidden selection:bg-primary selection:text-white"><canvas id="canvas-mesh" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;"></canvas>
+<body class="font-body bg-background text-on-surface min-h-screen flex flex-col overflow-x-hidden selection:bg-primary selection:text-white"><canvas id="canvas-mesh"></canvas>
+
+    <!-- Global Navigation Header -->
+    <header class="fixed top-0 w-full z-[100] bg-surface/80 backdrop-blur-xl border-b border-outline-variant/10">
+      <div class="flex justify-between items-center px-8 py-5 w-full max-w-screen-2xl mx-auto">
+        <a class="flex items-center gap-2" href="login.html">
+          <span class="text-2xl font-bold tracking-tighter text-black uppercase font-headline">NEXUS AI</span>
+        </a>
+        <div class="flex items-center gap-8">
+          <nav class="hidden md:flex gap-6">
+            <a class="text-xs font-label uppercase tracking-widest text-primary hover:opacity-70 transition-opacity font-bold" href="login.html">Gateway</a>
+            <a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="help-center.html">Help Center</a>
+            <a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="system-status.html">System Status</a>
+            <a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="settings-profile.html">Settings</a>
+          </nav>
+          <a class="material-symbols-outlined text-black cursor-pointer hover:opacity-70 transition-opacity" href="user-account.html">account_circle</a>
+        </div>
+      </div>
+    </header>
+
 <!-- Top Progress Bar -->
 <div class="fixed top-0 left-0 w-full h-[2px] bg-outline-variant/10 z-[60]">
 <div class="scroll-progress h-full bg-primary scale-x-0"></div>
 </div>
 <!-- TopNavBar -->
-<nav class="fixed top-0 w-full z-50 h-16 bg-white/85 dark:bg-black/85 backdrop-blur-2xl border-b border-zinc-900/5 dark:border-zinc-100/5 shadow-[0px_20px_50px_rgba(0,0,0,0.04)]">
-<div class="flex justify-between items-center px-8 max-w-[1440px] mx-auto h-full">
-<div class="text-xl font-bold tracking-tighter text-zinc-950 dark:text-zinc-50 font-['Space_Grotesk']">
-                NEXUS AI
-            </div>
-<div class="hidden md:flex gap-8 items-center">
-<a class="text-zinc-500 dark:text-zinc-400 font-medium hover:text-zinc-950 dark:hover:text-zinc-50 transition-colors duration-300 font-['Space_Grotesk'] tracking-tight" href="#">Platform</a>
-<a class="text-zinc-500 dark:text-zinc-400 font-medium hover:text-zinc-950 dark:hover:text-zinc-50 transition-colors duration-300 font-['Space_Grotesk'] tracking-tight" href="#">Security</a>
-<a class="text-zinc-950 dark:text-zinc-50 font-semibold border-b-2 border-zinc-950 dark:border-zinc-50 pb-1 font-['Space_Grotesk'] tracking-tight" href="#">Legal</a>
-</div>
-<button class="bg-primary text-on-primary px-6 py-2 rounded-full font-medium scale-95 active:opacity-80 transition-all">
-                Connect
-            </button>
-</div>
-</nav>
+
+    
+    
+    
+    
+
+
 <!-- Side Indicators (Right) -->
 <aside class="fixed right-8 top-1/2 -translate-y-1/2 z-40 flex flex-col gap-6 items-end">
 <a class="group flex items-center gap-4" href="#introduction">
@@ -133,28 +153,19 @@
 <div class="w-1.5 h-1.5 rounded-full bg-outline-variant transition-transform duration-500 group-hover:scale-150 group-hover:bg-primary"></div>
 </a>
 </aside>
-<main class="grid-bg min-h-screen pt-24 pb-12">
-<!-- Hero Section -->
-<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/10">
-<div class="flex justify-between items-center px-8 py-5 w-full max-w-screen-2xl mx-auto">
-<a class="flex items-center gap-2" href="login.html">
-<span class="text-2xl font-bold tracking-tighter text-black uppercase font-headline">NEXUS AI</span>
-</a>
-<div class="flex items-center gap-8">
-<nav class="hidden md:flex gap-6">
-<a class="text-xs font-label uppercase tracking-widest text-primary hover:opacity-70 transition-opacity font-bold" href="login.html">Gateway</a>
-<a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="help-center.html">Help Center</a>
-<a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="system-status.html">System Status</a>
-<a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="settings-profile.html">Settings</a>
-</nav>
-<a class="material-symbols-outlined text-black cursor-pointer hover:opacity-70 transition-opacity" href="user-account.html">account_circle</a>
-</div>
-</div>
-</header>
+
+    
+    
+    
+    
+
+
+    <main class="grid-bg min-h-screen pt-24 pb-12 bg-transparent">
+    <!-- Hero Section -->
 <!-- Scroll Story Sections -->
 <div class="max-w-[1440px] mx-auto px-8 lg:px-24">
 <!-- Use of Service -->
-<section class="relative py-48 md:flex gap-20" id="privacy">
+<section class="relative py-48 md:flex gap-20 bg-transparent" id="privacy">
 <div class="md:w-1/2">
 <div class="sticky top-40">
 <span class="font-label text-xs font-bold text-primary/30 tracking-[0.3em]">01</span>
@@ -192,7 +203,7 @@
 </div>
 </section>
 <!-- Intellectual Property -->
-<section class="relative py-48 md:flex gap-20" id="governance">
+<section class="relative py-48 md:flex gap-20 bg-transparent" id="governance">
 <div class="md:w-1/2 order-2">
 <div class="sticky top-40">
 <span class="font-label text-xs font-bold text-primary/30 tracking-[0.3em]">02</span>
@@ -225,7 +236,7 @@
 </div>
 </section>
 <!-- Liability & Termination -->
-<section class="relative py-48 md:flex gap-20" id="compliance">
+<section class="relative py-48 md:flex gap-20 bg-transparent" id="compliance">
 <div class="md:w-1/2">
 <div class="sticky top-40">
 <span class="font-label text-xs font-bold text-primary/30 tracking-[0.3em]">03</span>
@@ -270,7 +281,7 @@
 </section>
 </div>
 <!-- Call to Action -->
-<section class="py-32 px-8">
+<section class="py-32 px-8 bg-transparent">
 <div class="max-w-4xl mx-auto bg-primary text-on-primary p-16 rounded-xl relative overflow-hidden">
 <div class="absolute top-0 right-0 p-12 opacity-10">
 <span class="material-symbols-outlined text-[12rem]">gavel</span>
@@ -290,7 +301,7 @@
 <footer class="relative z-20 w-full border-t border-outline-variant/10 bg-surface mt-auto">
 <div class="flex flex-col md:flex-row justify-between items-center px-12 py-10 w-full max-w-screen-2xl mx-auto">
 <div class="font-label text-[10px] tracking-widest uppercase text-secondary">
-            Â© 2024 NEXUS AI ECOSYSTEM
+            © 2024 NEXUS AI ECOSYSTEM
         </div>
 <nav class="flex gap-8 mt-6 md:mt-0">
 <a class="font-label text-[10px] tracking-widest uppercase text-secondary hover:text-primary transition-colors duration-300" href="terms-and-conditions.html">Terms &amp; Conditions</a>
@@ -320,20 +331,13 @@
         resize();
 
         const gridSize = 45;
-        const centralForce = 220;
+        
         const mouseForce = 150;
 
-        function applyPhysics(x, y, centerX, centerY) {
+        function applyPhysics(x, y) {
             let px = x;
             let py = y;
-            const dxC = px - centerX;
-            const dyC = py - centerY;
-            const distC = Math.sqrt(dxC * dxC + dyC * dyC);
-            if (distC < centralForce) {
-                const power = Math.pow((centralForce - distC) / centralForce, 2);
-                px += (dxC / distC) * 45 * power;
-                py += (dyC / distC) * 45 * power;
-            }
+            
             const dxM = px - mouse.x;
             const dyM = py - mouse.y;
             const distM = Math.sqrt(dxM * dxM + dyM * dyM);
@@ -347,15 +351,15 @@
 
         function draw() {
             ctx.clearRect(0, 0, width, height);
-            ctx.strokeStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)';
             ctx.lineWidth = 1;
-            const centerX = width > 1024 ? width * 0.65 : width / 2;
-            const centerY = height / 2;
+            
+            
 
             for (let x = 0; x <= width; x += gridSize) {
                 ctx.beginPath();
                 for (let y = 0; y <= height; y += 10) {
-                    const pos = applyPhysics(x, y, centerX, centerY);
+                    const pos = applyPhysics(x, y);
                     if (y === 0) ctx.moveTo(pos.x, pos.y);
                     else ctx.lineTo(pos.x, pos.y);
                 }
@@ -365,7 +369,7 @@
             for (let y = 0; y <= height; y += gridSize) {
                 ctx.beginPath();
                 for (let x = 0; x <= width; x += 10) {
-                    const pos = applyPhysics(x, y, centerX, centerY);
+                    const pos = applyPhysics(x, y);
                     if (x === 0) ctx.moveTo(pos.x, pos.y);
                     else ctx.lineTo(pos.x, pos.y);
                 }
