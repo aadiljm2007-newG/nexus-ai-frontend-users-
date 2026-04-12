@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nexus AI | Help Center</title>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .space-time-grid {
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, rgba(198, 198, 198, 0.08) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(198, 198, 198, 0.08) 1px, transparent 1px);
+        }
+        .obsidian-glass {
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+        }
+    </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script id="tailwind-config">
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+        extend: {
+            colors: {
+            "surface": "#f9f9fb",
+            "on-primary-fixed": "#ffffff",
+            "inverse-surface": "#2f3132",
+            "primary": "#000000",
+            "secondary": "#5f5e5e",
+            "tertiary-fixed": "#5e5e63",
+            "outline-variant": "#c6c6c6",
+            "on-tertiary-fixed": "#ffffff",
+            "tertiary-fixed-dim": "#46464b",
+            "tertiary": "#3a3b40",
+            "secondary-fixed": "#c8c6c5",
+            "on-secondary-container": "#1c1b1b",
+            "on-primary-fixed-variant": "#e2e2e2",
+            "outline": "#777777",
+            "on-secondary": "#ffffff",
+            "tertiary-container": "#747479",
+            "surface-dim": "#d9dadc",
+            "surface-container-highest": "#e2e2e4",
+            "surface-container-high": "#e8e8ea",
+            "on-primary-container": "#ffffff",
+            "secondary-fixed-dim": "#adabaa",
+            "surface-variant": "#e2e2e4",
+            "on-primary": "#e2e2e2",
+            "surface-container-lowest": "#ffffff",
+            "primary-container": "#3b3b3b",
+            "background": "#f9f9fb",
+            "inverse-on-surface": "#f0f0f2",
+            "secondary-container": "#d6d4d3",
+            "on-tertiary-container": "#ffffff",
+            "on-background": "#1a1c1d",
+            "on-error": "#ffffff",
+            "inverse-primary": "#c6c6c6",
+            "on-secondary-fixed-variant": "#3c3b3b",
+            "surface-container-low": "#f3f3f5",
+            "on-secondary-fixed": "#1c1b1b",
+            "primary-fixed-dim": "#474747",
+            "on-surface-variant": "#474747",
+            "error": "#ba1a1a",
+            "primary-fixed": "#5e5e5e",
+            "on-surface": "#1a1c1d",
+            "surface-container": "#eeeef0",
+            "on-error-container": "#410002",
+            "error-container": "#ffdad6",
+            "on-tertiary": "#e3e2e7",
+            "on-tertiary-fixed-variant": "#e3e2e7",
+            "surface-tint": "#5e5e5e",
+            "surface-bright": "#f9f9fb"
+            },
+            borderRadius: {
+            DEFAULT: "0.125rem",
+            lg: "0.25rem",
+            xl: "0.5rem",
+            full: "0.75rem"
+            },
+            fontFamily: {
+            headline: ["Space Grotesk"],
+            body: ["Inter"],
+            label: ["Inter"]
+            }
+        }
+        }
+    }
+</script></head>
+<body class="font-body bg-background text-on-surface min-h-screen flex flex-col overflow-x-hidden selection:bg-primary selection:text-white"><canvas id="canvas-mesh" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;"></canvas>
+<!-- Top Navigation Shell -->
+<nav class="fixed top-0 w-full z-50 bg-white/85 dark:bg-black/85 backdrop-blur-xl border-b border-black/[0.05] dark:border-white/[0.05] shadow-[0_20_50px_rgba(0,0,0,0.04)]">
+<div class="flex justify-between items-center px-8 h-16 w-full max-w-screen-2xl mx-auto">
+<div class="text-xl font-bold tracking-tighter text-black dark:text-white font-['Space_Grotesk']">
+                Nexus AI
+            </div>
+<div class="hidden md:flex items-center space-x-8 font-['Space_Grotesk'] tracking-tight">
+<a class="text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors" href="#">Models</a>
+<a class="text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors" href="#">API</a>
+<a class="text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors" href="#">Studio</a>
+</div>
+<div class="flex items-center space-x-4">
+<button class="p-2 hover:bg-gray-50 dark:hover:bg-neutral-900 transition-all active:scale-95 duration-200">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 hover:bg-gray-50 dark:hover:bg-neutral-900 transition-all active:scale-95 duration-200">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-container overflow-hidden ring-1 ring-black/5">
+<img alt="User profile" data-alt="close-up portrait of a man with clean studio lighting and neutral minimalist background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxlZO2F47kK74XmMQXphtg9_Mjrnlpjh0asZf30Xua0_wAFkkHF5HfYtAerEz_MrFAQtTmm6Jv16-qP8OBTA3aC3MGv0YbPYa_l7vSGp4wEdaw7-bHZNwqv_-b4JyEGuANEi4k6LWRlVnuuB-On9mxgRdIgr7utXIaJVKZG7CZSEL9ciccT3u6-p2szWDX_P445Och4sIrbxzZZyJ9rTbXsTXpgQ6owPCGpXDxRBBE5RkangiTbl0D2n-yE_J_hadHk21CLm1TZ2vZ"/>
+</div>
+</div>
+</div>
+</nav>
+<main class="min-h-screen pt-24 pb-32 space-time-grid relative overflow-hidden">
+<!-- Hero Section -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/10">
+<div class="flex justify-between items-center px-8 py-5 w-full max-w-screen-2xl mx-auto">
+<a class="flex items-center gap-2" href="nexus_ai_login_refined_grid_cursor.html">
+<span class="text-2xl font-bold tracking-tighter text-black uppercase font-headline">NEXUS AI</span>
+</a>
+<div class="flex items-center gap-8">
+<nav class="hidden md:flex gap-6">
+<a class="text-xs font-label uppercase tracking-widest text-primary hover:opacity-70 transition-opacity font-bold" href="nexus_ai_login_refined_grid_cursor.html">Gateway</a>
+<a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="help_center_hub.html">Help Center</a>
+<a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="system_status_dashboard.html">System Status</a>
+<a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="settings_profile_unified.html">Settings</a>
+</nav>
+<a class="material-symbols-outlined text-black cursor-pointer hover:opacity-70 transition-opacity" href="nexus_ai_user_account_unified_background.html">account_circle</a>
+</div>
+</div>
+</header>
+<!-- Main Content Layout -->
+<div class="max-w-screen-2xl mx-auto px-8 flex flex-col md:flex-row gap-12 relative z-10">
+<!-- Side Navigation Shell (Mapped to Documentation Component) -->
+<aside class="hidden md:flex flex-col w-64 space-y-2 h-fit sticky top-32">
+<div class="mb-8 px-6">
+<div class="text-lg font-bold text-black font-headline">Documentation</div>
+<div class="text-xs text-primary-fixed">v2.4.0-alpha</div>
+</div>
+<nav class="flex flex-col space-y-1">
+<button class="flex items-center gap-3 px-6 py-3 text-sm font-medium transition-transform duration-200 hover:translate-x-1 text-gray-500 hover:bg-white/50">
+<span class="material-symbols-outlined text-[20px]" data-icon="menu_book">menu_book</span>
+<span>Introduction</span>
+</button>
+<button class="flex items-center gap-3 px-6 py-3 text-sm font-medium transition-transform duration-200 hover:translate-x-1 text-gray-500 hover:bg-white/50">
+<span class="material-symbols-outlined text-[20px]" data-icon="bolt">bolt</span>
+<span>Quickstart</span>
+</button>
+<!-- Active State: Help Center (since we are on FAQ) -->
+<button class="flex items-center gap-3 px-6 py-3 text-sm font-bold bg-white text-black ring-1 ring-black/5 shadow-sm">
+<span class="material-symbols-outlined text-[20px]" data-icon="help">help</span>
+<span>Help Center</span>
+</button>
+<button class="flex items-center gap-3 px-6 py-3 text-sm font-medium transition-transform duration-200 hover:translate-x-1 text-gray-500 hover:bg-white/50">
+<span class="material-symbols-outlined text-[20px]" data-icon="code">code</span>
+<span>SDK Reference</span>
+</button>
+</nav>
+<div class="pt-12 px-6">
+<button class="w-full obsidian-glass text-on-primary py-3 font-headline text-sm font-bold tracking-tight hover:opacity-90 active:scale-95 transition-all">
+                        Get API Key
+                    </button>
+</div>
+</aside>
+<!-- FAQ Accordion Sections -->
+<div class="flex-1 space-y-24">
+<!-- Category: Billing -->
+<section id="billing">
+<div class="flex items-center gap-4 mb-8">
+<div class="w-12 h-12 bg-black flex items-center justify-center text-white">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+</div>
+<h2 class="text-2xl font-headline font-bold uppercase tracking-tight">Billing</h2>
+</div>
+<div class="space-y-4">
+<!-- FAQ Item 1 -->
+<div class="group bg-surface-container-lowest ring-1 ring-black/[0.03] transition-all hover:ring-black/[0.08] cursor-pointer">
+<div class="flex items-center justify-between p-8">
+<h3 class="text-lg font-medium">How does the monthly token cycle work?</h3>
+<span class="material-symbols-outlined transition-transform group-hover:rotate-180" data-icon="expand_more">expand_more</span>
+</div>
+<div class="hidden group-focus-within:block px-8 pb-8 text-on-surface-variant font-light leading-relaxed max-w-3xl">
+                                Tokens are refreshed on the first day of each calendar month at 00:00 UTC. Unused tokens from the previous month do not roll over to the next cycle to maintain system equilibrium.
+                            </div>
+</div>
+<!-- FAQ Item 2 -->
+<div class="group bg-surface-container-lowest ring-1 ring-black/[0.03] transition-all hover:ring-black/[0.08] cursor-pointer">
+<div class="flex items-center justify-between p-8">
+<h3 class="text-lg font-medium">Can I upgrade my plan mid-cycle?</h3>
+<span class="material-symbols-outlined" data-icon="expand_more">expand_more</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Category: AI Accuracy -->
+<section id="accuracy">
+<div class="flex items-center gap-4 mb-8">
+<div class="w-12 h-12 bg-black flex items-center justify-center text-white">
+<span class="material-symbols-outlined" data-icon="psychology">psychology</span>
+</div>
+<h2 class="text-2xl font-headline font-bold uppercase tracking-tight">AI Accuracy</h2>
+</div>
+<div class="space-y-4">
+<div class="group bg-surface-container-lowest ring-1 ring-black/[0.03] transition-all hover:ring-black/[0.08] cursor-pointer">
+<div class="flex items-center justify-between p-8">
+<h3 class="text-lg font-medium">What is the training cutoff for Nexus 4?</h3>
+<span class="material-symbols-outlined" data-icon="expand_more">expand_more</span>
+</div>
+</div>
+<div class="group bg-surface-container-lowest ring-1 ring-black/[0.03] transition-all hover:ring-black/[0.08] cursor-pointer">
+<div class="flex items-center justify-between p-8">
+<h3 class="text-lg font-medium">How do you mitigate algorithmic hallucinations?</h3>
+<span class="material-symbols-outlined" data-icon="expand_more">expand_more</span>
+</div>
+<div class="hidden group-focus-within:block px-8 pb-8 text-on-surface-variant font-light leading-relaxed max-w-3xl">
+                                Nexus AI utilizes a proprietary Retrieval-Augmented Generation (RAG) architecture that cross-references all outputs against verified technical vector databases before final synthesis.
+                            </div>
+</div>
+</div>
+</section>
+<!-- Category: Privacy & Safety -->
+<section id="safety">
+<div class="flex items-center gap-4 mb-8">
+<div class="w-12 h-12 bg-black flex items-center justify-center text-white">
+<span class="material-symbols-outlined" data-icon="verified_user">verified_user</span>
+</div>
+<h2 class="text-2xl font-headline font-bold uppercase tracking-tight">Privacy &amp; Safety</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="p-8 bg-surface-container-lowest ring-1 ring-black/[0.03] hover:ring-black/[0.08] transition-all group">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-primary-fixed" data-icon="lock">lock</span>
+<h3 class="font-bold font-headline uppercase text-sm tracking-widest">End-to-End Encryption</h3>
+</div>
+<p class="text-sm text-on-surface-variant font-light leading-relaxed">
+                                All API requests and data transfers are protected by AES-256 military-grade encryption in transit and at rest.
+                            </p>
+</div>
+<div class="p-8 bg-surface-container-lowest ring-1 ring-black/[0.03] hover:ring-black/[0.08] transition-all group">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-primary-fixed" data-icon="visibility_off">visibility_off</span>
+<h3 class="font-bold font-headline uppercase text-sm tracking-widest">No-Training Clause</h3>
+</div>
+<p class="text-sm text-on-surface-variant font-light leading-relaxed">
+                                Nexus Enterprise tier users are automatically opted out of all model training protocols. Your data remains yours.
+                            </p>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+<!-- Footer Shell -->
+<footer class="relative z-20 w-full border-t border-outline-variant/10 bg-surface mt-auto">
+<div class="flex flex-col md:flex-row justify-between items-center px-12 py-10 w-full max-w-screen-2xl mx-auto">
+<div class="font-label text-[10px] tracking-widest uppercase text-secondary">
+            © 2024 NEXUS AI ECOSYSTEM
+        </div>
+<nav class="flex gap-8 mt-6 md:mt-0">
+<a class="font-label text-[10px] tracking-widest uppercase text-secondary hover:text-primary transition-colors duration-300" href="terms_conditions_nexus_ai.html">Terms &amp; Conditions</a>
+<a class="font-label text-[10px] tracking-widest uppercase text-secondary hover:text-primary transition-colors duration-300" href="api_documentation.html">API Docs</a>
+<a class="font-label text-[10px] tracking-widest uppercase text-secondary hover:text-primary transition-colors duration-300" href="privacy_policy_nexus_ai.html">Privacy</a>
+</nav>
+</div>
+</footer>
+<!-- Floating Gravity Grid Elements (Decorative) -->
+<div class="fixed top-0 right-0 w-1/3 h-full pointer-events-none opacity-20 -z-0">
+<div class="absolute inset-0 bg-gradient-to-l from-primary/5 to-transparent"></div>
+</div>
+<script id="mesh-script">
+    const canvas = document.getElementById('canvas-mesh');
+    if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let mouse = { x: -1000, y: -1000 };
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resize);
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+
+        resize();
+
+        const gridSize = 45;
+        const centralForce = 220;
+        const mouseForce = 150;
+
+        function applyPhysics(x, y, centerX, centerY) {
+            let px = x;
+            let py = y;
+            const dxC = px - centerX;
+            const dyC = py - centerY;
+            const distC = Math.sqrt(dxC * dxC + dyC * dyC);
+            if (distC < centralForce) {
+                const power = Math.pow((centralForce - distC) / centralForce, 2);
+                px += (dxC / distC) * 45 * power;
+                py += (dyC / distC) * 45 * power;
+            }
+            const dxM = px - mouse.x;
+            const dyM = py - mouse.y;
+            const distM = Math.sqrt(dxM * dxM + dyM * dyM);
+            if (distM < mouseForce) {
+                const power = Math.pow((mouseForce - distM) / mouseForce, 1.5);
+                px -= (dxM / distM) * 30 * power;
+                py -= (dyM / distM) * 30 * power;
+            }
+            return { x: px, y: py };
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, width, height);
+            ctx.strokeStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.lineWidth = 1;
+            const centerX = width > 1024 ? width * 0.65 : width / 2;
+            const centerY = height / 2;
+
+            for (let x = 0; x <= width; x += gridSize) {
+                ctx.beginPath();
+                for (let y = 0; y <= height; y += 10) {
+                    const pos = applyPhysics(x, y, centerX, centerY);
+                    if (y === 0) ctx.moveTo(pos.x, pos.y);
+                    else ctx.lineTo(pos.x, pos.y);
+                }
+                ctx.stroke();
+            }
+
+            for (let y = 0; y <= height; y += gridSize) {
+                ctx.beginPath();
+                for (let x = 0; x <= width; x += 10) {
+                    const pos = applyPhysics(x, y, centerX, centerY);
+                    if (x === 0) ctx.moveTo(pos.x, pos.y);
+                    else ctx.lineTo(pos.x, pos.y);
+                }
+                ctx.stroke();
+            }
+            requestAnimationFrame(draw);
+        }
+        draw();
+    }
+</script></body></html>
