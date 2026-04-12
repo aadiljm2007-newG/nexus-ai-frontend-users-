@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html class="light" lang="en"><head>
 <meta charset="utf-8"/>
@@ -107,7 +107,8 @@
         }
         }
     }
-</script></head>
+</script><link rel="stylesheet" href="corporate-theme.css">
+</head>
 <body class="font-body bg-background text-on-surface min-h-screen flex flex-col overflow-x-hidden selection:bg-primary selection:text-white"><canvas id="canvas-mesh" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;"></canvas>
 <!-- TopNavBar -->
 <nav class="fixed top-0 w-full z-50 bg-white/80 dark:bg-black/80 backdrop-blur-xl flex justify-between items-center px-8 h-16 border-b border-black/5">
@@ -141,43 +142,43 @@
 <p class="text-[10px] uppercase tracking-[0.2em] font-bold text-zinc-400">System Configuration</p>
 </div>
 <nav class="flex-1 overflow-y-auto py-4 px-4 space-y-1">
-<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black dark:hover:text-white transition-all duration-300 ease-in-out hover:bg-black/5 dark:hover:bg-white/5 group" href="settings_profile_unified.html">
+<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black dark:hover:text-white transition-all duration-300 ease-in-out hover:bg-black/5 dark:hover:bg-white/5 group" href="settings-profile.html">
 <span class="material-symbols-outlined text-sm" data-icon="person">person</span>
 <span class="font-headline text-sm tracking-wide uppercase font-medium">Profile</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black dark:hover:text-white transition-all duration-300 ease-in-out hover:bg-black/5 dark:hover:bg-white/5 group" href="settings_ai_behavior_unified.html">
+<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black dark:hover:text-white transition-all duration-300 ease-in-out hover:bg-black/5 dark:hover:bg-white/5 group" href="settings-ai-behavior.html">
 <span class="material-symbols-outlined text-sm" data-icon="psychology">psychology</span>
 <span class="font-headline text-sm tracking-wide uppercase font-medium">AI Behavior</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black dark:hover:text-white transition-all duration-300 ease-in-out hover:bg-black/5 dark:hover:bg-white/5 group" href="settings_voice_interaction_unified.html">
+<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black dark:hover:text-white transition-all duration-300 ease-in-out hover:bg-black/5 dark:hover:bg-white/5 group" href="settings-voice-interaction.html">
 <span class="material-symbols-outlined text-sm" data-icon="record_voice_over">record_voice_over</span>
 <span class="font-headline text-sm tracking-wide uppercase font-medium">Voice &amp; Interaction</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-3 nav-link-active transition-all duration-300 ease-in-out group" href="settings_system_permissions_unified.html">
+<a class="flex items-center gap-3 px-4 py-3 nav-link-active transition-all duration-300 ease-in-out group" href="settings-system-permissions.html">
 <span class="material-symbols-outlined text-sm" data-icon="key">key</span>
 <span class="font-headline text-sm tracking-wide uppercase font-medium">System Permissions</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black dark:hover:text-white transition-all duration-300 ease-in-out hover:bg-black/5 dark:hover:bg-white/5 group" href="settings_automation_unified.html">
+<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black dark:hover:text-white transition-all duration-300 ease-in-out hover:bg-black/5 dark:hover:bg-white/5 group" href="settings-automation.html">
 <span class="material-symbols-outlined text-sm" data-icon="robot">robot</span>
 <span class="font-headline text-sm tracking-wide uppercase font-medium">Automation Settings</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black dark:hover:text-white transition-all duration-300 ease-in-out hover:bg-black/5 dark:hover:bg-white/5 group" href="settings_integrations_unified.html">
+<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black dark:hover:text-white transition-all duration-300 ease-in-out hover:bg-black/5 dark:hover:bg-white/5 group" href="settings-integrations.html">
 <span class="material-symbols-outlined text-sm" data-icon="extension">extension</span>
 <span class="font-headline text-sm tracking-wide uppercase font-medium">Integrations</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black dark:hover:text-white transition-all duration-300 ease-in-out hover:bg-black/5 dark:hover:bg-white/5 group" href="settings_notifications_unified.html">
+<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black dark:hover:text-white transition-all duration-300 ease-in-out hover:bg-black/5 dark:hover:bg-white/5 group" href="settings-notifications.html">
 <span class="material-symbols-outlined text-sm" data-icon="notifications">notifications</span>
 <span class="font-headline text-sm tracking-wide uppercase font-medium">Notifications</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black dark:hover:text-white transition-all duration-300 ease-in-out hover:bg-black/5 dark:hover:bg-white/5 group" href="settings_appearance_unified.html">
+<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black dark:hover:text-white transition-all duration-300 ease-in-out hover:bg-black/5 dark:hover:bg-white/5 group" href="settings-appearance.html">
 <span class="material-symbols-outlined text-sm" data-icon="palette">palette</span>
 <span class="font-headline text-sm tracking-wide uppercase font-medium">Appearance</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black dark:hover:text-white transition-all duration-300 ease-in-out hover:bg-black/5 dark:hover:bg-white/5 group" href="settings_security_privacy_unified.html">
+<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black dark:hover:text-white transition-all duration-300 ease-in-out hover:bg-black/5 dark:hover:bg-white/5 group" href="settings-security-privacy.html">
 <span class="material-symbols-outlined text-sm" data-icon="shield">shield</span>
 <span class="font-headline text-sm tracking-wide uppercase font-medium">Privacy &amp; Security</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black dark:hover:text-white transition-all duration-300 ease-in-out hover:bg-black/5 dark:hover:bg-white/5 group" href="settings_advanced_unified.html">
+<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black dark:hover:text-white transition-all duration-300 ease-in-out hover:bg-black/5 dark:hover:bg-white/5 group" href="settings-advanced.html">
 <span class="material-symbols-outlined text-sm" data-icon="terminal">terminal</span>
 <span class="font-headline text-sm tracking-wide uppercase font-medium">Advanced</span>
 </a>
@@ -314,8 +315,8 @@
 <div class="flex items-center gap-4">
 <span class="material-symbols-outlined text-zinc-400 group-hover:text-black transition-colors" data-icon="laptop_mac">laptop_mac</span>
 <div>
-<p class="text-sm font-semibold text-black">Nexus Hub Pro — Palo Alto, CA</p>
-<p class="text-xs text-zinc-400">Current Session • Active now</p>
+<p class="text-sm font-semibold text-black">Nexus Hub Pro â€” Palo Alto, CA</p>
+<p class="text-xs text-zinc-400">Current Session â€¢ Active now</p>
 </div>
 </div>
 <span class="text-[10px] font-bold px-2 py-1 bg-green-50 text-green-700 tracking-wider">PRIMARY</span>
@@ -324,7 +325,7 @@
 <div class="flex items-center gap-4">
 <span class="material-symbols-outlined text-zinc-400 group-hover:text-black transition-colors" data-icon="smartphone">smartphone</span>
 <div>
-<p class="text-sm font-semibold text-black">Mobile Interface — London, UK</p>
+<p class="text-sm font-semibold text-black">Mobile Interface â€” London, UK</p>
 <p class="text-xs text-zinc-400">Last activity: 14 mins ago</p>
 </div>
 </div>
@@ -334,7 +335,7 @@
 <div class="flex items-center gap-4">
 <span class="material-symbols-outlined text-zinc-400 group-hover:text-black transition-colors" data-icon="terminal">terminal</span>
 <div>
-<p class="text-sm font-semibold text-black">SSH Console — Node-774</p>
+<p class="text-sm font-semibold text-black">SSH Console â€” Node-774</p>
 <p class="text-xs text-zinc-400">Last activity: 2 hours ago</p>
 </div>
 </div>
@@ -438,3 +439,4 @@
         draw();
     }
 </script></body></html>
+

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html class="light" lang="en"><head>
 <meta charset="utf-8"/>
@@ -129,7 +129,8 @@
         }
         }
     }
-</script></head>
+</script><link rel="stylesheet" href="corporate-theme.css">
+</head>
 <body class="font-body bg-background text-on-surface min-h-screen flex flex-col overflow-x-hidden selection:bg-primary selection:text-white"><canvas id="canvas-mesh" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;"></canvas>
 <!-- Interactive Space-Time Grid Background -->
 <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden" id="grid-container">
@@ -168,39 +169,39 @@
 <p class="text-[10px] uppercase tracking-[0.2em] font-bold text-zinc-400">System Configuration</p>
 </div>
 <nav class="flex-1 px-4 space-y-1 overflow-y-auto">
-<a class="group flex items-center gap-4 px-4 py-3 text-zinc-400 hover:text-black hover:bg-black/5 transition-all duration-200 font-headline text-xs tracking-[0.15em] uppercase font-medium" href="settings_profile_unified.html">
+<a class="group flex items-center gap-4 px-4 py-3 text-zinc-400 hover:text-black hover:bg-black/5 transition-all duration-200 font-headline text-xs tracking-[0.15em] uppercase font-medium" href="settings-profile.html">
 <span class="material-symbols-outlined text-xl group-hover:scale-110 transition-transform" data-icon="person">person</span>
 <span>Profile</span>
 </a>
-<a class="flex items-center gap-4 px-4 py-3 sidebar-link-active font-headline text-xs tracking-[0.15em] uppercase font-bold" href="settings_ai_behavior_unified.html">
+<a class="flex items-center gap-4 px-4 py-3 sidebar-link-active font-headline text-xs tracking-[0.15em] uppercase font-bold" href="settings-ai-behavior.html">
 <span class="material-symbols-outlined text-xl" data-icon="psychology" style="font-variation-settings: 'FILL' 1;">psychology</span>
 <span>AI Behavior</span>
 </a>
-<a class="group flex items-center gap-4 px-4 py-3 text-zinc-400 hover:text-black hover:bg-black/5 transition-all duration-200 font-headline text-xs tracking-[0.15em] uppercase font-medium" href="settings_voice_interaction_unified.html">
+<a class="group flex items-center gap-4 px-4 py-3 text-zinc-400 hover:text-black hover:bg-black/5 transition-all duration-200 font-headline text-xs tracking-[0.15em] uppercase font-medium" href="settings-voice-interaction.html">
 <span class="material-symbols-outlined text-xl group-hover:scale-110 transition-transform" data-icon="record_voice_over">record_voice_over</span>
 <span>Voice &amp; Interaction</span>
 </a>
-<a class="group flex items-center gap-4 px-4 py-3 text-zinc-400 hover:text-black hover:bg-black/5 transition-all duration-200 font-headline text-xs tracking-[0.15em] uppercase font-medium" href="settings_system_permissions_unified.html">
+<a class="group flex items-center gap-4 px-4 py-3 text-zinc-400 hover:text-black hover:bg-black/5 transition-all duration-200 font-headline text-xs tracking-[0.15em] uppercase font-medium" href="settings-system-permissions.html">
 <span class="material-symbols-outlined text-xl group-hover:scale-110 transition-transform" data-icon="key">key</span>
 <span>System Permissions</span>
 </a>
-<a class="group flex items-center gap-4 px-4 py-3 text-zinc-400 hover:text-black hover:bg-black/5 transition-all duration-200 font-headline text-xs tracking-[0.15em] uppercase font-medium" href="settings_automation_unified.html">
+<a class="group flex items-center gap-4 px-4 py-3 text-zinc-400 hover:text-black hover:bg-black/5 transition-all duration-200 font-headline text-xs tracking-[0.15em] uppercase font-medium" href="settings-automation.html">
 <span class="material-symbols-outlined text-xl group-hover:scale-110 transition-transform" data-icon="robot">robot</span>
 <span>Automation Settings</span>
 </a>
-<a class="group flex items-center gap-4 px-4 py-3 text-zinc-400 hover:text-black hover:bg-black/5 transition-all duration-200 font-headline text-xs tracking-[0.15em] uppercase font-medium" href="settings_integrations_unified.html">
+<a class="group flex items-center gap-4 px-4 py-3 text-zinc-400 hover:text-black hover:bg-black/5 transition-all duration-200 font-headline text-xs tracking-[0.15em] uppercase font-medium" href="settings-integrations.html">
 <span class="material-symbols-outlined text-xl group-hover:scale-110 transition-transform" data-icon="extension">extension</span>
 <span>Integrations</span>
 </a>
-<a class="group flex items-center gap-4 px-4 py-3 text-zinc-400 hover:text-black hover:bg-black/5 transition-all duration-200 font-headline text-xs tracking-[0.15em] uppercase font-medium" href="settings_notifications_unified.html">
+<a class="group flex items-center gap-4 px-4 py-3 text-zinc-400 hover:text-black hover:bg-black/5 transition-all duration-200 font-headline text-xs tracking-[0.15em] uppercase font-medium" href="settings-notifications.html">
 <span class="material-symbols-outlined text-xl group-hover:scale-110 transition-transform" data-icon="notifications">notifications</span>
 <span>Notifications</span>
 </a>
-<a class="group flex items-center gap-4 px-4 py-3 text-zinc-400 hover:text-black hover:bg-black/5 transition-all duration-200 font-headline text-xs tracking-[0.15em] uppercase font-medium" href="settings_appearance_unified.html">
+<a class="group flex items-center gap-4 px-4 py-3 text-zinc-400 hover:text-black hover:bg-black/5 transition-all duration-200 font-headline text-xs tracking-[0.15em] uppercase font-medium" href="settings-appearance.html">
 <span class="material-symbols-outlined text-xl group-hover:scale-110 transition-transform" data-icon="palette">palette</span>
 <span>Appearance</span>
 </a>
-<a class="group flex items-center gap-4 px-4 py-3 text-zinc-400 hover:text-black hover:bg-black/5 transition-all duration-200 font-headline text-xs tracking-[0.15em] uppercase font-medium" href="settings_security_privacy_unified.html">
+<a class="group flex items-center gap-4 px-4 py-3 text-zinc-400 hover:text-black hover:bg-black/5 transition-all duration-200 font-headline text-xs tracking-[0.15em] uppercase font-medium" href="settings-security-privacy.html">
 <span class="material-symbols-outlined text-xl group-hover:scale-110 transition-transform" data-icon="shield">shield</span>
 <span>Privacy &amp; Security</span>
 </a>
@@ -487,3 +488,4 @@
         draw();
     }
 </script></body></html>
+

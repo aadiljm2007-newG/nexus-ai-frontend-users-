@@ -1,4 +1,4 @@
-import os
+﻿import os
 from bs4 import BeautifulSoup
 import glob
 
@@ -167,17 +167,17 @@ CANVAS_SCRIPT = """
 MAIN_NAVBAR_HTML = """
 <header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/10">
     <div class="flex justify-between items-center px-8 py-5 w-full max-w-screen-2xl mx-auto">
-        <a href="nexus_ai_login_refined_grid_cursor.html" class="flex items-center gap-2">
+        <a href="login.html" class="flex items-center gap-2">
             <span class="text-2xl font-bold tracking-tighter text-black uppercase font-headline">NEXUS AI</span>
         </a>
         <div class="flex items-center gap-8">
             <nav class="hidden md:flex gap-6">
-                <a class="text-xs font-label uppercase tracking-widest text-primary hover:opacity-70 transition-opacity font-bold" href="nexus_ai_login_refined_grid_cursor.html">Gateway</a>
-                <a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="help_center_hub.html">Help Center</a>
-                <a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="system_status_dashboard.html">System Status</a>
-                <a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="settings_profile_unified.html">Settings</a>
+                <a class="text-xs font-label uppercase tracking-widest text-primary hover:opacity-70 transition-opacity font-bold" href="login.html">Gateway</a>
+                <a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="help-center.html">Help Center</a>
+                <a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="system-status.html">System Status</a>
+                <a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="settings-profile.html">Settings</a>
             </nav>
-            <a href="nexus_ai_user_account_unified_background.html" class="material-symbols-outlined text-black cursor-pointer hover:opacity-70 transition-opacity">account_circle</a>
+            <a href="user-account.html" class="material-symbols-outlined text-black cursor-pointer hover:opacity-70 transition-opacity">account_circle</a>
         </div>
     </div>
 </header>
@@ -187,12 +187,12 @@ FOOTER_HTML = """
 <footer class="relative z-20 w-full border-t border-outline-variant/10 bg-surface mt-auto">
     <div class="flex flex-col md:flex-row justify-between items-center px-12 py-10 w-full max-w-screen-2xl mx-auto">
         <div class="font-label text-[10px] tracking-widest uppercase text-secondary">
-            © 2024 NEXUS AI ECOSYSTEM
+            Â© 2024 NEXUS AI ECOSYSTEM
         </div>
         <nav class="flex gap-8 mt-6 md:mt-0">
-            <a class="font-label text-[10px] tracking-widest uppercase text-secondary hover:text-primary transition-colors duration-300" href="terms_conditions_nexus_ai.html">Terms & Conditions</a>
-            <a class="font-label text-[10px] tracking-widest uppercase text-secondary hover:text-primary transition-colors duration-300" href="api_documentation.html">API Docs</a>
-            <a class="font-label text-[10px] tracking-widest uppercase text-secondary hover:text-primary transition-colors duration-300" href="privacy_policy_nexus_ai.html">Privacy</a>
+            <a class="font-label text-[10px] tracking-widest uppercase text-secondary hover:text-primary transition-colors duration-300" href="terms-and-conditions.html">Terms & Conditions</a>
+            <a class="font-label text-[10px] tracking-widest uppercase text-secondary hover:text-primary transition-colors duration-300" href="api-documentation.html">API Docs</a>
+            <a class="font-label text-[10px] tracking-widest uppercase text-secondary hover:text-primary transition-colors duration-300" href="privacy-policy.html">Privacy</a>
         </nav>
     </div>
 </footer>
@@ -206,7 +206,7 @@ for filepath in html_files:
     
     soup = BeautifulSoup(html_content, "html.parser")
     
-    is_settings = "settings_" in filepath
+    is_settings = "settings-" in filepath
     
     # 1. Update Head
     if soup.head:
@@ -301,3 +301,4 @@ for filepath in html_files:
         f.write(str(soup))
         
 print("Successfully standardized 26 UI files.")
+

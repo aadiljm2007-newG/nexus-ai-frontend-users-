@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html class="light" lang="en"><head>
 <meta charset="utf-8"/>
@@ -98,7 +98,8 @@
         }
         }
     }
-</script></head>
+</script><link rel="stylesheet" href="corporate-theme.css">
+</head>
 <body class="font-body bg-background text-on-surface min-h-screen flex flex-col overflow-x-hidden selection:bg-primary selection:text-white" id="main-body"><canvas id="canvas-mesh" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;"></canvas>
 <!-- TopNavBar -->
 <nav class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-xl flex justify-between items-center px-8 h-16 shadow-[0px_20px_50px_rgba(0,0,0,0.02)]">
@@ -127,43 +128,43 @@
 <p class="font-['Space_Grotesk'] text-[10px] tracking-widest uppercase font-medium text-zinc-400 mt-1">System Configuration</p>
 </div>
 <nav class="flex-1 px-4 py-4 space-y-1 overflow-y-auto">
-<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black hover:bg-white hover:shadow-sm transition-all duration-200 group rounded-lg active:scale-95" href="settings_profile_unified.html">
+<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black hover:bg-white hover:shadow-sm transition-all duration-200 group rounded-lg active:scale-95" href="settings-profile.html">
 <span class="material-symbols-outlined group-hover:text-black transition-colors" data-icon="person">person</span>
 <span class="font-['Space_Grotesk'] text-sm tracking-wide uppercase font-medium">Profile</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black hover:bg-white hover:shadow-sm transition-all duration-200 group rounded-lg active:scale-95" href="settings_ai_behavior_unified.html">
+<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black hover:bg-white hover:shadow-sm transition-all duration-200 group rounded-lg active:scale-95" href="settings-ai-behavior.html">
 <span class="material-symbols-outlined group-hover:text-black transition-colors" data-icon="psychology">psychology</span>
 <span class="font-['Space_Grotesk'] text-sm tracking-wide uppercase font-medium">AI Behavior</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-3 text-black border-r-2 border-black transition-all duration-300 bg-white shadow-sm rounded-l-lg" href="settings_voice_interaction_unified.html">
+<a class="flex items-center gap-3 px-4 py-3 text-black border-r-2 border-black transition-all duration-300 bg-white shadow-sm rounded-l-lg" href="settings-voice-interaction.html">
 <span class="material-symbols-outlined" data-icon="record_voice_over">record_voice_over</span>
 <span class="font-['Space_Grotesk'] text-sm tracking-wide uppercase font-medium">Voice &amp; Interaction</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black hover:bg-white hover:shadow-sm transition-all duration-200 group rounded-lg active:scale-95" href="settings_system_permissions_unified.html">
+<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black hover:bg-white hover:shadow-sm transition-all duration-200 group rounded-lg active:scale-95" href="settings-system-permissions.html">
 <span class="material-symbols-outlined group-hover:text-black transition-colors" data-icon="key">key</span>
 <span class="font-['Space_Grotesk'] text-sm tracking-wide uppercase font-medium">System Permissions</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black hover:bg-white hover:shadow-sm transition-all duration-200 group rounded-lg active:scale-95" href="settings_automation_unified.html">
+<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black hover:bg-white hover:shadow-sm transition-all duration-200 group rounded-lg active:scale-95" href="settings-automation.html">
 <span class="material-symbols-outlined group-hover:text-black transition-colors" data-icon="robot">robot</span>
 <span class="font-['Space_Grotesk'] text-sm tracking-wide uppercase font-medium">Automation Settings</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black hover:bg-white hover:shadow-sm transition-all duration-200 group rounded-lg active:scale-95" href="settings_integrations_unified.html">
+<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black hover:bg-white hover:shadow-sm transition-all duration-200 group rounded-lg active:scale-95" href="settings-integrations.html">
 <span class="material-symbols-outlined group-hover:text-black transition-colors" data-icon="extension">extension</span>
 <span class="font-['Space_Grotesk'] text-sm tracking-wide uppercase font-medium">Integrations</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black hover:bg-white hover:shadow-sm transition-all duration-200 group rounded-lg active:scale-95" href="settings_notifications_unified.html">
+<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black hover:bg-white hover:shadow-sm transition-all duration-200 group rounded-lg active:scale-95" href="settings-notifications.html">
 <span class="material-symbols-outlined group-hover:text-black transition-colors" data-icon="notifications">notifications</span>
 <span class="font-['Space_Grotesk'] text-sm tracking-wide uppercase font-medium">Notifications</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black hover:bg-white hover:shadow-sm transition-all duration-200 group rounded-lg active:scale-95" href="settings_appearance_unified.html">
+<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black hover:bg-white hover:shadow-sm transition-all duration-200 group rounded-lg active:scale-95" href="settings-appearance.html">
 <span class="material-symbols-outlined group-hover:text-black transition-colors" data-icon="palette">palette</span>
 <span class="font-['Space_Grotesk'] text-sm tracking-wide uppercase font-medium">Appearance</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black hover:bg-white hover:shadow-sm transition-all duration-200 group rounded-lg active:scale-95" href="settings_security_privacy_unified.html">
+<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black hover:bg-white hover:shadow-sm transition-all duration-200 group rounded-lg active:scale-95" href="settings-security-privacy.html">
 <span class="material-symbols-outlined group-hover:text-black transition-colors" data-icon="shield">shield</span>
 <span class="font-['Space_Grotesk'] text-sm tracking-wide uppercase font-medium">Privacy &amp; Security</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black hover:bg-white hover:shadow-sm transition-all duration-200 group rounded-lg active:scale-95" href="settings_advanced_unified.html">
+<a class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-black hover:bg-white hover:shadow-sm transition-all duration-200 group rounded-lg active:scale-95" href="settings-advanced.html">
 <span class="material-symbols-outlined group-hover:text-black transition-colors" data-icon="terminal">terminal</span>
 <span class="font-['Space_Grotesk'] text-sm tracking-wide uppercase font-medium">Advanced</span>
 </a>
@@ -470,3 +471,4 @@
         draw();
     }
 </script></body></html>
+
