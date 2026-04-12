@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nexus AI - Automation Settings</title>
+<!-- Fonts -->
+<!-- Material Icons -->
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        /* Celestial Precision Background */
+        #interactive-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: #f9f9fb;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        /* Nav Transition */
+        .nav-link-active {
+            color: #000 !important;
+            border-right: 2px solid #000;
+        }
+        
+        /* Custom Scrollbar for side nav */
+        aside::-webkit-scrollbar {
+            width: 2px;
+        }
+        aside::-webkit-scrollbar-thumb {
+            background: rgba(0,0,0,0.1);
+        }
+
+        /* Range Input Styling */
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 16px;
+            width: 16px;
+            border-radius: 50%;
+            background: #000;
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+    </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script id="tailwind-config">
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+        extend: {
+            colors: {
+            "surface": "#f9f9fb",
+            "on-primary-fixed": "#ffffff",
+            "inverse-surface": "#2f3132",
+            "primary": "#000000",
+            "secondary": "#5f5e5e",
+            "tertiary-fixed": "#5e5e63",
+            "outline-variant": "#c6c6c6",
+            "on-tertiary-fixed": "#ffffff",
+            "tertiary-fixed-dim": "#46464b",
+            "tertiary": "#3a3b40",
+            "secondary-fixed": "#c8c6c5",
+            "on-secondary-container": "#1c1b1b",
+            "on-primary-fixed-variant": "#e2e2e2",
+            "outline": "#777777",
+            "on-secondary": "#ffffff",
+            "tertiary-container": "#747479",
+            "surface-dim": "#d9dadc",
+            "surface-container-highest": "#e2e2e4",
+            "surface-container-high": "#e8e8ea",
+            "on-primary-container": "#ffffff",
+            "secondary-fixed-dim": "#adabaa",
+            "surface-variant": "#e2e2e4",
+            "on-primary": "#e2e2e2",
+            "surface-container-lowest": "#ffffff",
+            "primary-container": "#3b3b3b",
+            "background": "#f9f9fb",
+            "inverse-on-surface": "#f0f0f2",
+            "secondary-container": "#d6d4d3",
+            "on-tertiary-container": "#ffffff",
+            "on-background": "#1a1c1d",
+            "on-error": "#ffffff",
+            "inverse-primary": "#c6c6c6",
+            "on-secondary-fixed-variant": "#3c3b3b",
+            "surface-container-low": "#f3f3f5",
+            "on-secondary-fixed": "#1c1b1b",
+            "primary-fixed-dim": "#474747",
+            "on-surface-variant": "#474747",
+            "error": "#ba1a1a",
+            "primary-fixed": "#5e5e5e",
+            "on-surface": "#1a1c1d",
+            "surface-container": "#eeeef0",
+            "on-error-container": "#410002",
+            "error-container": "#ffdad6",
+            "on-tertiary": "#e3e2e7",
+            "on-tertiary-fixed-variant": "#e3e2e7",
+            "surface-tint": "#5e5e5e",
+            "surface-bright": "#f9f9fb"
+            },
+            borderRadius: {
+            DEFAULT: "0.125rem",
+            lg: "0.25rem",
+            xl: "0.5rem",
+            full: "0.75rem"
+            },
+            fontFamily: {
+            headline: ["Space Grotesk"],
+            body: ["Inter"],
+            label: ["Inter"]
+            }
+        }
+        }
+    }
+</script></head>
+<body class="font-body bg-background text-on-surface min-h-screen flex flex-col overflow-x-hidden selection:bg-primary selection:text-white"><canvas id="canvas-mesh" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;"></canvas>
+<!-- Celestial Precision Interactive Grid -->
+<div class="flex min-h-screen relative z-10">
+<!-- SideNavBar (Celestial Precision Standard) -->
+<aside class="fixed left-0 top-0 h-full flex flex-col bg-surface/80 backdrop-blur-xl w-64 border-r border-outline-variant/10 z-50">
+<div class="p-8 pb-4">
+<div class="flex items-center gap-3 mb-12 cursor-pointer group">
+<div class="w-10 h-10 bg-black flex items-center justify-center rounded-sm transition-transform group-hover:rotate-90">
+<span class="material-symbols-outlined text-white text-xl" data-icon="token">token</span>
+</div>
+<div class="flex flex-col">
+<span class="text-lg font-black text-black font-headline tracking-tighter">Nexus AI</span>
+<span class="text-[10px] uppercase tracking-[0.2em] text-zinc-400 font-bold">System Configuration</span>
+</div>
+</div>
+<nav class="space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 font-['Space_Grotesk'] text-[13px] tracking-widest uppercase font-medium text-zinc-400 hover:text-black hover:bg-black/[0.02] transition-all duration-300" href="settings_profile_unified.html">
+<span class="material-symbols-outlined text-[18px]" data-icon="person">person</span>
+<span>Profile</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 font-['Space_Grotesk'] text-[13px] tracking-widest uppercase font-medium text-zinc-400 hover:text-black hover:bg-black/[0.02] transition-all duration-300" href="settings_ai_behavior_unified.html">
+<span class="material-symbols-outlined text-[18px]" data-icon="psychology">psychology</span>
+<span>AI Behavior</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 font-['Space_Grotesk'] text-[13px] tracking-widest uppercase font-medium text-zinc-400 hover:text-black hover:bg-black/[0.02] transition-all duration-300" href="settings_voice_interaction_unified.html">
+<span class="material-symbols-outlined text-[18px]" data-icon="record_voice_over">record_voice_over</span>
+<span>Voice &amp; Interaction</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 font-['Space_Grotesk'] text-[13px] tracking-widest uppercase font-medium text-zinc-400 hover:text-black hover:bg-black/[0.02] transition-all duration-300" href="settings_system_permissions_unified.html">
+<span class="material-symbols-outlined text-[18px]" data-icon="key">key</span>
+<span>System Permissions</span>
+</a>
+<!-- Active Tab -->
+<a class="flex items-center gap-3 px-4 py-3 font-['Space_Grotesk'] text-[13px] tracking-widest uppercase font-bold text-black border-r-2 border-black bg-black/[0.03] transition-all duration-300" href="settings_automation_unified.html">
+<span class="material-symbols-outlined text-[18px]" data-icon="robot_2">robot_2</span>
+<span>Automation Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 font-['Space_Grotesk'] text-[13px] tracking-widest uppercase font-medium text-zinc-400 hover:text-black hover:bg-black/[0.02] transition-all duration-300" href="settings_integrations_unified.html">
+<span class="material-symbols-outlined text-[18px]" data-icon="extension">extension</span>
+<span>Integrations</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 font-['Space_Grotesk'] text-[13px] tracking-widest uppercase font-medium text-zinc-400 hover:text-black hover:bg-black/[0.02] transition-all duration-300" href="settings_notifications_unified.html">
+<span class="material-symbols-outlined text-[18px]" data-icon="notifications">notifications</span>
+<span>Notifications</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 font-['Space_Grotesk'] text-[13px] tracking-widest uppercase font-medium text-zinc-400 hover:text-black hover:bg-black/[0.02] transition-all duration-300" href="settings_appearance_unified.html">
+<span class="material-symbols-outlined text-[18px]" data-icon="palette">palette</span>
+<span>Appearance</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 font-['Space_Grotesk'] text-[13px] tracking-widest uppercase font-medium text-zinc-400 hover:text-black hover:bg-black/[0.02] transition-all duration-300" href="settings_security_privacy_unified.html">
+<span class="material-symbols-outlined text-[18px]" data-icon="shield">shield</span>
+<span>Privacy &amp; Security</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 font-['Space_Grotesk'] text-[13px] tracking-widest uppercase font-medium text-zinc-400 hover:text-black hover:bg-black/[0.02] transition-all duration-300" href="settings_advanced_unified.html">
+<span class="material-symbols-outlined text-[18px]" data-icon="terminal">terminal</span>
+<span>Advanced</span>
+</a>
+</nav>
+</div>
+<div class="mt-auto p-8">
+<button class="w-full bg-black text-white py-3 px-6 rounded-sm text-xs font-headline uppercase tracking-[0.2em] font-bold hover:bg-zinc-800 transition-all active:scale-[0.98] shadow-lg shadow-black/10">
+                Deploy Changes
+            </button>
+</div>
+</aside>
+<!-- Main Content Panel -->
+<main class="flex-1 min-h-screen relative overflow-y-auto">
+<!-- TopAppBar -->
+<header class="fixed top-0 right-0 left-64 z-40 flex items-center justify-between px-8 bg-surface/80 backdrop-blur-md h-16 border-b border-outline-variant/10">
+<div class="flex items-center gap-8">
+<span class="font-headline tracking-tighter text-black text-2xl font-black">Automation &amp; Autonomous Logic</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 text-zinc-500">
+<span class="material-symbols-outlined cursor-pointer hover:text-black transition-colors" data-icon="settings">settings</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-black transition-colors" data-icon="help_outline">help_outline</span>
+</div>
+<div class="h-10 w-10 rounded-full bg-zinc-200 overflow-hidden ring-2 ring-transparent hover:ring-black transition-all cursor-pointer">
+<img alt="User profile" class="w-full h-full object-cover" data-alt="Close-up portrait of a professional man with a minimalist aesthetic and neutral lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDE6euK9EoJXYExNa_S_P0H3b-XftXf11mYss7v2aT7KnWJLiXOkG0vUoDfry2G2YqjapvZwHyO4H0It2SCaGNmgc9TEnEwlsGW2sngTJuKoV1ugDSkMRjzo0WdOWkF-cDzYtkgkUPwgjTjraBU8WNWkPxzUZsEW7NFGzKr8mb7WNgsBPVjTYM06NPYUNIiXPD9KNinvL7ZbhYN-vQ_iwos4ZVnE5oWFIS24veF-KTqMDhJv48fqVLWx-VznWWjwdsT6fx0BbxJVHzz"/>
+</div>
+</div>
+</header>
+<!-- Scrollable Canvas -->
+<div class="pt-20 pb-20 px-12 max-w-7xl mx-auto">
+<div class="mb-20">
+<h1 class="text-6xl font-headline font-black text-black tracking-tighter mb-6">Automation &amp; Autonomous Logic</h1>
+<p class="text-zinc-500 text-xl max-w-2xl leading-relaxed">Define the parameters for self-executing system tasks and cognitive initiative thresholds with surgical precision.</p>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-10">
+<!-- Scheduled Sequences -->
+<div class="col-span-8 glass-card p-10 rounded-sm shadow-2xl shadow-black/[0.02]">
+<div class="flex justify-between items-center mb-10">
+<div>
+<h3 class="text-xs font-headline uppercase tracking-[0.3em] font-black text-zinc-400 mb-2">Scheduled Sequences</h3>
+<p class="text-zinc-500 text-sm">Active recurring automation protocols</p>
+</div>
+<button class="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-black border border-black px-6 py-3 hover:bg-black hover:text-white transition-all active:scale-95">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+                            Create Protocol
+                        </button>
+</div>
+<div class="space-y-4">
+<!-- Protocol Item -->
+<div class="group flex items-center justify-between p-6 bg-white/50 border border-transparent hover:border-black/10 hover:bg-white/80 transition-all cursor-pointer rounded-sm">
+<div class="flex items-center gap-6">
+<div class="w-12 h-12 bg-black flex items-center justify-center rounded-sm">
+<span class="material-symbols-outlined text-white text-xl" data-icon="bolt">bolt</span>
+</div>
+<div>
+<h4 class="font-bold text-black text-base tracking-tight">Daily System Optimization</h4>
+<p class="text-xs text-zinc-400 mt-1">Executes at 04:00 UTC • 12 Modules affected</p>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<span class="text-[9px] font-black uppercase tracking-[0.2em] text-green-600 bg-green-50 px-3 py-1.5 rounded-full">Active</span>
+<button class="material-symbols-outlined text-zinc-300 hover:text-black transition-colors" data-icon="more_vert">more_vert</button>
+</div>
+</div>
+<div class="group flex items-center justify-between p-6 bg-white/50 border border-transparent hover:border-black/10 hover:bg-white/80 transition-all cursor-pointer rounded-sm">
+<div class="flex items-center gap-6">
+<div class="w-12 h-12 bg-black flex items-center justify-center rounded-sm">
+<span class="material-symbols-outlined text-white text-xl" data-icon="cached">cached</span>
+</div>
+<div>
+<h4 class="font-bold text-black text-base tracking-tight">Neural Cache Cleanup</h4>
+<p class="text-xs text-zinc-400 mt-1">Weekly every Sunday • Frees ~14GB system memory</p>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<span class="text-[9px] font-black uppercase tracking-[0.2em] text-green-600 bg-green-50 px-3 py-1.5 rounded-full">Active</span>
+<button class="material-symbols-outlined text-zinc-300 hover:text-black transition-colors" data-icon="more_vert">more_vert</button>
+</div>
+</div>
+<div class="group flex items-center justify-between p-6 bg-white/50 border border-transparent hover:border-black/10 hover:bg-white/80 transition-all cursor-pointer rounded-sm opacity-50 hover:opacity-100">
+<div class="flex items-center gap-6">
+<div class="w-12 h-12 bg-zinc-100 flex items-center justify-center rounded-sm">
+<span class="material-symbols-outlined text-zinc-400 text-xl" data-icon="cloud_sync">cloud_sync</span>
+</div>
+<div>
+<h4 class="font-bold text-black text-base tracking-tight">Remote Asset Synchronization</h4>
+<p class="text-xs text-zinc-400 mt-1">Pending server connection</p>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<span class="text-[9px] font-black uppercase tracking-[0.2em] text-zinc-400 bg-zinc-100 px-3 py-1.5 rounded-full">Standby</span>
+<button class="material-symbols-outlined text-zinc-300 hover:text-black transition-colors" data-icon="more_vert">more_vert</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Sensitivity & Image -->
+<div class="col-span-4 flex flex-col gap-10">
+<!-- Trigger Sensitivity -->
+<div class="glass-card p-10 rounded-sm shadow-2xl shadow-black/[0.02] flex-1">
+<h3 class="text-xs font-headline uppercase tracking-[0.3em] font-black text-zinc-400 mb-10">Trigger Sensitivity</h3>
+<div class="space-y-10">
+<div>
+<div class="flex justify-between items-end mb-6">
+<label class="text-sm font-bold text-black uppercase tracking-widest">Autonomous Initiative</label>
+<span class="text-xs font-mono text-zinc-400 font-bold">Lvl: <span id="sensitivity-value">0.74</span></span>
+</div>
+<input class="w-full h-1 bg-zinc-200 appearance-none cursor-pointer outline-none" id="sensitivity-range" max="100" min="0" type="range" value="74"/>
+<div class="flex justify-between mt-4">
+<span class="text-[9px] uppercase font-black text-zinc-300 tracking-[0.2em]">Passive</span>
+<span class="text-[9px] uppercase font-black text-zinc-300 tracking-[0.2em]">Aggressive</span>
+</div>
+</div>
+<p class="text-xs text-zinc-400 leading-relaxed italic border-l-2 border-zinc-100 pl-4 py-1">
+                                Determines the degree of predictive action the AI takes before requesting explicit user confirmation.
+                            </p>
+</div>
+</div>
+<!-- Visual Module -->
+<div class="rounded-sm overflow-hidden h-52 relative group cursor-pointer shadow-xl border border-black/5">
+<img alt="System visual" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-105" data-alt="Abstract glowing network nodes and complex data patterns in deep blue and silver representing AI neural connections" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCL_fHat5p4Ms54DwWeIs03FiFjvnKsjCjK_I0ooJAEkJMNpQtxvLDi8qq_7Abnj1Hga3YSgszRRiKMlEBI3jMg2_Uj23DLOoDtDk2z0PIUhjbTY7JIRISwuvCehvqiRYn-HzD_PZrcImhLttEG3txla95V1HvBheIvwGzB6WIbwzdlTur-1zsfUIvftnjZtffiLhPKOGYSYiOBGcAdKzMyIbF4goUTzu8DgEvnGHz0fQGSZWh87EJ8DX5uF4hFqMT83qixIfMQ7SFS"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6">
+<div class="flex items-center gap-2">
+<div class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></div>
+<span class="text-[10px] font-black uppercase tracking-[0.2em] text-white">Neural Mapping Active</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Conflict Resolution -->
+<div class="col-span-12 glass-card p-10 rounded-sm shadow-2xl shadow-black/[0.02]">
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-12">
+<div class="max-w-xl">
+<h3 class="text-xs font-headline uppercase tracking-[0.3em] font-black text-zinc-400 mb-6">Conflict Resolution</h3>
+<p class="text-sm text-zinc-500 leading-relaxed">Define the core logic hierarchy when autonomous tasks overlap or encounter unexpected variables. Priority will be assigned based on these logic gates.</p>
+</div>
+<div class="flex flex-wrap gap-4">
+<!-- Custom Interactive Radios -->
+<label class="cursor-pointer group">
+<input checked="" class="peer hidden" name="conflict" type="radio"/>
+<div class="flex items-center gap-4 px-8 py-5 bg-white border border-black/5 peer-checked:bg-black peer-checked:text-white transition-all duration-300 rounded-sm hover:border-black/20 group-active:scale-95 shadow-sm">
+<span class="material-symbols-outlined text-[20px]" data-icon="back_hand">back_hand</span>
+<span class="text-xs font-black uppercase tracking-[0.2em]">Manual Override</span>
+</div>
+</label>
+<label class="cursor-pointer group">
+<input class="peer hidden" name="conflict" type="radio"/>
+<div class="flex items-center gap-4 px-8 py-5 bg-white border border-black/5 peer-checked:bg-black peer-checked:text-white transition-all duration-300 rounded-sm hover:border-black/20 group-active:scale-95 shadow-sm">
+<span class="material-symbols-outlined text-[20px]" data-icon="auto_awesome">auto_awesome</span>
+<span class="text-xs font-black uppercase tracking-[0.2em]">AI Optimized</span>
+</div>
+</label>
+<label class="cursor-pointer group">
+<input class="peer hidden" name="conflict" type="radio"/>
+<div class="flex items-center gap-4 px-8 py-5 bg-white border border-black/5 peer-checked:bg-black peer-checked:text-white transition-all duration-300 rounded-sm hover:border-black/20 group-active:scale-95 shadow-sm">
+<span class="material-symbols-outlined text-[20px]" data-icon="verified_user">verified_user</span>
+<span class="text-xs font-black uppercase tracking-[0.2em]">Safety Priority</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<!-- Footer Dashboard Metrics -->
+<div class="col-span-12 flex flex-col md:flex-row justify-between items-center pt-10 border-t border-black/5 gap-8">
+<div class="flex gap-16">
+<div class="group">
+<span class="text-[9px] uppercase font-black text-zinc-300 tracking-[0.2em] block mb-2 group-hover:text-black transition-colors">Compute Load</span>
+<span class="text-sm font-black text-black font-mono">12.4% OPTIMAL</span>
+</div>
+<div class="group">
+<span class="text-[9px] uppercase font-black text-zinc-300 tracking-[0.2em] block mb-2 group-hover:text-black transition-colors">Last Sync</span>
+<span class="text-sm font-black text-black font-mono">02 OCT 14:22</span>
+</div>
+<div class="group">
+<span class="text-[9px] uppercase font-black text-zinc-300 tracking-[0.2em] block mb-2 group-hover:text-black transition-colors">Latency</span>
+<span class="text-sm font-black text-black font-mono">0.4ms</span>
+</div>
+</div>
+<div class="flex gap-6 items-center">
+<button class="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 hover:text-black transition-colors px-4 py-2">Discard</button>
+<button class="bg-black text-white text-[10px] font-black uppercase tracking-[0.2em] px-10 py-4 rounded-sm hover:bg-zinc-800 active:scale-95 transition-all shadow-xl shadow-black/10">
+                            Synchronize Nodes
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<script src="interactivity.js"></script><script id="mesh-script">
+    const canvas = document.getElementById('canvas-mesh');
+    if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let mouse = { x: -1000, y: -1000 };
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resize);
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+
+        resize();
+
+        const gridSize = 45;
+        const centralForce = 220;
+        const mouseForce = 150;
+
+        function applyPhysics(x, y) {
+            let px = x;
+            let py = y;
+            
+            const dxM = px - mouse.x;
+            const dyM = py - mouse.y;
+            const distM = Math.sqrt(dxM * dxM + dyM * dyM);
+            
+            if (distM < mouseForce) {
+                // Liquid lens topographical push against mouse
+                const power = Math.pow((mouseForce - distM) / mouseForce, 2);
+                px += dxM * power * 1.5;
+                py += dyM * power * 1.5;
+            }
+            
+            return { x: px, y: py };
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, width, height);
+            ctx.strokeStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.lineWidth = 1;
+
+            for (let x = 0; x <= width; x += gridSize) {
+                ctx.beginPath();
+                for (let y = 0; y <= height; y += 4) {
+                    const pos = applyPhysics(x, y);
+                    if (y === 0) ctx.moveTo(pos.x, pos.y);
+                    else ctx.lineTo(pos.x, pos.y);
+                }
+                ctx.stroke();
+            }
+
+            for (let y = 0; y <= height; y += gridSize) {
+                ctx.beginPath();
+                for (let x = 0; x <= width; x += 4) {
+                    const pos = applyPhysics(x, y);
+                    if (x === 0) ctx.moveTo(pos.x, pos.y);
+                    else ctx.lineTo(pos.x, pos.y);
+                }
+                ctx.stroke();
+            }
+            requestAnimationFrame(draw);
+        }
+        draw();
+    }
+</script></body></html>

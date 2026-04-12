@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nexus AI | Notification Architecture</title>
+<!-- Google Fonts: Space Grotesk & Inter -->
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<!-- Material Symbols -->
+<style>
+        body {
+            background-color: #f9f9fb;
+            overflow-x: hidden;
+        }
+        
+        #space-time-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 1; /* Pure white grid needs full opacity to show against bg */
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.02);
+        }
+        
+        .toggle-switch {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background-color: #e4e4e7;
+        }
+        .toggle-switch[data-active="true"] {
+            background-color: #000000;
+        }
+        .toggle-switch[data-active="true"] .dot {
+            transform: translateX(24px);
+        }
+        .toggle-switch .dot {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .nav-item-active {
+            color: #000000 !important;
+            font-weight: 700 !important;
+            background: #ffffff !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            border: 1px solid rgba(0,0,0,0.05) !important;
+        }
+
+        .sidebar-indicator {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 20px;
+            width: 3px;
+            background-color: #000000;
+            border-radius: 4px 0 0 4px;
+        }
+    </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script id="tailwind-config">
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+        extend: {
+            colors: {
+            "surface": "#f9f9fb",
+            "on-primary-fixed": "#ffffff",
+            "inverse-surface": "#2f3132",
+            "primary": "#000000",
+            "secondary": "#5f5e5e",
+            "tertiary-fixed": "#5e5e63",
+            "outline-variant": "#c6c6c6",
+            "on-tertiary-fixed": "#ffffff",
+            "tertiary-fixed-dim": "#46464b",
+            "tertiary": "#3a3b40",
+            "secondary-fixed": "#c8c6c5",
+            "on-secondary-container": "#1c1b1b",
+            "on-primary-fixed-variant": "#e2e2e2",
+            "outline": "#777777",
+            "on-secondary": "#ffffff",
+            "tertiary-container": "#747479",
+            "surface-dim": "#d9dadc",
+            "surface-container-highest": "#e2e2e4",
+            "surface-container-high": "#e8e8ea",
+            "on-primary-container": "#ffffff",
+            "secondary-fixed-dim": "#adabaa",
+            "surface-variant": "#e2e2e4",
+            "on-primary": "#e2e2e2",
+            "surface-container-lowest": "#ffffff",
+            "primary-container": "#3b3b3b",
+            "background": "#f9f9fb",
+            "inverse-on-surface": "#f0f0f2",
+            "secondary-container": "#d6d4d3",
+            "on-tertiary-container": "#ffffff",
+            "on-background": "#1a1c1d",
+            "on-error": "#ffffff",
+            "inverse-primary": "#c6c6c6",
+            "on-secondary-fixed-variant": "#3c3b3b",
+            "surface-container-low": "#f3f3f5",
+            "on-secondary-fixed": "#1c1b1b",
+            "primary-fixed-dim": "#474747",
+            "on-surface-variant": "#474747",
+            "error": "#ba1a1a",
+            "primary-fixed": "#5e5e5e",
+            "on-surface": "#1a1c1d",
+            "surface-container": "#eeeef0",
+            "on-error-container": "#410002",
+            "error-container": "#ffdad6",
+            "on-tertiary": "#e3e2e7",
+            "on-tertiary-fixed-variant": "#e3e2e7",
+            "surface-tint": "#5e5e5e",
+            "surface-bright": "#f9f9fb"
+            },
+            borderRadius: {
+            DEFAULT: "0.125rem",
+            lg: "0.25rem",
+            xl: "0.5rem",
+            full: "0.75rem"
+            },
+            fontFamily: {
+            headline: ["Space Grotesk"],
+            body: ["Inter"],
+            label: ["Inter"]
+            }
+        }
+        }
+    }
+</script></head>
+<body class="font-body bg-background text-on-surface min-h-screen flex flex-col overflow-x-hidden selection:bg-primary selection:text-white"><canvas id="canvas-mesh" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;"></canvas>
+<!-- Interactive Background -->
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-white/80 dark:bg-black/80 backdrop-blur-xl border-b border-black/5 flex justify-between items-center px-8 h-16">
+<div class="flex items-center gap-10">
+<span class="text-xl font-bold tracking-tighter text-black font-headline cursor-pointer hover:opacity-70 transition-opacity">Nexus AI</span>
+<div class="hidden md:flex gap-8">
+<a class="text-zinc-500 font-['Space_Grotesk'] tracking-tight hover:text-black transition-colors" href="#dashboard">Dashboard</a>
+<a class="text-black font-semibold font-['Space_Grotesk'] tracking-tight hover:opacity-70 transition-opacity" href="#settings">Settings</a>
+<a class="text-zinc-500 font-['Space_Grotesk'] tracking-tight hover:text-black transition-colors" href="#fleet">Fleet</a>
+</div>
+</div>
+<div class="flex items-center gap-5">
+<div class="relative group">
+<span class="material-symbols-outlined text-zinc-500 p-2 hover:bg-zinc-100 active:scale-90 rounded-full cursor-pointer transition-all">search</span>
+</div>
+<span class="material-symbols-outlined text-zinc-500 p-2 hover:bg-zinc-100 active:scale-90 rounded-full cursor-pointer transition-all">settings</span>
+<span class="material-symbols-outlined text-zinc-500 p-2 hover:bg-zinc-100 active:scale-90 rounded-full cursor-pointer transition-all">help</span>
+<div class="w-8 h-8 rounded-full bg-zinc-200 overflow-hidden ml-2 ring-1 ring-black/5 cursor-pointer hover:ring-black/20 transition-all active:scale-95">
+<img alt="User profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC57ydda4IveJMlbA3HmYpOMiFqEhKetmrvR73tIW-R-RXUa-c-wJA1ZHG2qiHqIfGI9xkyJ5lmmgb6v2J3lhljgCNOtq55ERE9uM2P2HhJI4RRbkpG_0equKu7WAK4VvKc29C_WD3ndvk7KtbWhN9kUV0ZLYtJTjPAWKujdlT9gTzGf0BYCEus8nNsg1NUXWc2qAxXNqfynFDDFDa__gYVuuF0saHoCmTb0iijnPFYWr0WoKIkoLOAzFmUihZMpuFqq_sXV2__roYj"/>
+</div>
+</div>
+</nav>
+<div class="flex pt-16 min-h-screen">
+<!-- SideNavBar - Standardized 'Celestial Precision' Layout -->
+<aside class="fixed left-0 top-0 h-full flex flex-col bg-surface/80 backdrop-blur-xl w-64 border-r border-outline-variant/10 z-50">
+<div class="p-8 pb-4">
+<div class="flex items-center gap-3 mb-6">
+<div class="w-10 h-10 bg-black rounded-xl flex items-center justify-center shadow-lg shadow-black/10">
+<span class="material-symbols-outlined text-white text-xl" style="font-variation-settings: 'FILL' 1;">deployed_code</span>
+</div>
+<div>
+<h2 class="text-lg font-black text-black font-headline leading-tight">Nexus AI</h2>
+<p class="text-[10px] uppercase tracking-widest text-zinc-400 font-bold">System Configuration</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 px-4 space-y-1 mb-8">
+<a class="group relative flex items-center gap-3 px-5 py-3.5 text-zinc-500 font-['Space_Grotesk'] text-xs tracking-widest uppercase font-bold hover:text-black hover:bg-white transition-all duration-200 rounded-xl" href="settings_profile_unified.html">
+<span class="material-symbols-outlined text-lg opacity-70 group-hover:opacity-100">person</span>
+<span>Profile</span>
+</a>
+<a class="group relative flex items-center gap-3 px-5 py-3.5 text-zinc-500 font-['Space_Grotesk'] text-xs tracking-widest uppercase font-bold hover:text-black hover:bg-white transition-all duration-200 rounded-xl" href="settings_ai_behavior_unified.html">
+<span class="material-symbols-outlined text-lg opacity-70 group-hover:opacity-100">psychology</span>
+<span>AI Behavior</span>
+</a>
+<a class="group relative flex items-center gap-3 px-5 py-3.5 text-zinc-500 font-['Space_Grotesk'] text-xs tracking-widest uppercase font-bold hover:text-black hover:bg-white transition-all duration-200 rounded-xl" href="settings_voice_interaction_unified.html">
+<span class="material-symbols-outlined text-lg opacity-70 group-hover:opacity-100">record_voice_over</span>
+<span>Voice &amp; Interaction</span>
+</a>
+<a class="group relative flex items-center gap-3 px-5 py-3.5 text-zinc-500 font-['Space_Grotesk'] text-xs tracking-widest uppercase font-bold hover:text-black hover:bg-white transition-all duration-200 rounded-xl" href="settings_system_permissions_unified.html">
+<span class="material-symbols-outlined text-lg opacity-70 group-hover:opacity-100">key</span>
+<span>System Permissions</span>
+</a>
+<a class="group relative flex items-center gap-3 px-5 py-3.5 text-zinc-500 font-['Space_Grotesk'] text-xs tracking-widest uppercase font-bold hover:text-black hover:bg-white transition-all duration-200 rounded-xl" href="settings_automation_unified.html">
+<span class="material-symbols-outlined text-lg opacity-70 group-hover:opacity-100">robot</span>
+<span>Automation Settings</span>
+</a>
+<a class="group relative flex items-center gap-3 px-5 py-3.5 text-zinc-500 font-['Space_Grotesk'] text-xs tracking-widest uppercase font-bold hover:text-black hover:bg-white transition-all duration-200 rounded-xl" href="settings_integrations_unified.html">
+<span class="material-symbols-outlined text-lg opacity-70 group-hover:opacity-100">extension</span>
+<span>Integrations</span>
+</a>
+<!-- Active Tab: Notifications -->
+<a class="nav-item-active relative flex items-center gap-3 px-5 py-3.5 text-black font-['Space_Grotesk'] text-xs tracking-widest uppercase font-bold border border-black/5 rounded-xl active:scale-[0.98]" href="settings_notifications_unified.html">
+<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">notifications</span>
+<span>Notifications</span>
+<div class="sidebar-indicator"></div>
+</a>
+<a class="group relative flex items-center gap-3 px-5 py-3.5 text-zinc-500 font-['Space_Grotesk'] text-xs tracking-widest uppercase font-bold hover:text-black hover:bg-white transition-all duration-200 rounded-xl" href="settings_appearance_unified.html">
+<span class="material-symbols-outlined text-lg opacity-70 group-hover:opacity-100">palette</span>
+<span>Appearance</span>
+</a>
+<a class="group relative flex items-center gap-3 px-5 py-3.5 text-zinc-500 font-['Space_Grotesk'] text-xs tracking-widest uppercase font-bold hover:text-black hover:bg-white transition-all duration-200 rounded-xl" href="settings_security_privacy_unified.html">
+<span class="material-symbols-outlined text-lg opacity-70 group-hover:opacity-100">shield</span>
+<span>Privacy &amp; Security</span>
+</a>
+<a class="group relative flex items-center gap-3 px-5 py-3.5 text-zinc-500 font-['Space_Grotesk'] text-xs tracking-widest uppercase font-bold hover:text-black hover:bg-white transition-all duration-200 rounded-xl" href="settings_advanced_unified.html">
+<span class="material-symbols-outlined text-lg opacity-70 group-hover:opacity-100">terminal</span>
+<span>Advanced</span>
+</a>
+</nav>
+<div class="p-6 mt-auto">
+<button class="w-full py-4 bg-black text-white font-headline text-[10px] tracking-[0.2em] uppercase font-black rounded-xl hover:bg-zinc-800 active:scale-[0.97] transition-all duration-300 shadow-xl shadow-black/10">
+                    Deploy Changes
+                </button>
+</div>
+</aside>
+<!-- Right Content Panel -->
+<main class="flex-1 ml-72 p-12 max-w-6xl relative">
+<header class="fixed top-0 right-0 left-64 z-40 flex items-center justify-between px-8 bg-surface/80 backdrop-blur-md h-16 border-b border-outline-variant/10">
+<h1 class="text-7xl font-black font-headline tracking-tight text-on-surface mb-6">Notification Architecture</h1>
+<p class="text-xl text-zinc-500 font-body max-w-2xl leading-relaxed">Calibrate the signal-to-noise ratio for system alerts with high-fidelity precision.</p>
+</header>
+<div class="grid grid-cols-12 gap-10">
+<!-- Section: System Signals -->
+<section class="col-span-12 lg:col-span-7">
+<div class="glass-card p-10 rounded-3xl">
+<div class="flex items-center gap-3 mb-10">
+<span class="material-symbols-outlined text-zinc-400">sensors</span>
+<h3 class="text-[10px] font-black uppercase tracking-[0.3em] font-headline text-zinc-500">System Signals</h3>
+</div>
+<div class="space-y-6">
+<!-- Toggle Item -->
+<div class="flex items-center justify-between p-6 rounded-2xl bg-white/50 border border-black/5 hover:bg-white hover:shadow-xl hover:shadow-black/5 transition-all duration-300 group cursor-pointer" onclick="toggleSwitch(this)">
+<div class="flex items-center gap-5">
+<div class="w-12 h-12 bg-zinc-50 rounded-xl flex items-center justify-center text-zinc-900 group-hover:bg-zinc-100 transition-colors">
+<span class="material-symbols-outlined">task_alt</span>
+</div>
+<div>
+<p class="font-bold text-lg text-on-surface">Task Completion</p>
+<p class="text-sm text-zinc-500">Notify when background neural processing concludes.</p>
+</div>
+</div>
+<div class="toggle-switch w-12 h-6 rounded-full relative p-1" data-active="true">
+<div class="dot w-4 h-4 bg-white rounded-full shadow-sm"></div>
+</div>
+</div>
+<!-- Toggle Item -->
+<div class="flex items-center justify-between p-6 rounded-2xl bg-white/50 border border-black/5 hover:bg-white hover:shadow-xl hover:shadow-black/5 transition-all duration-300 group cursor-pointer" onclick="toggleSwitch(this)">
+<div class="flex items-center gap-5">
+<div class="w-12 h-12 bg-red-50 rounded-xl flex items-center justify-center text-red-600 group-hover:bg-red-100 transition-colors">
+<span class="material-symbols-outlined">report_problem</span>
+</div>
+<div>
+<p class="font-bold text-lg text-on-surface">Critical Errors</p>
+<p class="text-sm text-zinc-500">Immediate alerts for core system failures.</p>
+</div>
+</div>
+<div class="toggle-switch w-12 h-6 rounded-full relative p-1" data-active="true">
+<div class="dot w-4 h-4 bg-white rounded-full shadow-sm"></div>
+</div>
+</div>
+<!-- Toggle Item -->
+<div class="flex items-center justify-between p-6 rounded-2xl bg-white/50 border border-black/5 hover:bg-white hover:shadow-xl hover:shadow-black/5 transition-all duration-300 group cursor-pointer" onclick="toggleSwitch(this)">
+<div class="flex items-center gap-5">
+<div class="w-12 h-12 bg-zinc-50 rounded-xl flex items-center justify-center text-zinc-900 group-hover:bg-zinc-100 transition-colors">
+<span class="material-symbols-outlined">psychology_alt</span>
+</div>
+<div>
+<p class="font-bold text-lg text-on-surface">Neural Insights</p>
+<p class="text-sm text-zinc-500">Periodic updates on model learning progress.</p>
+</div>
+</div>
+<div class="toggle-switch w-12 h-6 rounded-full relative p-1" data-active="false">
+<div class="dot w-4 h-4 bg-white rounded-full shadow-sm"></div>
+</div>
+</div>
+<!-- Toggle Item -->
+<div class="flex items-center justify-between p-6 rounded-2xl bg-white/50 border border-black/5 hover:bg-white hover:shadow-xl hover:shadow-black/5 transition-all duration-300 group cursor-pointer" onclick="toggleSwitch(this)">
+<div class="flex items-center gap-5">
+<div class="w-12 h-12 bg-zinc-50 rounded-xl flex items-center justify-center text-zinc-900 group-hover:bg-zinc-100 transition-colors">
+<span class="material-symbols-outlined">admin_panel_settings</span>
+</div>
+<div>
+<p class="font-bold text-lg text-on-surface">Security Alerts</p>
+<p class="text-sm text-zinc-500">Logins, API access, and permission changes.</p>
+</div>
+</div>
+<div class="toggle-switch w-12 h-6 rounded-full relative p-1" data-active="true">
+<div class="dot w-4 h-4 bg-white rounded-full shadow-sm"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Right Column Sections -->
+<div class="col-span-12 lg:col-span-5 space-y-10">
+<!-- Section: Delivery Channels -->
+<section class="glass-card p-10 rounded-3xl">
+<div class="flex items-center gap-3 mb-8">
+<span class="material-symbols-outlined text-zinc-400">hub</span>
+<h3 class="text-[10px] font-black uppercase tracking-[0.3em] font-headline text-zinc-500">Delivery Channels</h3>
+</div>
+<div class="space-y-4">
+<label class="flex items-center gap-5 p-5 rounded-2xl border border-black/10 cursor-pointer hover:bg-white hover:shadow-lg transition-all active:scale-[0.99] group">
+<input checked="" class="form-checkbox h-5 w-5 text-black border-zinc-300 rounded focus:ring-0 cursor-pointer" type="checkbox"/>
+<span class="font-bold flex-1 text-on-surface">Desktop Push</span>
+<span class="material-symbols-outlined text-zinc-300 group-hover:text-black transition-colors">laptop</span>
+</label>
+<label class="flex items-center gap-5 p-5 rounded-2xl border border-black/5 cursor-pointer hover:bg-white hover:shadow-lg transition-all active:scale-[0.99] opacity-60 group">
+<input class="form-checkbox h-5 w-5 text-black border-zinc-300 rounded focus:ring-0 cursor-pointer" type="checkbox"/>
+<span class="font-bold flex-1 text-on-surface">Email Summary</span>
+<span class="material-symbols-outlined text-zinc-300 group-hover:text-black transition-colors">alternate_email</span>
+</label>
+<label class="flex items-center gap-5 p-5 rounded-2xl border border-black/10 cursor-pointer hover:bg-white hover:shadow-lg transition-all active:scale-[0.99] group">
+<input checked="" class="form-checkbox h-5 w-5 text-black border-zinc-300 rounded focus:ring-0 cursor-pointer" type="checkbox"/>
+<span class="font-bold flex-1 text-on-surface">Mobile Sync</span>
+<span class="material-symbols-outlined text-zinc-300 group-hover:text-black transition-colors">smartphone</span>
+</label>
+</div>
+</section>
+<!-- Section: Quiet Mode -->
+<section class="glass-card p-10 rounded-3xl">
+<div class="flex items-center gap-3 mb-8">
+<span class="material-symbols-outlined text-zinc-400">notifications_paused</span>
+<h3 class="text-[10px] font-black uppercase tracking-[0.3em] font-headline text-zinc-500">Quiet Mode</h3>
+</div>
+<div class="bg-zinc-50 p-6 rounded-2xl mb-6 hover:bg-white transition-all border border-transparent hover:border-black/5 cursor-default group">
+<div class="flex justify-between items-start mb-6">
+<div>
+<p class="text-[10px] uppercase tracking-[0.2em] text-zinc-400 font-black mb-2">Active Schedule</p>
+<p class="text-3xl font-black font-headline">22:00 — 07:00</p>
+</div>
+<span class="material-symbols-outlined text-zinc-300 group-hover:rotate-180 transition-transform duration-500">event_repeat</span>
+</div>
+<div class="h-2.5 w-full bg-zinc-200 rounded-full overflow-hidden flex cursor-pointer group/bar">
+<div class="h-full bg-zinc-300 w-1/3 group-hover/bar:opacity-80 transition-opacity"></div>
+<div class="h-full bg-black w-1/3 group-hover/bar:scale-y-125 transition-transform"></div>
+<div class="h-full bg-zinc-300 w-1/3 group-hover/bar:opacity-80 transition-opacity"></div>
+</div>
+</div>
+<button class="w-full flex items-center justify-center gap-3 py-4 rounded-xl border-2 border-black font-black text-[10px] tracking-[0.2em] uppercase hover:bg-black hover:text-white active:scale-[0.98] transition-all duration-300 shadow-lg shadow-black/5">
+                            Adjust Scheduler
+                        </button>
+</section>
+</div>
+<!-- Footer Stats / Bento Item -->
+<div class="col-span-12">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="bg-black text-white p-10 rounded-3xl flex flex-col justify-between aspect-video md:aspect-auto hover:translate-y-[-4px] transition-transform cursor-pointer shadow-2xl shadow-black/30 group">
+<div class="flex justify-between items-start">
+<p class="text-[10px] uppercase tracking-[0.2em] text-zinc-500 font-black">Signal Health</p>
+<span class="material-symbols-outlined text-zinc-700 group-hover:text-white transition-colors">waves</span>
+</div>
+<div class="my-6">
+<span class="text-5xl font-black font-headline tracking-tighter">99.8%</span>
+<p class="text-xs text-zinc-500 mt-2 font-medium">Information density optimized</p>
+</div>
+<div class="flex gap-1.5 h-1.5">
+<div class="flex-1 bg-white rounded-full"></div>
+<div class="flex-1 bg-white/20 rounded-full"></div>
+<div class="flex-1 bg-white/20 rounded-full"></div>
+<div class="flex-1 bg-white/20 rounded-full"></div>
+</div>
+</div>
+<div class="glass-card p-10 rounded-3xl flex flex-col justify-between hover:translate-y-[-4px] transition-transform cursor-pointer group">
+<div class="flex justify-between items-start">
+<p class="text-[10px] uppercase tracking-[0.2em] text-zinc-400 font-black">Total Alerts</p>
+<span class="material-symbols-outlined text-zinc-300 group-hover:text-black transition-colors">history</span>
+</div>
+<div class="my-6">
+<span class="text-5xl font-black font-headline tracking-tighter">1,240</span>
+<p class="text-xs text-zinc-400 mt-2 font-medium">Last 30 days processed</p>
+</div>
+<div class="w-full h-10 flex items-end gap-1.5">
+<div class="w-full bg-zinc-100 rounded-t-sm h-1/2"></div>
+<div class="w-full bg-zinc-100 rounded-t-sm h-3/4"></div>
+<div class="w-full bg-zinc-100 rounded-t-sm h-1/3"></div>
+<div class="w-full bg-black rounded-t-sm h-full"></div>
+<div class="w-full bg-zinc-100 rounded-t-sm h-2/3"></div>
+<div class="w-full bg-zinc-100 rounded-t-sm h-5/6"></div>
+<div class="w-full bg-zinc-100 rounded-t-sm h-1/2"></div>
+</div>
+</div>
+<div class="glass-card p-10 rounded-3xl flex flex-col justify-between overflow-hidden relative group hover:translate-y-[-4px] transition-transform cursor-pointer">
+<img alt="Neural data stream" class="absolute inset-0 w-full h-full object-cover opacity-10 group-hover:opacity-20 transition-all duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQPCBACvfYBj34ktiYA7CrIKlHeeegZFG-Gz-kqy_sGH1HNRi0wJoFgLETWZ2RMCAScZ2q3iUcc59IOPEuISJwU_sz50HEX6laLrMlkYvSx1FcOMjj3b22awpE-UNpyHUsUBH4T4oKNcP26iNTDe4JtM6VVKGGTCJxwP_B6PJDQrLcDed_CBMHjLJ3lAY2ixEVs8NzwzIfIIWsqXTv6XERiz7LPKqheviuDNOB1Vat4oeyOywRtK21ocUPWL65yxm8Dpf52sKnhMvC"/>
+<div class="relative z-10">
+<p class="text-[10px] uppercase tracking-[0.2em] text-zinc-400 font-black">Latency</p>
+<div class="my-6">
+<span class="text-5xl font-black font-headline tracking-tighter">12ms</span>
+<p class="text-xs text-zinc-400 mt-2 font-medium">Real-time global delivery</p>
+</div>
+</div>
+<div class="relative z-10 flex items-center gap-3 text-[10px] tracking-[0.1em] font-black uppercase text-zinc-900">
+<span>Edge Protocol Active</span>
+<div class="w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse shadow-sm shadow-green-500/50"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Floating Navigation for Mobile -->
+<div class="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 bg-black text-white px-8 py-4 rounded-full flex gap-8 shadow-2xl z-50">
+<span class="material-symbols-outlined opacity-50 cursor-pointer hover:opacity-100 active:scale-90 transition-all">home</span>
+<span class="material-symbols-outlined opacity-50 cursor-pointer hover:opacity-100 active:scale-90 transition-all">analytics</span>
+<span class="material-symbols-outlined text-white cursor-pointer active:scale-90 transition-all" style="font-variation-settings: 'FILL' 1;">settings</span>
+<span class="material-symbols-outlined opacity-50 cursor-pointer hover:opacity-100 active:scale-90 transition-all">account_circle</span>
+</div>
+<script src="interactivity.js"></script><script id="mesh-script">
+    const canvas = document.getElementById('canvas-mesh');
+    if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let mouse = { x: -1000, y: -1000 };
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resize);
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+
+        resize();
+
+        const gridSize = 45;
+        const centralForce = 220;
+        const mouseForce = 150;
+
+        function applyPhysics(x, y) {
+            let px = x;
+            let py = y;
+            
+            const dxM = px - mouse.x;
+            const dyM = py - mouse.y;
+            const distM = Math.sqrt(dxM * dxM + dyM * dyM);
+            
+            if (distM < mouseForce) {
+                // Liquid lens topographical push against mouse
+                const power = Math.pow((mouseForce - distM) / mouseForce, 2);
+                px += dxM * power * 1.5;
+                py += dyM * power * 1.5;
+            }
+            
+            return { x: px, y: py };
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, width, height);
+            ctx.strokeStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.lineWidth = 1;
+
+            for (let x = 0; x <= width; x += gridSize) {
+                ctx.beginPath();
+                for (let y = 0; y <= height; y += 4) {
+                    const pos = applyPhysics(x, y);
+                    if (y === 0) ctx.moveTo(pos.x, pos.y);
+                    else ctx.lineTo(pos.x, pos.y);
+                }
+                ctx.stroke();
+            }
+
+            for (let y = 0; y <= height; y += gridSize) {
+                ctx.beginPath();
+                for (let x = 0; x <= width; x += 4) {
+                    const pos = applyPhysics(x, y);
+                    if (x === 0) ctx.moveTo(pos.x, pos.y);
+                    else ctx.lineTo(pos.x, pos.y);
+                }
+                ctx.stroke();
+            }
+            requestAnimationFrame(draw);
+        }
+        draw();
+    }
+</script></body></html>

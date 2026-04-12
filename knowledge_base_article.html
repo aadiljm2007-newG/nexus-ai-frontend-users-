@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .grid-space-time {
+            background-image: radial-gradient(circle at 1px 1px, rgba(198, 198, 198, 0.08) 1px, transparent 0);
+            background-size: 40px 40px;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+    </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script id="tailwind-config">
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+        extend: {
+            colors: {
+            "surface": "#f9f9fb",
+            "on-primary-fixed": "#ffffff",
+            "inverse-surface": "#2f3132",
+            "primary": "#000000",
+            "secondary": "#5f5e5e",
+            "tertiary-fixed": "#5e5e63",
+            "outline-variant": "#c6c6c6",
+            "on-tertiary-fixed": "#ffffff",
+            "tertiary-fixed-dim": "#46464b",
+            "tertiary": "#3a3b40",
+            "secondary-fixed": "#c8c6c5",
+            "on-secondary-container": "#1c1b1b",
+            "on-primary-fixed-variant": "#e2e2e2",
+            "outline": "#777777",
+            "on-secondary": "#ffffff",
+            "tertiary-container": "#747479",
+            "surface-dim": "#d9dadc",
+            "surface-container-highest": "#e2e2e4",
+            "surface-container-high": "#e8e8ea",
+            "on-primary-container": "#ffffff",
+            "secondary-fixed-dim": "#adabaa",
+            "surface-variant": "#e2e2e4",
+            "on-primary": "#e2e2e2",
+            "surface-container-lowest": "#ffffff",
+            "primary-container": "#3b3b3b",
+            "background": "#f9f9fb",
+            "inverse-on-surface": "#f0f0f2",
+            "secondary-container": "#d6d4d3",
+            "on-tertiary-container": "#ffffff",
+            "on-background": "#1a1c1d",
+            "on-error": "#ffffff",
+            "inverse-primary": "#c6c6c6",
+            "on-secondary-fixed-variant": "#3c3b3b",
+            "surface-container-low": "#f3f3f5",
+            "on-secondary-fixed": "#1c1b1b",
+            "primary-fixed-dim": "#474747",
+            "on-surface-variant": "#474747",
+            "error": "#ba1a1a",
+            "primary-fixed": "#5e5e5e",
+            "on-surface": "#1a1c1d",
+            "surface-container": "#eeeef0",
+            "on-error-container": "#410002",
+            "error-container": "#ffdad6",
+            "on-tertiary": "#e3e2e7",
+            "on-tertiary-fixed-variant": "#e3e2e7",
+            "surface-tint": "#5e5e5e",
+            "surface-bright": "#f9f9fb"
+            },
+            borderRadius: {
+            DEFAULT: "0.125rem",
+            lg: "0.25rem",
+            xl: "0.5rem",
+            full: "0.75rem"
+            },
+            fontFamily: {
+            headline: ["Space Grotesk"],
+            body: ["Inter"],
+            label: ["Inter"]
+            }
+        }
+        }
+    }
+</script></head>
+<body class="font-body bg-background text-on-surface min-h-screen flex flex-col overflow-x-hidden selection:bg-primary selection:text-white"><canvas id="canvas-mesh" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;"></canvas>
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-white/85 dark:bg-black/85 backdrop-blur-xl border-b border-black/[0.05] dark:border-white/[0.05] shadow-[0_20_50px_rgba(0,0,0,0.04)]">
+<div class="flex justify-between items-center px-8 h-16 w-full max-w-screen-2xl mx-auto">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold tracking-tighter text-black dark:text-white font-headline">Nexus AI</span>
+<div class="hidden md:flex items-center gap-6">
+<a class="text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors font-headline tracking-tight" href="#">Models</a>
+<a class="text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors font-headline tracking-tight" href="#">API</a>
+<a class="text-black dark:text-white border-b-2 border-black dark:border-white pb-1 font-headline tracking-tight" href="#">Studio</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-gray-50 dark:hover:bg-neutral-900 transition-all active:scale-95 duration-200">
+<span class="material-symbols-outlined text-on-surface">notifications</span>
+</button>
+<button class="p-2 hover:bg-gray-50 dark:hover:bg-neutral-900 transition-all active:scale-95 duration-200">
+<span class="material-symbols-outlined text-on-surface">settings</span>
+</button>
+<div class="h-8 w-8 rounded-full overflow-hidden ml-2 ring-1 ring-black/10">
+<img alt="User profile" class="h-full w-full object-cover" data-alt="Portrait of a professional software architect in a bright, modern studio setting with soft natural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBF_GJEl62hvl1lAYr6Y_hgHhoh1OuaVhRjJUuqPAvN1nVwvkegvuole9cimxCT8-OgznZU1hybd4-gHBA0L3h37YJSqo1QV28evZeSWP_nNnRQr4A66rdNxyu1xliJ6T4spauaBBmslRR4bvqyraxpFsCqsfJbHnOGdof5S1VI-5v5GnaQ4ga3VY8SxkXQakKH11ym23djQ1JVtAqW-HWqwSX-G93ee7uKwUSZLCYzz9VlwdPZqCFolD6yIQnn9iJr93LQxxdgAewz"/>
+</div>
+</div>
+</div>
+</nav>
+<!-- Space-Time Grid Background -->
+<div class="fixed inset-0 grid-space-time pointer-events-none -z-10"></div>
+<div class="flex pt-16 min-h-screen max-w-screen-2xl mx-auto">
+<!-- SideNavBar (Documentation Context) -->
+<aside class="hidden md:flex flex-col p-6 space-y-2 h-[calc(100vh-4rem)] w-64 border-r border-black/[0.05] dark:border-white/[0.05] bg-gray-50/50 dark:bg-neutral-950/50 backdrop-blur-md sticky top-16">
+<div class="mb-8 px-2">
+<h2 class="text-lg font-bold text-black dark:text-white font-headline">Documentation</h2>
+<p class="text-xs text-gray-400 uppercase tracking-widest mt-1">v2.4.0-alpha</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-gray-500 hover:bg-white/50 transition-transform duration-200 hover:translate-x-1 font-medium text-sm font-headline" href="#">
+<span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
+<span>Introduction</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-gray-500 hover:bg-white/50 transition-transform duration-200 hover:translate-x-1 font-medium text-sm font-headline" href="#">
+<span class="material-symbols-outlined" data-icon="bolt">bolt</span>
+<span>Quickstart</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 bg-white text-black font-bold ring-1 ring-black/5 font-medium text-sm font-headline" href="#">
+<span class="material-symbols-outlined" data-icon="psychology" style="font-variation-settings: 'FILL' 1;">psychology</span>
+<span>Core Concepts</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-gray-500 hover:bg-white/50 transition-transform duration-200 hover:translate-x-1 font-medium text-sm font-headline" href="#">
+<span class="material-symbols-outlined" data-icon="code">code</span>
+<span>SDK Reference</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-gray-500 hover:bg-white/50 transition-transform duration-200 hover:translate-x-1 font-medium text-sm font-headline" href="help_center_hub.html">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span>Help Center</span>
+</a>
+</nav>
+<div class="pt-4 mt-4 border-t border-black/[0.05]">
+<button class="w-full bg-primary text-on-primary py-2 px-4 text-sm font-medium hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
+                    Get API Key
+                </button>
+</div>
+<footer class="relative z-20 w-full border-t border-outline-variant/10 bg-surface mt-auto">
+<div class="flex flex-col md:flex-row justify-between items-center px-12 py-10 w-full max-w-screen-2xl mx-auto">
+<div class="font-label text-[10px] tracking-widest uppercase text-secondary">
+            © 2024 NEXUS AI ECOSYSTEM
+        </div>
+<nav class="flex gap-8 mt-6 md:mt-0">
+<a class="font-label text-[10px] tracking-widest uppercase text-secondary hover:text-primary transition-colors duration-300" href="terms_conditions_nexus_ai.html">Terms &amp; Conditions</a>
+<a class="font-label text-[10px] tracking-widest uppercase text-secondary hover:text-primary transition-colors duration-300" href="api_documentation.html">API Docs</a>
+<a class="font-label text-[10px] tracking-widest uppercase text-secondary hover:text-primary transition-colors duration-300" href="privacy_policy_nexus_ai.html">Privacy</a>
+</nav>
+</div>
+</footer>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 px-8 md:px-16 py-12 pt-24 pb-12">
+<article class="max-w-4xl mx-auto">
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/10">
+<div class="flex justify-between items-center px-8 py-5 w-full max-w-screen-2xl mx-auto">
+<a class="flex items-center gap-2" href="nexus_ai_login_refined_grid_cursor.html">
+<span class="text-2xl font-bold tracking-tighter text-black uppercase font-headline">NEXUS AI</span>
+</a>
+<div class="flex items-center gap-8">
+<nav class="hidden md:flex gap-6">
+<a class="text-xs font-label uppercase tracking-widest text-primary hover:opacity-70 transition-opacity font-bold" href="nexus_ai_login_refined_grid_cursor.html">Gateway</a>
+<a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="help_center_hub.html">Help Center</a>
+<a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="system_status_dashboard.html">System Status</a>
+<a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="settings_profile_unified.html">Settings</a>
+</nav>
+<a class="material-symbols-outlined text-black cursor-pointer hover:opacity-70 transition-opacity" href="nexus_ai_user_account_unified_background.html">account_circle</a>
+</div>
+</div>
+</header>
+<!-- Featured Image -->
+<section class="mb-16 overflow-hidden rounded-lg bg-surface-container-low aspect-[21/9]">
+<img alt="Abstract digital geometry" class="w-full h-full object-cover mix-blend-multiply opacity-80" data-alt="Monochromatic 3D rendering of abstract geometric glass structures with sharp edges and subtle internal light refraction" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBa_lGJMnaFWwesWpYY6vUDYxjzkeAo1M1_O_XvfqZFOMXsb-Df5MYiG-O4QF6d5jNk-WDRKfkkJ1nMSXDoAKqpwGw3iOgpQwLgXMKiCdtJyCR5x1WArQk_AcxVHtTMlDWbByJ-0KhCbx0dxmBi_wAYGb5HPYTsjZEqpEUHIlrk66I8B2kUTJpCLy8p82jOg1Hxy-Hr6TwAnCbvPRCpQnn8wjL7Lnga3adcvxGGBpogskv6f1-wLNAc0GBcGHiOIZNbgJtCViCjLpJv"/>
+</section>
+<!-- Section: The Chain of Thought -->
+<section class="mb-16">
+<div class="flex items-baseline gap-4 mb-8">
+<span class="text-3xl font-headline font-bold text-outline-variant/30">01</span>
+<h2 class="text-3xl font-bold tracking-tight font-headline">The Chain of Thought</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+<div class="space-y-6 text-on-surface/80 leading-relaxed">
+<p>Chain-of-Thought (CoT) prompting enables LLMs to decompose complex problems into intermediate reasoning steps. This significantly improves performance on arithmetic, commonsense, and symbolic reasoning tasks.</p>
+<p>By forcing the model to "think aloud," you reduce the likelihood of hallucinatory leaps and ensure a logical progression toward the final output.</p>
+</div>
+<div class="glass-card p-6 border border-outline-variant/20 rounded-xl relative overflow-hidden">
+<div class="absolute top-0 right-0 p-3 opacity-10">
+<span class="material-symbols-outlined text-4xl" style="font-variation-settings: 'FILL' 1;">psychology</span>
+</div>
+<h4 class="text-xs font-bold uppercase tracking-widest text-primary-fixed mb-4">Prompt Pattern</h4>
+<div class="space-y-3 font-mono text-sm text-secondary">
+<p class="text-black">"Let's work through this step-by-step:"</p>
+<p>1. Analyze the core intent</p>
+<p>2. Identify structural constraints</p>
+<p>3. Generate logical segments</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Section: Code Implementation -->
+<section class="mb-16">
+<div class="flex items-baseline gap-4 mb-8">
+<span class="text-3xl font-headline font-bold text-outline-variant/30">02</span>
+<h2 class="text-3xl font-bold tracking-tight font-headline">Zero-Shot Chain of Thought</h2>
+</div>
+<div class="bg-primary text-on-primary p-1 rounded-lg mb-6">
+<div class="bg-neutral-900 rounded-lg p-6 font-mono text-sm overflow-x-auto border border-white/10 shadow-2xl">
+<div class="flex justify-between items-center mb-4 border-b border-white/10 pb-4">
+<span class="text-white/40">Nexus-Engine-v2 // Prompt Syntax</span>
+<span class="material-symbols-outlined text-white/40 cursor-pointer hover:text-white transition-colors">content_copy</span>
+</div>
+<div class="text-on-primary">
+<span class="text-tertiary-container"># System Instruction</span><br/>
+<span class="text-white">set_reasoning_mode(</span><span class="text-secondary-fixed">"explicit_sequential"</span><span class="text-white">)</span><br/><br/>
+<span class="text-tertiary-container"># The Prompt</span><br/>
+<span class="text-white">PROMPT = </span><span class="text-secondary-fixed">"""<br/>
+                                  Analyze the financial implications of a 0.5% rate hike.<br/>
+                                  Before providing a final answer, outline each logical leap.<br/>
+                                  Use the delimiter [REASONING_STEP].<br/>
+                                """</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Bento Grid: Principles -->
+<section class="mb-16">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="md:col-span-2 bg-surface-container-low p-8 rounded-xl border border-outline-variant/10">
+<h3 class="text-2xl font-bold font-headline mb-4">Delimiter Optimization</h3>
+<p class="text-on-surface-variant leading-relaxed mb-6">Using unique separators like ###, """, or XML tags helps the model distinguish between instructions, context, and examples.</p>
+<div class="flex gap-3">
+<span class="px-3 py-1 bg-white ring-1 ring-black/5 rounded-full text-xs font-bold uppercase tracking-tight">XML Tags</span>
+<span class="px-3 py-1 bg-white ring-1 ring-black/5 rounded-full text-xs font-bold uppercase tracking-tight">Markdown</span>
+<span class="px-3 py-1 bg-white ring-1 ring-black/5 rounded-full text-xs font-bold uppercase tracking-tight">JSON Envelopes</span>
+</div>
+</div>
+<div class="bg-primary p-8 rounded-xl flex flex-col justify-between">
+<span class="material-symbols-outlined text-on-primary text-4xl" data-icon="bolt" style="font-variation-settings: 'FILL' 1;">bolt</span>
+<div class="mt-8">
+<h3 class="text-on-primary font-bold font-headline text-xl mb-2">Zero-Shot</h3>
+<p class="text-on-primary/60 text-sm">Achieve performance parity with 5-shot prompts using optimized framing.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Section: Step-by-Step Instructions -->
+<section class="mb-16 bg-white border border-outline-variant/20 p-10 rounded-xl">
+<h2 class="text-3xl font-bold tracking-tight font-headline mb-8">Implementation Framework</h2>
+<div class="space-y-12">
+<div class="flex gap-8">
+<div class="flex-shrink-0 w-8 h-8 rounded-full bg-black text-white flex items-center justify-center font-bold text-sm">1</div>
+<div>
+<h4 class="font-bold font-headline text-lg mb-2">Define the Role</h4>
+<p class="text-on-surface-variant leading-relaxed">Always begin by assigning a specific persona. Instead of "Write a blog," use "You are an expert tech journalist specializing in AI ethics."</p>
+</div>
+</div>
+<div class="flex gap-8">
+<div class="flex-shrink-0 w-8 h-8 rounded-full bg-black text-white flex items-center justify-center font-bold text-sm">2</div>
+<div>
+<h4 class="font-bold font-headline text-lg mb-2">Inject Dynamic Context</h4>
+<p class="text-on-surface-variant leading-relaxed">Provide structured background. Use RAG (Retrieval Augmented Generation) patterns to feed real-time data into the prompt window.</p>
+</div>
+</div>
+<div class="flex gap-8">
+<div class="flex-shrink-0 w-8 h-8 rounded-full bg-black text-white flex items-center justify-center font-bold text-sm">3</div>
+<div>
+<h4 class="font-bold font-headline text-lg mb-2">Constrain the Output</h4>
+<p class="text-on-surface-variant leading-relaxed">Define the format precisely. Request specific JSON schemas, word counts, or tonal markers to ensure predictable results.</p>
+</div>
+</div>
+</div>
+</section>
+</article>
+</main>
+</div>
+<!-- Footer -->
+<footer class="w-full py-12 border-t border-black/[0.05] dark:border-white/[0.05] bg-white dark:bg-black mt-auto">
+<div class="flex flex-col md:flex-row justify-between items-center px-8 max-w-screen-2xl mx-auto">
+<span class="font-['Inter'] text-[10px] uppercase tracking-[0.05em] text-gray-400 dark:text-gray-600">
+                © 2024 Nexus AI. Celestial Precision Built.
+            </span>
+<div class="flex gap-8 mt-6 md:mt-0">
+<a class="font-['Inter'] text-[10px] uppercase tracking-[0.05em] text-gray-400 dark:text-gray-600 hover:text-black dark:hover:text-white transition-colors" href="#">Legal</a>
+<a class="font-['Inter'] text-[10px] uppercase tracking-[0.05em] text-gray-400 dark:text-gray-600 hover:text-black dark:hover:text-white transition-colors" href="privacy_policy_nexus_ai.html">Privacy</a>
+<a class="font-['Inter'] text-[10px] uppercase tracking-[0.05em] text-gray-400 dark:text-gray-600 hover:text-black dark:hover:text-white transition-colors" href="#">Security</a>
+<a class="font-['Inter'] text-[10px] uppercase tracking-[0.05em] text-gray-400 dark:text-gray-600 hover:text-black dark:hover:text-white transition-colors" href="#">Contact</a>
+</div>
+</div>
+</footer>
+<script src="interactivity.js"></script><script id="mesh-script">
+    const canvas = document.getElementById('canvas-mesh');
+    if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let mouse = { x: -1000, y: -1000 };
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resize);
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+
+        resize();
+
+        const gridSize = 45;
+        const centralForce = 220;
+        const mouseForce = 150;
+
+        function applyPhysics(x, y) {
+            let px = x;
+            let py = y;
+            
+            const dxM = px - mouse.x;
+            const dyM = py - mouse.y;
+            const distM = Math.sqrt(dxM * dxM + dyM * dyM);
+            
+            if (distM < mouseForce) {
+                // Liquid lens topographical push against mouse
+                const power = Math.pow((mouseForce - distM) / mouseForce, 2);
+                px += dxM * power * 1.5;
+                py += dyM * power * 1.5;
+            }
+            
+            return { x: px, y: py };
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, width, height);
+            ctx.strokeStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.lineWidth = 1;
+
+            for (let x = 0; x <= width; x += gridSize) {
+                ctx.beginPath();
+                for (let y = 0; y <= height; y += 4) {
+                    const pos = applyPhysics(x, y);
+                    if (y === 0) ctx.moveTo(pos.x, pos.y);
+                    else ctx.lineTo(pos.x, pos.y);
+                }
+                ctx.stroke();
+            }
+
+            for (let y = 0; y <= height; y += gridSize) {
+                ctx.beginPath();
+                for (let x = 0; x <= width; x += 4) {
+                    const pos = applyPhysics(x, y);
+                    if (x === 0) ctx.moveTo(pos.x, pos.y);
+                    else ctx.lineTo(pos.x, pos.y);
+                }
+                ctx.stroke();
+            }
+            requestAnimationFrame(draw);
+        }
+        draw();
+    }
+</script></body></html>
