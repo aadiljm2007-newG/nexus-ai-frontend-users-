@@ -1,0 +1,187 @@
+/* Global responsive safeguards for all Nexus AI pages */
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
+  height: auto;
+}
+
+iframe,
+embed,
+object {
+  max-width: 100%;
+}
+
+table {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+button,
+input,
+select,
+textarea {
+  max-width: 100%;
+}
+
+@media (max-width: 1200px) {
+  body {
+    overflow-x: hidden;
+  }
+
+  .fixed,
+  .sticky {
+    max-width: 100vw;
+  }
+
+  [class*="max-w-7xl"],
+  [class*="max-w-6xl"],
+  [class*="max-w-5xl"],
+  [class*="max-w-4xl"] {
+    max-width: calc(100vw - 1rem) !important;
+  }
+}
+
+@media (max-width: 1024px) {
+  .grid {
+    gap: 1rem;
+  }
+
+  .flex,
+  .grid {
+    min-width: 0;
+  }
+
+  [class*="px-16"],
+  [class*="px-12"] {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
+  [class*="py-20"],
+  [class*="pt-40"],
+  [class*="pt-24"] {
+    padding-top: 5rem !important;
+  }
+}
+
+@media (max-width: 768px) {
+  button,
+  .btn,
+  input[type="submit"],
+  input[type="button"] {
+    width: 100%;
+  }
+
+  [class*="grid-cols-2"],
+  [class*="grid-cols-3"],
+  [class*="grid-cols-4"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  [class*="text-5xl"],
+  [class*="text-6xl"] {
+    font-size: clamp(2rem, 8vw, 3rem) !important;
+    line-height: 1.1 !important;
+  }
+}
+
+@media (max-width: 640px) {
+  [class*="rounded-3xl"],
+  [class*="rounded-[2rem]"],
+  [class*="rounded-xl"] {
+    border-radius: 1rem !important;
+  }
+
+  .glass-card,
+  .glass-panel,
+  .obsidian-glass {
+    padding: 1rem !important;
+  }
+
+  .glass-card h1,
+  .glass-panel h1,
+  .glass-panel h2 {
+    font-size: clamp(1.5rem, 7vw, 2.2rem) !important;
+    line-height: 1.1 !important;
+  }
+
+  [class*="p-12"],
+  [class*="p-10"],
+  [class*="p-8"],
+  [class*="p-6"] {
+    padding: 1rem !important;
+  }
+
+  [class*="gap-12"],
+  [class*="gap-10"],
+  [class*="gap-8"] {
+    gap: 1rem !important;
+  }
+
+  header .max-w-screen-2xl,
+  main,
+  section {
+    max-width: 100vw;
+  }
+}
+
+/* Settings pages: sidebar/content harmonization */
+@media (max-width: 1200px) {
+  aside[class*="fixed left-0 top-20"][class*="w-64"] {
+    position: relative !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+    border-right: 0 !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+    z-index: 20 !important;
+  }
+
+  aside[class*="fixed left-0 top-20"][class*="w-64"] nav {
+    max-height: 42vh;
+    overflow-y: auto;
+  }
+
+  aside[class*="fixed left-0 top-20"][class*="w-64"] ~ main,
+  aside[class*="fixed left-0 top-20"][class*="w-64"] + main {
+    margin-left: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
+  div[class*="flex min-h-screen pt-24"] {
+    display: block !important;
+    min-height: auto !important;
+    padding-top: 5.5rem !important;
+  }
+}
+
+@media (max-width: 768px) {
+  aside[class*="fixed left-0 top-20"][class*="w-64"] {
+    border-radius: 0 !important;
+  }
+
+  aside[class*="fixed left-0 top-20"][class*="w-64"] .p-8,
+  aside[class*="fixed left-0 top-20"][class*="w-64"] .p-6 {
+    padding: 0.9rem !important;
+  }
+
+  .nav-item {
+    padding-top: 0.6rem !important;
+    padding-bottom: 0.6rem !important;
+    gap: 0.55rem !important;
+  }
+}
