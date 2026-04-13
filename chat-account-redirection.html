@@ -77,6 +77,158 @@
             transform: translate(calc(100% + 24px), -50%) !important;
         }
 
+        @keyframes glass-glare {
+            0% {
+                transform: translateX(-120%) rotate(14deg);
+                opacity: 0;
+            }
+            18% {
+                opacity: 0.55;
+            }
+            50% {
+                opacity: 0.28;
+            }
+            100% {
+                transform: translateX(120%) rotate(14deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes glass-shimmer {
+            0%, 100% {
+                opacity: 0.32;
+            }
+            50% {
+                opacity: 0.55;
+            }
+        }
+
+        .glass-glare {
+            animation: glass-glare 7s ease-in-out infinite;
+        }
+
+        .glass-shimmer {
+            animation: glass-shimmer 5s ease-in-out infinite;
+        }
+
+        .center-glass-shell {
+            width: min(42rem, calc(100vw - 2rem));
+            height: min(42rem, calc(100vw - 2rem));
+            max-height: calc(100vh - 12rem);
+        }
+
+        @media (max-width: 1280px) {
+            #sidebar-left {
+                width: min(20rem, calc(100vw - 2rem));
+            }
+
+            #sidebar-right {
+                width: min(22rem, calc(100vw - 2rem));
+            }
+        }
+
+        @media (max-width: 1024px) {
+            #main-content {
+                padding-top: 5.5rem;
+                padding-bottom: 7rem;
+            }
+
+            #session-title {
+                top: 1rem;
+                max-width: calc(100vw - 2rem);
+                overflow: hidden;
+            }
+
+            #session-title span {
+                max-width: 100%;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                display: block;
+            }
+
+            #user-profile {
+                top: 0.9rem;
+                right: 0.9rem;
+            }
+
+            #sidebar-left,
+            #sidebar-right {
+                top: 4.25rem;
+                bottom: 6.25rem;
+                height: auto;
+                border-radius: 1.5rem;
+                padding: 1rem;
+            }
+
+            #sidebar-left {
+                left: 0.75rem;
+                width: min(20rem, calc(100vw - 1.5rem));
+            }
+
+            #sidebar-right {
+                right: 0.75rem;
+                width: min(20rem, calc(100vw - 1.5rem));
+                transform: none;
+            }
+
+            .sidebar-right-closed {
+                transform: translateX(calc(100% + 24px)) !important;
+            }
+
+            .sidebar-handle {
+                width: 28px;
+                height: 68px;
+            }
+
+            .center-glass-shell {
+                width: min(30rem, calc(100vw - 2.5rem));
+                height: min(30rem, calc(100vw - 2.5rem));
+                max-height: calc(100vh - 14rem);
+            }
+        }
+
+        @media (max-width: 640px) {
+            #main-content {
+                padding-top: 5rem;
+                padding-bottom: 6.5rem;
+            }
+
+            #sidebar-left,
+            #sidebar-right {
+                top: 4rem;
+                bottom: 6rem;
+                width: calc(100vw - 1rem);
+                left: 0.5rem;
+                right: 0.5rem;
+            }
+
+            #sidebar-left {
+                right: auto;
+            }
+
+            #sidebar-right {
+                right: 0.5rem;
+                left: auto;
+            }
+
+            #floating-input-container {
+                bottom: 0.75rem;
+                padding-left: 0.75rem;
+                padding-right: 0.75rem;
+            }
+
+            #floating-input-container > div {
+                padding: 0.5rem;
+                gap: 0.25rem;
+            }
+
+            .center-glass-shell {
+                width: min(22rem, calc(100vw - 1.5rem));
+                height: min(22rem, calc(100vw - 1.5rem));
+                max-height: calc(100vh - 15rem);
+            }
+        }
+
         #user-profile {
             z-index: 100;
         }
@@ -153,24 +305,6 @@
 </head>
 <body class="font-body bg-background text-on-surface min-h-screen flex flex-col overflow-x-hidden selection:bg-primary selection:text-white"><canvas id="canvas-mesh"></canvas>
 
-    <!-- Global Navigation Header -->
-    <header class="fixed top-0 w-full z-[100] bg-surface/80 backdrop-blur-xl border-b border-outline-variant/10">
-      <div class="flex justify-between items-center px-8 py-5 w-full max-w-screen-2xl mx-auto">
-        <a class="flex items-center gap-2" href="login.html">
-          <span class="text-2xl font-bold tracking-tighter text-black uppercase font-headline">NEXUS AI</span>
-        </a>
-        <div class="flex items-center gap-8">
-          <nav class="hidden md:flex gap-6">
-            <a class="text-xs font-label uppercase tracking-widest text-primary hover:opacity-70 transition-opacity font-bold" href="login.html">Gateway</a>
-            <a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="help-center.html">Help Center</a>
-            <a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="system-status.html">System Status</a>
-            <a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="settings-profile.html">Settings</a>
-          </nav>
-          <a class="material-symbols-outlined text-black cursor-pointer hover:opacity-70 transition-opacity" href="user-account.html">account_circle</a>
-        </div>
-      </div>
-    </header>
-
     
     
     
@@ -179,44 +313,49 @@
 
 <div id="warp-overlay"></div>
 <!-- Floating Left Sidebar -->
-<aside class="fixed left-6 top-20 bottom-20 w-80 bg-white/80 backdrop-blur-xl border border-black/5 z-40 rounded-3xl shadow-xl transition-transform duration-500 sidebar-left-closed flex flex-col p-6" id="sidebar-left">
+<aside class="fixed left-6 top-12 bottom-12 w-[22rem] bg-white/85 backdrop-blur-xl border border-black/5 z-40 rounded-[2rem] shadow-[0_24px_70px_rgba(0,0,0,0.10)] transition-transform duration-500 sidebar-left-closed flex flex-col p-5" id="sidebar-left">
 <!-- Pull Tab Handle Left -->
-<div class="sidebar-handle -right-8 bg-white/80 backdrop-blur-xl border border-black/5 rounded-r-xl shadow-[4px_0_10px_-4px_rgba(0,0,0,0.1)]" onclick="toggleLeftSidebar()">
+<div class="sidebar-handle -right-8 bg-white/90 backdrop-blur-xl border border-black/5 rounded-r-xl shadow-[4px_0_10px_-4px_rgba(0,0,0,0.1)]" onclick="toggleLeftSidebar()">
 <span class="material-symbols-outlined text-gray-400 text-lg transition-transform duration-300" id="left-arrow">chevron_right</span>
 </div>
-<div class="flex items-center mb-8 px-2">
-<div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-lg mr-4">
+<div class="flex items-center gap-3 mb-8 px-2 py-1">
+<div class="w-10 h-10 bg-primary rounded-2xl flex items-center justify-center shadow-lg shrink-0">
 <span class="material-symbols-outlined text-white text-base" style="font-variation-settings: 'FILL' 1;">deployed_code</span>
 </div>
-<h2 class="text-[11px] font-label font-bold uppercase tracking-[0.2em] text-black">Project Hub</h2>
+<div>
+<h2 class="text-[11px] font-label font-bold uppercase tracking-[0.28em] text-black">Project Hub</h2>
+<p class="text-[10px] text-gray-400 mt-1">Workspace overview</p>
 </div>
-<nav class="flex-1 space-y-2 overflow-y-auto pr-2">
-<div class="flex items-center gap-3 px-4 py-3 bg-black text-white rounded-xl cursor-pointer transition-all duration-300 shadow-md shadow-black/10 mb-6">
+</div>
+<nav class="flex-1 space-y-4 overflow-y-auto pr-1">
+<div class="flex items-center gap-3 px-4 py-4 bg-black text-white rounded-2xl cursor-pointer transition-all duration-300 shadow-[0_12px_24px_rgba(0,0,0,0.18)] mb-6 hover:scale-[1.01] active:scale-[0.99]">
 <span class="material-symbols-outlined text-[20px]" data-icon="add">add</span>
-<span class="text-sm font-medium">New Project</span>
+<span class="text-sm font-semibold tracking-wide">New Project</span>
 </div>
 <div class="space-y-4">
-<h3 class="text-[10px] font-label font-bold uppercase tracking-widest text-gray-400 px-4">Message History</h3>
-<div class="space-y-2">
-<div class="px-4 py-3 hover:bg-black/5 rounded-xl cursor-pointer transition-colors border border-transparent hover:border-black/5 group">
-<p class="text-[11px] font-medium text-black line-clamp-1">Alpha-7 Kernel Optimization</p>
-<p class="text-[10px] text-gray-400 mt-1">2 hours ago</p>
+<div class="flex items-center justify-between px-1">
+<h3 class="text-[10px] font-label font-bold uppercase tracking-[0.22em] text-gray-400">Message History</h3>
 </div>
-<div class="px-4 py-3 hover:bg-black/5 rounded-xl cursor-pointer transition-colors border border-transparent hover:border-black/5 group">
-<p class="text-[11px] font-medium text-black line-clamp-1">Neural Topology Mapping</p>
-<p class="text-[10px] text-gray-400 mt-1">Yesterday</p>
+<div class="space-y-3">
+<div class="px-4 py-4 bg-surface/90 hover:bg-white rounded-2xl cursor-pointer transition-all border border-black/5 hover:border-black/10 hover:shadow-sm group" data-history-item data-history-filter="recent">
+<p class="text-sm font-medium text-black line-clamp-1">Alpha-7 Kernel Optimization</p>
+<p class="text-[10px] text-gray-400 mt-1.5">2 hours ago</p>
 </div>
-<div class="px-4 py-3 hover:bg-black/5 rounded-xl cursor-pointer transition-colors border border-transparent hover:border-black/5 group">
-<p class="text-[11px] font-medium text-black line-clamp-1">Latent Space Visualization</p>
-<p class="text-[10px] text-gray-400 mt-1">Oct 24</p>
+<div class="px-4 py-4 bg-surface/90 hover:bg-white rounded-2xl cursor-pointer transition-all border border-black/5 hover:border-black/10 hover:shadow-sm group" data-history-item data-history-filter="yesterday">
+<p class="text-sm font-medium text-black line-clamp-1">Neural Topology Mapping</p>
+<p class="text-[10px] text-gray-400 mt-1.5">Yesterday</p>
+</div>
+<div class="px-4 py-4 bg-surface/90 hover:bg-white rounded-2xl cursor-pointer transition-all border border-black/5 hover:border-black/10 hover:shadow-sm group" data-history-item data-history-filter="archive">
+<p class="text-sm font-medium text-black line-clamp-1">Latent Space Visualization</p>
+<p class="text-[10px] text-gray-400 mt-1.5">Oct 24</p>
 </div>
 </div>
 </div>
 </nav>
-<div class="mt-auto space-y-1 pt-4 border-t border-black/5">
-<div class="flex items-center gap-3 px-4 py-3 text-gray-500 hover:bg-black/5 rounded-xl cursor-pointer transition-colors duration-200">
+<div class="mt-auto pt-5 border-t border-black/5">
+<div class="flex items-center gap-3 px-4 py-4 text-gray-500 hover:bg-black/5 rounded-2xl cursor-pointer transition-colors duration-200">
 <span class="material-symbols-outlined text-[20px]" data-icon="settings">settings</span>
-<span class="text-sm">Config</span>
+<span class="text-sm font-medium">Config</span>
 </div>
 </div>
 </aside>
@@ -227,17 +366,31 @@
 <span class="text-[10px] font-label tracking-[0.3em] text-primary-fixed uppercase whitespace-nowrap bg-white/60 backdrop-blur-md px-5 py-2.5 rounded-full border border-black/5 shadow-sm">Current Session: Alpha-7</span>
 </div>
 <!-- Integrated Account Profile -->
-<div class="fixed top-6 right-6" id="user-profile"><a class="block" href="{{DATA:SCREEN:SCREEN_30}}">
+<div class="fixed top-6 right-6" id="user-profile"><button class="block" id="open-account-popup-btn" type="button">
 <div class="w-12 h-12 rounded-full bg-white backdrop-blur-xl border border-black/5 shadow-lg flex items-center justify-center cursor-pointer hover:scale-105 transition-all group overflow-hidden">
 <span class="material-symbols-outlined text-[28px] text-on-surface-variant group-hover:text-primary" data-icon="account_circle">account_circle</span>
 </div>
-</a></div>
+</button></div>
 <!-- Chat Canvas -->
-<section class="flex-1 overflow-y-auto px-8 pt-24 pb-36 space-y-12 max-w-4xl mx-auto w-full bg-transparent">
+<section class="flex-1 overflow-y-auto px-4 sm:px-6 lg:px-8 pt-24 pb-36 space-y-12 max-w-4xl mx-auto w-full bg-transparent relative">
+<div class="pointer-events-none fixed inset-0 z-10 flex items-center justify-center pb-6 sm:pb-8">
+<div class="center-glass-shell relative">
+<div class="absolute inset-0 translate-x-5 translate-y-5 rounded-[2.25rem] bg-black/12 blur-3xl"></div>
+<div class="absolute inset-0 rounded-[2.25rem] border border-white/75 bg-white/18 backdrop-blur-3xl shadow-[inset_0_1px_0_rgba(255,255,255,0.95),0_26px_60px_rgba(0,0,0,0.12),0_2px_0_rgba(255,255,255,0.35)]"></div>
+<div class="absolute inset-[8px] rounded-[1.95rem] bg-gradient-to-br from-white/70 via-white/24 to-white/5 shadow-[inset_-16px_-18px_28px_rgba(255,255,255,0.32),inset_18px_18px_30px_rgba(255,255,255,0.18)]"></div>
+<div class="absolute inset-[12px] rounded-[1.8rem] border border-white/55"></div>
+<div class="absolute left-[7%] right-[7%] top-[10%] h-[22%] rounded-full bg-white/30 blur-2xl"></div>
+<div class="absolute left-[5%] top-[12%] bottom-[12%] w-[18%] rounded-full bg-gradient-to-r from-white/40 to-transparent blur-lg"></div>
+<div class="absolute right-[7%] top-[14%] bottom-[14%] w-[14%] rounded-full bg-gradient-to-l from-white/20 to-transparent blur-md"></div>
+<div class="absolute inset-[18px] rounded-[1.55rem] border border-white/25 bg-gradient-to-b from-white/10 via-transparent to-black/5"></div>
+<div class="glass-shimmer absolute inset-[6px] rounded-[2rem] bg-[linear-gradient(115deg,transparent_18%,rgba(255,255,255,0.55)_46%,rgba(255,255,255,0.12)_54%,transparent_80%)] mix-blend-screen opacity-40"></div>
+<div class="glass-glare absolute inset-y-0 left-[-40%] w-[28%] rounded-full bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.8),rgba(255,255,255,0.18),transparent)] blur-sm"></div>
+</div>
+</div>
 <!-- Main canvas content -->
 </section>
 <!-- Fixed Floating Input Bar -->
-<div class="fixed bottom-8 z-30 left-0 right-0 px-8 pointer-events-none" id="floating-input-container">
+<div class="fixed bottom-8 z-30 left-0 right-0 px-4 sm:px-6 lg:px-8 pointer-events-none" id="floating-input-container">
 <div class="max-w-3xl mx-auto obsidian-glass rounded-3xl p-2.5 flex items-center gap-2 border border-white/10 shadow-2xl pointer-events-auto">
 <button class="w-10 h-10 flex items-center justify-center text-white/50 hover:text-white transition-colors">
 <span class="material-symbols-outlined" data-icon="attach_file">attach_file</span>
@@ -249,20 +402,147 @@
 <button class="w-10 h-10 flex items-center justify-center text-white/50 hover:text-white transition-colors">
 <span class="material-symbols-outlined" data-icon="call">call</span>
 </button>
-<button class="h-10 px-8 bg-white text-black rounded-2xl font-label text-[11px] font-bold uppercase tracking-wider hover:scale-[1.02] active:scale-95 transition-all">
+<button class="h-10 px-4 sm:px-6 lg:px-8 bg-white text-black rounded-2xl font-label text-[10px] sm:text-[11px] font-bold uppercase tracking-wider hover:scale-[1.02] active:scale-95 transition-all">
                 Execute
             </button>
 </div>
 </div>
 </main>
-<!-- Floating Right Sidebar - EMPTY GLASSMORPHIC PANEL -->
-<aside class="fixed right-6 top-1/2 w-1/2 h-[60%] bg-white/80 backdrop-blur-xl border border-black/5 z-40 rounded-3xl shadow-xl transition-all duration-500 sidebar-right-closed flex flex-col p-8" id="sidebar-right">
+<div class="fixed inset-0 z-[140] hidden items-center justify-center p-4 sm:p-6" id="account-popup-overlay">
+<div class="absolute inset-0 bg-black/35 backdrop-blur-[2px]" id="account-popup-backdrop"></div>
+<div class="relative w-full max-w-3xl rounded-3xl border border-white/50 bg-white/85 backdrop-blur-2xl shadow-[0_24px_70px_rgba(0,0,0,0.22)] p-5 sm:p-7 max-h-[88vh] overflow-y-auto">
+<div class="flex items-start justify-between gap-4 mb-6">
+<div>
+<p class="text-[10px] font-label uppercase tracking-[0.22em] text-gray-500">Account Details</p>
+<h3 class="text-2xl font-semibold text-black mt-1">Nexus User Profile</h3>
+</div>
+<button class="h-9 w-9 rounded-full border border-black/10 bg-white text-gray-500 hover:text-black hover:border-black/20 transition-colors flex items-center justify-center" id="close-account-popup-btn" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<div class="rounded-2xl border border-black/5 bg-white/80 p-4 sm:p-5 mb-4">
+<div class="flex flex-col sm:flex-row sm:items-center gap-4">
+<div class="h-16 w-16 rounded-2xl bg-black text-white flex items-center justify-center shadow-lg">
+<span class="material-symbols-outlined text-[30px]">account_circle</span>
+</div>
+<div class="flex-1">
+<p class="text-lg font-semibold text-black profile-editable" data-field="name">Nexus Operator</p>
+<p class="text-sm text-gray-500 profile-editable" data-field="email">operator@nexus.ai</p>
+<div class="mt-3 flex flex-wrap gap-2">
+<span class="inline-flex items-center rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-[11px] font-semibold text-emerald-700">Active</span>
+<span class="inline-flex items-center rounded-full border border-black/10 bg-white px-3 py-1 text-[11px] font-semibold text-gray-600">Administrator</span>
+<span class="inline-flex items-center rounded-full border border-black/10 bg-white px-3 py-1 text-[11px] font-semibold text-gray-600">2FA Enabled</span>
+</div>
+</div>
+</div>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="rounded-2xl border border-black/5 bg-white/80 p-4">
+<p class="text-[10px] font-label uppercase tracking-[0.18em] text-gray-400 mb-3">Personal Info</p>
+<div class="space-y-3">
+<div>
+<p class="text-[10px] uppercase tracking-[0.14em] text-gray-400">Full Name</p>
+<p class="text-sm font-medium text-black mt-1 profile-editable" data-field="full-name">Nexus Operator</p>
+</div>
+<div>
+<p class="text-[10px] uppercase tracking-[0.14em] text-gray-400">Phone</p>
+<p class="text-sm font-medium text-black mt-1 profile-editable" data-field="phone">+1 (555) 294-7781</p>
+</div>
+<div>
+<p class="text-[10px] uppercase tracking-[0.14em] text-gray-400">Location</p>
+<p class="text-sm font-medium text-black mt-1 profile-editable" data-field="location">San Francisco, CA</p>
+</div>
+</div>
+</div>
+
+<div class="rounded-2xl border border-black/5 bg-white/80 p-4">
+<p class="text-[10px] font-label uppercase tracking-[0.18em] text-gray-400 mb-3">Account Info</p>
+<div class="space-y-3">
+<div>
+<p class="text-[10px] uppercase tracking-[0.14em] text-gray-400">User ID</p>
+<p class="text-sm font-medium text-black mt-1 profile-editable" data-field="user-id">NX-OPR-78214</p>
+</div>
+<div>
+<p class="text-[10px] uppercase tracking-[0.14em] text-gray-400">Plan</p>
+<p class="text-sm font-medium text-black mt-1 profile-editable" data-field="plan">Enterprise Core</p>
+</div>
+<div>
+<p class="text-[10px] uppercase tracking-[0.14em] text-gray-400">Last Login</p>
+<p class="text-sm font-medium text-black mt-1 profile-editable" data-field="last-login">Apr 13, 2026 • 10:37 AM</p>
+</div>
+</div>
+</div>
+
+<div class="rounded-2xl border border-black/5 bg-white/80 p-4 md:col-span-2">
+<p class="text-[10px] font-label uppercase tracking-[0.18em] text-gray-400 mb-3">Security and Preferences</p>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+<div class="rounded-xl border border-black/5 bg-white px-3 py-3">
+<p class="text-[10px] uppercase tracking-[0.14em] text-gray-400">MFA</p>
+<p class="text-sm font-semibold text-emerald-700 mt-1">Enabled</p>
+</div>
+<div class="rounded-xl border border-black/5 bg-white px-3 py-3">
+<p class="text-[10px] uppercase tracking-[0.14em] text-gray-400">API Key Status</p>
+<p class="text-sm font-semibold text-black mt-1">2 Active Keys</p>
+</div>
+<div class="rounded-xl border border-black/5 bg-white px-3 py-3">
+<p class="text-[10px] uppercase tracking-[0.14em] text-gray-400">Notifications</p>
+<p class="text-sm font-semibold text-black mt-1">Priority Only</p>
+</div>
+</div>
+</div>
+
+<div class="md:col-span-2 flex flex-col sm:flex-row gap-3 pt-1">
+<button class="flex-1 rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm font-semibold text-black hover:border-black/20 transition-colors" id="edit-profile-btn" type="button">Edit Profile</button>
+<button class="flex-1 rounded-2xl bg-black px-4 py-3 text-sm font-semibold text-white hover:opacity-90 transition-opacity" id="manage-account-btn" type="button">Manage Account</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Floating Right Sidebar - CLEAN GLASSMORPHIC PANEL -->
+<aside class="fixed right-6 top-1/2 h-[72vh] w-[25rem] bg-white/85 backdrop-blur-xl border border-black/5 z-40 rounded-[2rem] shadow-[0_24px_70px_rgba(0,0,0,0.10)] transition-all duration-500 sidebar-right-closed flex flex-col p-5" id="sidebar-right">
 <!-- Pull Tab Handle Right -->
-<div class="sidebar-handle -left-8 bg-white/80 backdrop-blur-xl border border-black/5 rounded-l-xl shadow-[-4px_0_10px_-4px_rgba(0,0,0,0.1)]" onclick="toggleRightSidebar()">
+<div class="sidebar-handle -left-8 bg-white/90 backdrop-blur-xl border border-black/5 rounded-l-xl shadow-[-4px_0_10px_-4px_rgba(0,0,0,0.1)]" onclick="toggleRightSidebar()">
 <span class="material-symbols-outlined text-gray-400 text-lg transition-transform duration-300" id="right-arrow">chevron_left</span>
 </div>
-<!-- Empty Container -->
-<div class="flex-1"></div>
+<div class="flex items-center gap-3 mb-6 px-2 py-1">
+<div class="w-10 h-10 bg-black rounded-2xl flex items-center justify-center shadow-lg shrink-0">
+<span class="material-symbols-outlined text-white text-base" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+</div>
+<div>
+<h2 class="text-[11px] font-label font-bold uppercase tracking-[0.28em] text-black">Workspace Details</h2>
+<p class="text-[10px] text-gray-400 mt-1">Quick context and tools</p>
+</div>
+</div>
+<div class="flex-1 space-y-4 overflow-y-auto pr-1">
+<div class="rounded-2xl border border-black/5 bg-surface/90 p-4">
+<p class="text-[10px] font-label uppercase tracking-[0.22em] text-gray-400 mb-2">Session</p>
+<p class="text-sm font-medium text-black">Alpha-7 active</p>
+<p class="text-xs text-gray-400 mt-1 leading-relaxed">Focused on your current conversation and chat workflow.</p>
+</div>
+<div class="rounded-2xl border border-black/5 bg-surface/90 p-4">
+<p class="text-[10px] font-label uppercase tracking-[0.22em] text-gray-400 mb-3">Quick Actions</p>
+<div class="grid grid-cols-1 gap-2">
+<button class="flex items-center justify-between gap-3 rounded-2xl border border-black/5 bg-white px-4 py-3 text-left transition-all hover:border-black/10 hover:shadow-sm" id="focus-composer-btn" type="button">
+<span class="flex items-center gap-2 text-sm font-medium text-black"><span class="material-symbols-outlined text-[16px] text-gray-400">edit</span>Focus Composer</span>
+<span class="material-symbols-outlined text-[16px] text-gray-300">arrow_forward</span>
+</button>
+<button class="flex items-center justify-between gap-3 rounded-2xl border border-black/5 bg-white px-4 py-3 text-left transition-all hover:border-black/10 hover:shadow-sm" id="show-all-history-btn" type="button">
+<span class="flex items-center gap-2 text-sm font-medium text-black"><span class="material-symbols-outlined text-[16px] text-gray-400">history</span>Show All History</span>
+<span class="material-symbols-outlined text-[16px] text-gray-300">arrow_forward</span>
+</button>
+</div>
+</div>
+<div class="rounded-2xl border border-black/5 bg-surface/90 p-4">
+<p class="text-[10px] font-label uppercase tracking-[0.22em] text-gray-400 mb-3">History Filters</p>
+<div class="flex flex-wrap gap-2">
+<button class="history-filter-btn rounded-full border border-black/5 bg-black text-white px-3 py-2 text-[10px] font-bold uppercase tracking-[0.18em] transition-all" data-filter="all" type="button">All</button>
+<button class="history-filter-btn rounded-full border border-black/5 bg-white px-3 py-2 text-[10px] font-bold uppercase tracking-[0.18em] text-gray-600 transition-all hover:border-black/10" data-filter="recent" type="button">Recent</button>
+<button class="history-filter-btn rounded-full border border-black/5 bg-white px-3 py-2 text-[10px] font-bold uppercase tracking-[0.18em] text-gray-600 transition-all hover:border-black/10" data-filter="yesterday" type="button">Yesterday</button>
+<button class="history-filter-btn rounded-full border border-black/5 bg-white px-3 py-2 text-[10px] font-bold uppercase tracking-[0.18em] text-gray-600 transition-all hover:border-black/10" data-filter="archive" type="button">Archive</button>
+</div>
+</div>
+</div>
 </aside>
 <script>
     // Mouse movement grid reaction
@@ -289,19 +569,134 @@
         // Rotate arrow 180 degrees when open
         rightArrow.style.transform = isClosed ? 'rotate(0deg)' : 'rotate(180deg)';
     }
+
+    const focusComposerBtn = document.getElementById('focus-composer-btn');
+    const showAllHistoryBtn = document.getElementById('show-all-history-btn');
+    const historyFilterButtons = Array.from(document.querySelectorAll('.history-filter-btn'));
+    const historyItems = Array.from(document.querySelectorAll('[data-history-item]'));
+    const composerInput = document.querySelector('#floating-input-container input[type="text"]');
+    const openAccountPopupBtn = document.getElementById('open-account-popup-btn');
+    const accountPopupOverlay = document.getElementById('account-popup-overlay');
+    const accountPopupBackdrop = document.getElementById('account-popup-backdrop');
+    const closeAccountPopupBtn = document.getElementById('close-account-popup-btn');
+    const editProfileBtn = document.getElementById('edit-profile-btn');
+    const manageAccountBtn = document.getElementById('manage-account-btn');
+    const editableProfileFields = Array.from(document.querySelectorAll('.profile-editable'));
+    let isEditingProfile = false;
+
+    function setActiveHistoryFilter(filterName) {
+        historyFilterButtons.forEach((button) => {
+            const isActive = button.dataset.filter === filterName;
+            button.classList.toggle('bg-black', isActive);
+            button.classList.toggle('text-white', isActive);
+            button.classList.toggle('bg-white', !isActive);
+            button.classList.toggle('text-gray-600', !isActive);
+        });
+
+        historyItems.forEach((item) => {
+            const shouldShow = filterName === 'all' || item.dataset.historyFilter === filterName;
+            item.classList.toggle('hidden', !shouldShow);
+        });
+    }
+
+    if (focusComposerBtn && composerInput) {
+        focusComposerBtn.addEventListener('click', () => {
+            composerInput.focus();
+            composerInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+    }
+
+    if (showAllHistoryBtn) {
+        showAllHistoryBtn.addEventListener('click', () => {
+            setActiveHistoryFilter('all');
+        });
+    }
+
+    historyFilterButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            setActiveHistoryFilter(button.dataset.filter);
+        });
+    });
+
+    function openAccountPopup() {
+        if (!accountPopupOverlay) {
+            return;
+        }
+        accountPopupOverlay.classList.remove('hidden');
+        accountPopupOverlay.classList.add('flex');
+    }
+
+    function closeAccountPopup() {
+        if (!accountPopupOverlay) {
+            return;
+        }
+        accountPopupOverlay.classList.add('hidden');
+        accountPopupOverlay.classList.remove('flex');
+    }
+
+    if (openAccountPopupBtn) {
+        openAccountPopupBtn.addEventListener('click', openAccountPopup);
+    }
+
+    if (closeAccountPopupBtn) {
+        closeAccountPopupBtn.addEventListener('click', closeAccountPopup);
+    }
+
+    if (accountPopupBackdrop) {
+        accountPopupBackdrop.addEventListener('click', closeAccountPopup);
+    }
+
+    function setProfileEditMode(editMode) {
+        isEditingProfile = editMode;
+        editableProfileFields.forEach((field) => {
+            field.contentEditable = editMode ? 'true' : 'false';
+            field.spellcheck = false;
+            field.classList.toggle('rounded-md', editMode);
+            field.classList.toggle('bg-white', editMode);
+            field.classList.toggle('px-2', editMode);
+            field.classList.toggle('py-1', editMode);
+            field.classList.toggle('outline', editMode);
+            field.classList.toggle('outline-1', editMode);
+            field.classList.toggle('outline-black/10', editMode);
+        });
+
+        if (editProfileBtn) {
+            editProfileBtn.textContent = editMode ? 'Save Profile' : 'Edit Profile';
+        }
+    }
+
+    if (editProfileBtn) {
+        editProfileBtn.addEventListener('click', () => {
+            if (!isEditingProfile) {
+                setProfileEditMode(true);
+                if (editableProfileFields.length > 0) {
+                    editableProfileFields[0].focus();
+                }
+                return;
+            }
+
+            setProfileEditMode(false);
+        });
+    }
+
+    if (manageAccountBtn) {
+        manageAccountBtn.addEventListener('click', () => {
+            window.location.href = 'settings-profile.html';
+        });
+    }
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+            if (isEditingProfile) {
+                setProfileEditMode(false);
+            }
+            closeAccountPopup();
+        }
+    });
+
+    setActiveHistoryFilter('all');
 </script>
-<footer class="relative z-20 w-full border-t border-outline-variant/10 bg-surface mt-auto">
-<div class="flex flex-col md:flex-row justify-between items-center px-12 py-10 w-full max-w-screen-2xl mx-auto">
-<div class="font-label text-[10px] tracking-widest uppercase text-secondary">
-            © 2024 NEXUS AI ECOSYSTEM
-        </div>
-<nav class="flex gap-8 mt-6 md:mt-0">
-<a class="font-label text-[10px] tracking-widest uppercase text-secondary hover:text-primary transition-colors duration-300" href="terms-and-conditions.html">Terms &amp; Conditions</a>
-<a class="font-label text-[10px] tracking-widest uppercase text-secondary hover:text-primary transition-colors duration-300" href="api-documentation.html">API Docs</a>
-<a class="font-label text-[10px] tracking-widest uppercase text-secondary hover:text-primary transition-colors duration-300" href="privacy-policy.html">Privacy</a>
-</nav>
-</div>
-</footer><script id="mesh-script">
+<script id="mesh-script">
     const canvas = document.getElementById('canvas-mesh');
     if (canvas) {
         const ctx = canvas.getContext('2d');
