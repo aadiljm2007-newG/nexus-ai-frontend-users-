@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nexus AI - Advanced Settings</title>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        #grid-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.6;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            -webkit-backdrop-filter: blur(20px);
+      backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .glass-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.05);
+        }
+        .nav-link {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 0;
+            background: black;
+            transition: width 0.3s ease;
+            z-index: -1;
+        }
+        .nav-link:hover {
+            color: black;
+            padding-left: 2rem;
+        }
+        .nav-link:hover span.material-symbols-outlined {
+            transform: translateX(4px);
+        }
+        .nav-link span.material-symbols-outlined {
+            transition: transform 0.3s ease;
+        }
+        .active-link {
+            color: black !important;
+            border-right: 2px solid black;
+            background: rgba(0, 0, 0, 0.03);
+        }
+        .toggle-btn {
+            transition: background-color 0.2s ease;
+        }
+        .toggle-thumb {
+            transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #111;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #333;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+    
+        #canvas-mesh { position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index: 5; }
+    
+        .fill-icon { font-variation-settings: 'FILL' 1; }
+    </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script id="tailwind-config">
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+        extend: {
+            colors: {
+            "surface": "#f9f9fb",
+            "on-primary-fixed": "#ffffff",
+            "inverse-surface": "#2f3132",
+            "primary": "#000000",
+            "secondary": "#5f5e5e",
+            "tertiary-fixed": "#5e5e63",
+            "outline-variant": "#c6c6c6",
+            "on-tertiary-fixed": "#ffffff",
+            "tertiary-fixed-dim": "#46464b",
+            "tertiary": "#3a3b40",
+            "secondary-fixed": "#c8c6c5",
+            "on-secondary-container": "#1c1b1b",
+            "on-primary-fixed-variant": "#e2e2e2",
+            "outline": "#777777",
+            "on-secondary": "#ffffff",
+            "tertiary-container": "#747479",
+            "surface-dim": "#d9dadc",
+            "surface-container-highest": "#e2e2e4",
+            "surface-container-high": "#e8e8ea",
+            "on-primary-container": "#ffffff",
+            "secondary-fixed-dim": "#adabaa",
+            "surface-variant": "#e2e2e4",
+            "on-primary": "#e2e2e2",
+            "surface-container-lowest": "#ffffff",
+            "primary-container": "#3b3b3b",
+            "background": "#f9f9fb",
+            "inverse-on-surface": "#f0f0f2",
+            "secondary-container": "#d6d4d3",
+            "on-tertiary-container": "#ffffff",
+            "on-background": "#1a1c1d",
+            "on-error": "#ffffff",
+            "inverse-primary": "#c6c6c6",
+            "on-secondary-fixed-variant": "#3c3b3b",
+            "surface-container-low": "#f3f3f5",
+            "on-secondary-fixed": "#1c1b1b",
+            "primary-fixed-dim": "#474747",
+            "on-surface-variant": "#474747",
+            "error": "#ba1a1a",
+            "primary-fixed": "#5e5e5e",
+            "on-surface": "#1a1c1d",
+            "surface-container": "#eeeef0",
+            "on-error-container": "#410002",
+            "error-container": "#ffdad6",
+            "on-tertiary": "#e3e2e7",
+            "on-tertiary-fixed-variant": "#e3e2e7",
+            "surface-tint": "#5e5e5e",
+            "surface-bright": "#f9f9fb"
+            },
+            borderRadius: {
+            DEFAULT: "0.125rem",
+            lg: "0.25rem",
+            xl: "0.5rem",
+            full: "0.75rem"
+            },
+            fontFamily: {
+            headline: ["Space Grotesk"],
+            body: ["Inter"],
+            label: ["Inter"]
+            }
+        }
+        }
+    }
+</script><style id="responsive-settings-patch">
+  @media (max-width: 1200px) {
+    body {
+      overflow-x: hidden;
+    }
+
+    header .max-w-screen-2xl {
+      padding-left: 1rem !important;
+      padding-right: 1rem !important;
+    }
+
+    div[class*="flex min-h-screen pt-24"] {
+      display: block !important;
+      min-height: auto !important;
+      padding-top: 5.5rem !important;
+    }
+
+    aside[class*="fixed left-0 top-20"][class*="w-64"] {
+      position: relative !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      height: auto !important;
+      max-height: none !important;
+      border-right: 0 !important;
+      border-bottom: 1px solid rgba(0,0,0,0.08) !important;
+      z-index: 20 !important;
+    }
+
+    aside[class*="fixed left-0 top-20"][class*="w-64"] nav {
+      max-height: 42vh;
+      overflow-y: auto;
+      padding-bottom: 0.5rem;
+    }
+
+    main[class*="ml-64"],
+    main[class*="ml-72"] {
+      margin-left: 0 !important;
+    }
+
+    main[class*="pt-40"] {
+      padding-top: 6rem !important;
+    }
+
+    main[class*="p-12"],
+    main[class*="px-16"],
+    main[class*="py-20"] {
+      padding: 1rem !important;
+    }
+  }
+
+  @media (max-width: 640px) {
+    header .max-w-screen-2xl {
+      padding-left: 0.75rem !important;
+      padding-right: 0.75rem !important;
+    }
+
+    [class*="max-w-7xl"],
+    [class*="max-w-6xl"],
+    [class*="max-w-5xl"],
+    [class*="max-w-4xl"] {
+      max-width: 100% !important;
+    }
+
+    [class*="grid-cols-2"],
+    [class*="grid-cols-3"],
+    [class*="grid-cols-4"] {
+      grid-template-columns: 1fr !important;
+    }
+
+    .nav-item {
+      padding-top: 0.65rem !important;
+      padding-bottom: 0.65rem !important;
+    }
+
+    h1,
+    h2 {
+      word-break: break-word;
+    }
+  }
+</style>
+<link rel="stylesheet" href="responsive-fix.css" />
+</head>
+<body class="font-body bg-background text-on-surface min-h-screen flex flex-col overflow-x-hidden selection:bg-primary selection:text-white"><canvas id="canvas-mesh"></canvas>
+
+    <!-- Global Navigation Header -->
+    <header class="fixed top-0 w-full z-[100] bg-surface/80 backdrop-blur-xl border-b border-outline-variant/10">
+      <div class="flex justify-between items-center px-8 py-5 w-full max-w-screen-2xl mx-auto">
+        <a class="flex items-center gap-2" href="login.html">
+          <span class="text-2xl font-bold tracking-tighter text-black uppercase font-headline">NEXUS AI</span>
+        </a>
+        <div class="flex items-center gap-8">
+          <nav class="hidden md:flex gap-6">
+            <a class="text-xs font-label uppercase tracking-widest text-primary hover:opacity-70 transition-opacity font-bold" href="login.html">Gateway</a>
+            <a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="help-center.html">Help Center</a>
+            <a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="system-status.html">System Status</a>
+            <a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="settings-profile.html">Settings</a>
+          </nav>
+          <a class="material-symbols-outlined text-black cursor-pointer hover:opacity-70 transition-opacity" href="user-account.html">account_circle</a>
+        </div>
+      </div>
+    </header>
+
+<div class="flex min-h-screen relative z-10">
+<!-- SideNavBar: Celestial Precision Version -->
+<aside class="fixed left-0 top-20 h-full flex flex-col bg-surface/80 backdrop-blur-xl w-64 border-r border-outline-variant/10 z-50">
+<div class="p-8">
+<h1 class="text-2xl font-bold tracking-tighter text-zinc-900 dark:text-zinc-50 font-headline uppercase">Nexus AI</h1>
+<p class="text-[10px] uppercase tracking-[0.2em] text-zinc-400 mt-1 font-label">Celestial Precision</p>
+</div>
+<nav class="flex-1 px-4 space-y-1 overflow-y-auto custom-scrollbar">
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings-profile.html">
+<span class="material-symbols-outlined text-xl" data-icon="person">person</span>
+<span class="text-sm">Profile</span>
+</a>
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings-ai-behavior.html">
+<span class="material-symbols-outlined text-xl" data-icon="psychology">psychology</span>
+<span class="text-sm">AI Behavior</span>
+</a>
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings-voice-interaction.html">
+<span class="material-symbols-outlined text-xl" data-icon="settings_voice">settings_voice</span>
+<span class="text-sm">Voice &amp; Interaction</span>
+</a>
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings-system-permissions.html">
+<span class="material-symbols-outlined text-xl" data-icon="verified_user">verified_user</span>
+<span class="text-sm">System Permissions</span>
+</a>
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings-automation.html">
+<span class="material-symbols-outlined text-xl" data-icon="settings_suggest">settings_suggest</span>
+<span class="text-sm">Automation Settings</span>
+</a>
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings-integrations.html">
+<span class="material-symbols-outlined text-xl" data-icon="hub">hub</span>
+<span class="text-sm">Integrations</span>
+</a>
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings-notifications.html">
+<span class="material-symbols-outlined text-xl" data-icon="notifications">notifications</span>
+<span class="text-sm">Notifications</span>
+</a>
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings-appearance.html">
+<span class="material-symbols-outlined text-xl" data-icon="palette">palette</span>
+<span class="text-sm">Appearance</span>
+</a>
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings-security-privacy.html">
+<span class="material-symbols-outlined text-xl" data-icon="security">security</span>
+<span class="text-sm">Privacy &amp; Security</span>
+</a>
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings_api_keys_unified.html">
+<span class="material-symbols-outlined text-xl" data-icon="key">key</span>
+<span class="text-sm">API Keys</span>
+</a>
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-900 dark:text-zinc-50 font-bold active bg-zinc-100/50 dark:bg-zinc-900/50 font-headline tracking-tight cursor-pointer" href="settings-advanced.html">
+<span class="material-symbols-outlined text-xl" data-icon="manufacturing">manufacturing</span>
+<span class="text-sm">Advanced</span>
+</a>
+</nav>
+<div class="p-6 border-t border-zinc-200/10 dark:border-zinc-800/10">
+<div class="flex items-center gap-3 group cursor-pointer">
+<img alt="Dr. Aris Thorne" class="w-10 h-10 rounded-full border border-zinc-200/20 shadow-sm transition-transform group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFZcVhStw82T7UXsxELE0USEE75b3DIIRE6nCaOm1HY4a0JVKx4MnhNOIm-P0Guom5LeM1d2UV7vryx1CAkdxbBAVlFejP9NZbpRA-5HbgrWnMp9TOHf7vqRuRBHOaW9R_6GCSTzwvaZQxwjS3GMXE7ksH2SIbkcRcF7oaIhVTKVAUHw0x8y61CYv4Vm7mHVSjqZ38yKHVO9E6EXKkxDq9SnSmyjL7YiAlqdhpz167ZXYcQry7g2Dm_4VuPwXlTi1uR6pY5DbpTLZR"/>
+<div class="overflow-hidden">
+<p class="text-sm font-bold font-headline truncate">Dr. Aris Thorne</p>
+<p class="text-[10px] text-zinc-400 uppercase tracking-widest truncate">Enterprise Tier</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+
+    
+    
+    
+    
+
+
+    <main class="flex-1 min-h-screen overflow-y-auto bg-transparent">
+    <!-- TopNavBar -->
+<div class="pt-36 pb-20 px-12 max-w-6xl mx-auto">
+<!-- Hero Section -->
+<div class="mb-16">
+<div class="inline-flex items-center gap-2 bg-black text-white px-3 py-1 rounded-sm text-[9px] font-black tracking-[0.3em] uppercase mb-6">
+<span class="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse"></span>
+                Restricted Access
+            </div>
+<h2 class="text-7xl font-headline font-bold tracking-tighter text-black mb-6 leading-[0.9]">
+                Advanced System <br/>Diagnostics
+            </h2>
+<p class="text-lg text-zinc-500 font-light max-w-2xl leading-relaxed">
+                Low-level configuration for power users and system administrators. Modifying these parameters may impact system stability and core neural performance.
+            </p>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-8">
+<!-- Hardware Acceleration Section -->
+<section class="col-span-12 lg:col-span-5 glass-card p-10 flex flex-col gap-8 bg-transparent">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 bg-zinc-100 flex items-center justify-center rounded-sm">
+<span class="material-symbols-outlined text-black text-lg" data-icon="memory">memory</span>
+</div>
+<h3 class="font-headline font-bold text-lg tracking-tight uppercase">Hardware Acceleration</h3>
+</div>
+<div class="flex flex-col gap-8">
+<div class="flex justify-between items-center group cursor-pointer" onclick="toggleSwitch(this)">
+<div class="flex flex-col">
+<span class="text-sm font-bold tracking-tight text-black">WebGL Render Engine</span>
+<span class="text-xs text-zinc-500 mt-1">Utilize GPU for complex UI animations and 3D data viz.</span>
+</div>
+<button class="toggle-btn w-12 h-6 bg-black rounded-full relative p-1 transition-colors" title="Toggle Setting" aria-label="Toggle Setting">
+<div class="toggle-thumb absolute right-1 top-1 w-4 h-4 bg-white rounded-full"></div>
+</button>
+</div>
+<div class="flex justify-between items-center group cursor-pointer" onclick="toggleSwitch(this)">
+<div class="flex flex-col">
+<span class="text-sm font-bold tracking-tight text-black">GPU Acceleration</span>
+<span class="text-xs text-zinc-500 mt-1">Offload neural inference tasks to dedicated hardware.</span>
+</div>
+<button class="toggle-btn w-12 h-6 bg-zinc-200 rounded-full relative p-1 transition-colors" title="Toggle Setting" aria-label="Toggle Setting">
+<div class="toggle-thumb absolute left-1 top-1 w-4 h-4 bg-zinc-400 rounded-full"></div>
+</button>
+</div>
+</div>
+<div class="mt-auto pt-8 border-t border-black/5">
+<div class="flex items-center gap-3 text-[10px] font-headline font-bold uppercase tracking-widest text-zinc-400">
+<span class="flex h-2 w-2 relative">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+</span>
+                        Utilizing: NVIDIA A100 Tensor Core
+                    </div>
+</div>
+</section>
+<!-- Data Management Section -->
+<section class="col-span-12 lg:col-span-7 glass-card p-10 flex flex-col gap-8 bg-transparent">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 bg-zinc-100 flex items-center justify-center rounded-sm">
+<span class="material-symbols-outlined text-black text-lg" data-icon="database">database</span>
+</div>
+<h3 class="font-headline font-bold text-lg tracking-tight uppercase">Data Management</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<button class="flex items-center justify-between p-7 bg-white/50 border border-black/5 hover:border-black hover:bg-white transition-all group active:scale-[0.98] rounded-sm">
+<div class="text-left">
+<p class="text-[9px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-2">Backup</p>
+<p class="text-sm font-bold text-black">Export All Data (.JSON)</p>
+</div>
+<span class="material-symbols-outlined text-zinc-300 group-hover:text-black group-hover:translate-y-0.5 transition-all" data-icon="download">download</span>
+</button>
+<button class="flex items-center justify-between p-7 bg-white/50 border border-black/5 hover:border-black hover:bg-white transition-all group active:scale-[0.98] rounded-sm">
+<div class="text-left">
+<p class="text-[9px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-2">Optimization</p>
+<p class="text-sm font-bold text-black">Flush Neural Cache</p>
+</div>
+<span class="material-symbols-outlined text-zinc-300 group-hover:text-black group-hover:rotate-12 transition-all" data-icon="mop">mop</span>
+</button>
+<button class="col-span-full flex items-center justify-between p-10 bg-black text-white hover:bg-zinc-800 transition-all group active:scale-[0.99] shadow-2xl shadow-black/20 rounded-sm">
+<div class="text-left">
+<p class="text-[9px] font-black uppercase tracking-[0.3em] opacity-50 mb-2">Destructive Action</p>
+<p class="text-xl font-bold font-headline">Hard System Reset</p>
+<p class="text-xs opacity-40 mt-2 font-medium">Revert all neural weights and user data to factory defaults.</p>
+</div>
+<span class="material-symbols-outlined text-4xl opacity-30 group-hover:opacity-100 group-hover:scale-110 transition-all" data-icon="dangerous">dangerous</span>
+</button>
+</div>
+</section>
+<!-- Diagnostic Logs Section -->
+<section class="col-span-12 glass-card p-10 bg-transparent">
+<div class="flex justify-between items-center mb-10">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 bg-zinc-100 flex items-center justify-center rounded-sm">
+<span class="material-symbols-outlined text-black text-lg" data-icon="analytics">analytics</span>
+</div>
+<h3 class="font-headline font-bold text-lg tracking-tight uppercase">Diagnostic Logs</h3>
+</div>
+<div class="flex gap-3">
+<button class="px-4 py-1.5 bg-zinc-100 hover:bg-zinc-200 transition-colors text-[9px] font-black uppercase tracking-[0.2em] rounded-full cursor-pointer">Stream: Active</button>
+<button class="px-4 py-1.5 bg-zinc-100 hover:bg-zinc-200 transition-colors text-[9px] font-black uppercase tracking-[0.2em] rounded-full cursor-pointer">Latency: 4ms</button>
+</div>
+</div>
+<div class="bg-black rounded-sm p-8 font-mono text-[12px] leading-relaxed text-zinc-500 h-80 overflow-y-auto custom-scrollbar border border-white/5 shadow-2xl">
+<div class="flex gap-5 mb-2 group">
+<span class="text-zinc-700 min-w-[140px]">[2023-11-24 14:02:11.004]</span>
+<span class="text-blue-500 font-bold">INFO</span>
+<span class="text-zinc-300 group-hover:text-white transition-colors">Nexus Core: Initializing heartbeat protocol...</span>
+</div>
+<div class="flex gap-5 mb-2 group">
+<span class="text-zinc-700 min-w-[140px]">[2023-11-24 14:02:11.021]</span>
+<span class="text-emerald-500 font-bold">SUCCESS</span>
+<span class="text-zinc-300 group-hover:text-white transition-colors">GPU Cluster "Obsidian-4" acknowledged system pull request.</span>
+</div>
+<div class="flex gap-5 mb-2 group">
+<span class="text-zinc-700 min-w-[140px]">[2023-11-24 14:02:11.450]</span>
+<span class="text-zinc-500 font-bold">SYSTEM</span>
+<span class="text-zinc-300 group-hover:text-white transition-colors">Cache parity check complete. Integrity 99.98%</span>
+</div>
+<div class="flex gap-5 mb-2 group">
+<span class="text-zinc-700 min-w-[140px]">[2023-11-24 14:02:12.112]</span>
+<span class="text-amber-500 font-bold">WARN</span>
+<span class="text-zinc-300 group-hover:text-white transition-colors">Network packet loss detected at Node-88; rerouting via Mesh-C.</span>
+</div>
+<div class="flex gap-5 mb-2 group">
+<span class="text-zinc-700 min-w-[140px]">[2023-11-24 14:02:12.444]</span>
+<span class="text-blue-500 font-bold">INFO</span>
+<span class="text-zinc-300 group-hover:text-white transition-colors">Heartbeat [334-X]: Pulse stable at 104Hz.</span>
+</div>
+<div class="flex gap-5 mb-2 group">
+<span class="text-zinc-700 min-w-[140px]">[2023-11-24 14:02:12.801]</span>
+<span class="text-zinc-500 font-bold">SYSTEM</span>
+<span class="text-zinc-300 group-hover:text-white transition-colors">Memory reclamation complete. Freed 4.2GB of non-volatile segments.</span>
+</div>
+<div class="flex gap-5 mb-2 group">
+<span class="text-zinc-700 min-w-[140px]">[2023-11-24 14:02:13.102]</span>
+<span class="text-blue-500 font-bold">INFO</span>
+<span class="text-zinc-300 group-hover:text-white transition-colors">User session 9928 verified. Permission level: SYSTEM_ADMIN.</span>
+</div>
+<div class="flex gap-5 mb-2 group">
+<span class="text-zinc-700 min-w-[140px]">[2023-11-24 14:02:13.444]</span>
+<span class="text-blue-500 font-bold">INFO</span>
+<span class="text-zinc-300 group-hover:text-white transition-colors">Heartbeat [335-X]: Pulse stable at 104Hz.</span>
+</div>
+<div class="flex gap-5 mb-2 group">
+<span class="text-zinc-700 min-w-[140px]">[2023-11-24 14:02:14.011]</span>
+<span class="text-zinc-300">... Waiting for input ...</span>
+</div>
+</div>
+</section>
+<!-- Technical Meta Footer -->
+<div class="col-span-12 flex justify-between items-center pt-12 border-t border-black/5 opacity-40">
+<p class="text-[9px] font-black uppercase tracking-[0.4em]">Nexus OS v4.2.0-STABLE</p>
+<p class="text-[9px] font-black uppercase tracking-[0.4em]">Build ID: 8820-AA-X9</p>
+<div class="flex gap-10">
+<a class="text-[9px] font-black uppercase tracking-[0.4em] hover:text-black transition-colors" href="#">EULA</a>
+<a class="text-[9px] font-black uppercase tracking-[0.4em] hover:text-black transition-colors" href="#">Legal</a>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<script src="interactivity.js"></script><script id="mesh-script">
+    const canvas = document.getElementById('canvas-mesh');
+    if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let mouse = { x: -1000, y: -1000 };
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resize);
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+
+        resize();
+
+        const gridSize = 45;
+        
+        const mouseForce = 150;
+
+        function applyPhysics(x, y) {
+            let px = x;
+            let py = y;
+            
+            const dxM = px - mouse.x;
+            const dyM = py - mouse.y;
+            const distM = Math.sqrt(dxM * dxM + dyM * dyM);
+            
+            if (distM < mouseForce) {
+                // Liquid lens topographical push against mouse
+                const power = Math.pow((mouseForce - distM) / mouseForce, 2);
+                px += dxM * power * 1.5;
+                py += dyM * power * 1.5;
+            }
+            
+            return { x: px, y: py };
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, width, height);
+            ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)';
+            ctx.lineWidth = 1;
+
+            for (let x = 0; x <= width; x += gridSize) {
+                ctx.beginPath();
+                for (let y = 0; y <= height; y += 4) {
+                    const pos = applyPhysics(x, y);
+                    if (y === 0) ctx.moveTo(pos.x, pos.y);
+                    else ctx.lineTo(pos.x, pos.y);
+                }
+                ctx.stroke();
+            }
+
+            for (let y = 0; y <= height; y += gridSize) {
+                ctx.beginPath();
+                for (let x = 0; x <= width; x += 4) {
+                    const pos = applyPhysics(x, y);
+                    if (x === 0) ctx.moveTo(pos.x, pos.y);
+                    else ctx.lineTo(pos.x, pos.y);
+                }
+                ctx.stroke();
+            }
+            requestAnimationFrame(draw);
+        }
+        draw();
+    }
+</script><script id="settings-nav-active-script">
+(function initSettingsSideNavActive() {
+  var currentPage = (window.location.pathname.split('/').pop() || '').toLowerCase();
+  var items = document.querySelectorAll('a.nav-item[href$=".html"]');
+
+  items.forEach(function (item) {
+    var target = (item.getAttribute('href') || '').toLowerCase();
+    var isActive = target === currentPage;
+
+    item.classList.remove('text-zinc-900', 'dark:text-zinc-50', 'font-bold', 'active', 'bg-zinc-100/50', 'dark:bg-zinc-900/50');
+    item.classList.remove('text-zinc-400', 'hover:text-zinc-900', 'dark:hover:text-zinc-50');
+
+    if (isActive) {
+      item.classList.add('text-zinc-900', 'dark:text-zinc-50', 'font-bold', 'active', 'bg-zinc-100/50', 'dark:bg-zinc-900/50');
+    } else {
+      item.classList.add('text-zinc-400', 'hover:text-zinc-900', 'dark:hover:text-zinc-50');
+    }
+  });
+})();
+</script>
+</body></html>

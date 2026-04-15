@@ -1,0 +1,1661 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Nexus AI | Celestial Precision</title>
+    <style>
+        #canvas-mesh {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        body {
+            background-image:
+                linear-gradient(to right, rgba(0, 0, 0, 0.06) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 0, 0, 0.06) 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-attachment: fixed;
+            position: relative;
+        }
+
+        #warp-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            background: radial-gradient(circle 400px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(0, 0, 0, 0.03) 0%, transparent 100%);
+            transition: background 0.1s ease;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.75);
+            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
+        }
+
+        .obsidian-glass {
+            background: rgba(0, 0, 0, 0.85);
+            -webkit-backdrop-filter: blur(30px);
+            backdrop-filter: blur(30px);
+        }
+
+        /* --- Audio Visualizer Styles --- */
+        #nexus-visualizer.viz-active {
+            opacity: 1;
+            scale: 1;
+            translate: 0;
+        }
+
+        /* Speaker Mode: White bg, Black lines */
+        #nexus-visualizer.mode-speaker {
+            background: rgba(255, 255, 255, 0.95);
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        #nexus-visualizer.mode-speaker .viz-bar {
+            background: #000;
+        }
+
+        /* Phone Mode: Black bg, White lines */
+        #nexus-visualizer.mode-phone {
+            background: rgba(0, 0, 0, 0.9);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        #nexus-visualizer.mode-phone .viz-bar {
+            background: #fff;
+        }
+
+        .viz-bar {
+            width: 5px;
+            height: 15%;
+            border-radius: 20px;
+            transition: all 0.2s ease;
+            animation: viz-bounce 1.2s ease-in-out infinite;
+        }
+
+        .viz-bar:nth-child(2n) {
+            animation-delay: 0.1s;
+            height: 30%;
+        }
+
+        .viz-bar:nth-child(3n) {
+            animation-delay: 0.2s;
+            height: 50%;
+        }
+
+        .viz-bar:nth-child(4n) {
+            animation-delay: 0.3s;
+            height: 20%;
+        }
+
+        .viz-bar:nth-child(5n) {
+            animation-delay: 0.4s;
+            height: 45%;
+        }
+
+        .viz-bar:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .viz-bar:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .viz-bar:nth-child(7) {
+            animation-delay: 0.5s;
+        }
+
+        .viz-bar:nth-child(11) {
+            animation-delay: 0.2s;
+        }
+
+        @keyframes viz-bounce {
+
+            0%,
+            100% {
+                height: 15%;
+            }
+
+            50% {
+                height: 75%;
+            }
+        }
+
+        .icon-fill {
+            font-variation-settings: 'FILL' 1 !important;
+        }
+
+        .sidebar-handle {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 32px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 50;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+
+        /* Sidebar Transitions */
+        .sidebar-left-closed {
+            transform: translateX(calc(-100% - 24px));
+        }
+
+        /* Right Sidebar Styles */
+        #sidebar-right {
+            transform: translateY(-50%);
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), right 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .sidebar-right-closed {
+            transform: translate(calc(100% + 24px), -50%) !important;
+        }
+
+        @keyframes glass-glare {
+            0% {
+                transform: translateX(-120%) rotate(14deg);
+                opacity: 0;
+            }
+
+            18% {
+                opacity: 0.55;
+            }
+
+            50% {
+                opacity: 0.28;
+            }
+
+            100% {
+                transform: translateX(120%) rotate(14deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes glass-shimmer {
+
+            0%,
+            100% {
+                opacity: 0.32;
+            }
+
+            50% {
+                opacity: 0.55;
+            }
+        }
+
+        .glass-glare {
+            animation: glass-glare 7s ease-in-out infinite;
+        }
+
+        .glass-shimmer {
+            animation: glass-shimmer 5s ease-in-out infinite;
+        }
+
+        .center-glass-shell {
+            width: min(42rem, calc(100vw - 2rem));
+            height: min(42rem, calc(100vw - 2rem));
+            max-height: calc(100vh - 12rem);
+        }
+
+        /* Avatar System Styles */
+        #nexus-avatar-wrap {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            border-radius: 2rem;
+            overflow: hidden;
+        }
+
+        #nexus-avatar-wrap video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 2rem;
+        }
+
+        #nexus-state-badge {
+            position: absolute;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.6);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            color: white;
+            font-size: 10px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            padding: 6px 20px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            pointer-events: none;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        @media (max-width: 1280px) {
+            #sidebar-left {
+                width: min(20rem, calc(100vw - 2rem));
+            }
+
+            #sidebar-right {
+                width: min(22rem, calc(100vw - 2rem));
+            }
+        }
+
+        @media (max-width: 1024px) {
+            #main-content {
+                padding-top: 5.5rem;
+                padding-bottom: 7rem;
+            }
+
+            #session-title {
+                top: 1rem;
+                max-width: calc(100vw - 2rem);
+                overflow: hidden;
+            }
+
+            #session-title span {
+                max-width: 100%;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                display: block;
+            }
+
+            #user-profile {
+                top: 0.9rem;
+                right: 0.9rem;
+            }
+
+            #sidebar-left,
+            #sidebar-right {
+                top: 4.25rem;
+                bottom: 6.25rem;
+                height: auto;
+                border-radius: 1.5rem;
+                padding: 1rem;
+            }
+
+            #sidebar-left {
+                left: 0.75rem;
+                width: min(20rem, calc(100vw - 1.5rem));
+            }
+
+            #sidebar-right {
+                right: 0.75rem;
+                width: min(20rem, calc(100vw - 1.5rem));
+                transform: none;
+            }
+
+            .sidebar-right-closed {
+                transform: translateX(calc(100% + 24px)) !important;
+            }
+
+            .sidebar-handle {
+                width: 28px;
+                height: 68px;
+            }
+
+            .center-glass-shell {
+                width: min(30rem, calc(100vw - 2.5rem));
+                height: min(30rem, calc(100vw - 2.5rem));
+                max-height: calc(100vh - 14rem);
+            }
+        }
+
+        @media (max-width: 1024px) {
+            body.chat-active #avatar-zone {
+                transform: translateX(0);
+                top: 2rem;
+                bottom: 40%;
+                padding-top: 0;
+            }
+
+            body.chat-active #chat-panel {
+                left: 0.75rem;
+                right: 0.75rem;
+                bottom: 120px;
+                width: auto;
+                top: 60%;
+            }
+
+            body.chat-active #avatar-input-container {
+                left: 0.75rem;
+                right: 0.75rem;
+                width: auto;
+                max-width: none;
+                bottom: 80px;
+            }
+
+            body.chat-active #chat-input-container {
+                left: 0.75rem;
+                right: 0.75rem;
+                width: auto;
+                bottom: 20px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            #main-content {
+                padding-top: 5rem;
+                padding-bottom: 6.5rem;
+            }
+
+            #sidebar-left,
+            #sidebar-right {
+                top: 4rem;
+                bottom: 6rem;
+                width: calc(100vw - 1rem);
+                left: 0.5rem;
+                right: 0.5rem;
+            }
+
+            .center-glass-shell {
+                width: min(22rem, calc(100vw - 1.5rem));
+                height: min(22rem, calc(100vw - 1.5rem));
+                max-height: calc(100vh - 15rem);
+            }
+
+            #session-title,
+            #nexus-visualizer {
+                max-width: 95vw !important;
+            }
+
+            #floating-input-container {
+                bottom: 0.75rem;
+                padding-left: 0.75rem;
+                padding-right: 0.75rem;
+            }
+        }
+
+        #user-profile {
+            z-index: 100;
+        }
+
+        /* ============================================================
+           CINEMATIC LAYOUT TRANSITION
+           On first submit: avatar+input slide left, chat panel slides in from right
+        ============================================================ */
+
+        /* Avatar zone - wraps the glass box, centers it by default */
+        #avatar-zone {
+            transition: all 0.75s cubic-bezier(0.76, 0, 0.24, 1);
+            will-change: transform, top, bottom, padding;
+        }
+
+        body.chat-active #avatar-zone {
+            transform: translateX(calc(-50vw + 45rem));
+        }
+
+        /* Dual Input Bar System - start stacked in center */
+        .input-bar-container {
+            position: fixed;
+            bottom: 32px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            z-index: 50;
+            transition: all 0.75s cubic-bezier(0.76, 0, 0.24, 1);
+            will-change: transform, left, right, width, opacity, visibility;
+            pointer-events: auto;
+        }
+
+        /* The right bar is hidden until chat is active */
+        #chat-input-container {
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(0.95);
+        }
+
+        body.chat-active #avatar-input-container {
+            left: 24rem;
+            right: auto;
+            width: 100%;
+            max-width: 42rem;
+            transform: none;
+            padding: 0 1rem;
+        }
+
+        body.chat-active #chat-input-container {
+            left: 68rem;
+            right: 40px;
+            width: auto;
+            max-width: none;
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
+        }
+
+
+
+        /* Adjust inner content to match bar width when active */
+        body.chat-active .input-bar-container>div {
+            max-width: 100% !important;
+            width: 100%;
+        }
+
+        /* Chat history panel - starts off-screen right, slides in */
+        #chat-panel {
+            position: fixed;
+            top: 40px;
+            /* exactly 1 grid row from the top */
+            right: 40px;
+            /* exactly 1 grid column from the right edge */
+            bottom: 105px;
+            /* exactly flush with grid line */
+            width: 48vw;
+            max-width: 720px;
+            z-index: 20;
+            display: flex;
+            flex-direction: column;
+            padding: 1.5rem 1.75rem;
+            transform: translateX(calc(100% + 40px));
+            transition: all 0.75s cubic-bezier(0.76, 0, 0.24, 1);
+            will-change: transform, left, right, width;
+            pointer-events: none;
+
+            /* Glassmorphism — light tint + soft blur so grid shines through */
+            background: rgba(248, 249, 251, 0.45);
+            -webkit-backdrop-filter: blur(6px);
+            backdrop-filter: blur(6px);
+
+            /* Floating card edges */
+            border: 1px solid rgba(255, 255, 255, 0.72);
+            border-radius: 2rem;
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, 0.08),
+                0 4px 16px rgba(0, 0, 0, 0.04),
+                inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        }
+
+        /* Frosted chrome strip along the top of the chat panel */
+        #chat-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3.5rem;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.55), transparent);
+            border-radius: 2rem 2rem 0 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        body.chat-active #chat-panel {
+            transform: translateX(0);
+            left: 68rem;
+            width: auto;
+            max-width: none;
+            pointer-events: auto;
+        }
+
+        /* Inner messages scroll area */
+        #chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            padding-right: 0.5rem;
+            padding-top: 5rem;
+        }
+
+        #chat-messages::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        #chat-messages::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        #chat-messages::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.15);
+            border-radius: 4px;
+        }
+
+        /* Chat bubbles */
+        .chat-bubble {
+            max-width: 85%;
+            padding: 0.85rem 1.15rem;
+            border-radius: 1.25rem;
+            font-size: 0.875rem;
+            line-height: 1.55;
+            animation: bubbleIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        .chat-bubble.user {
+            align-self: flex-end;
+            background: #111;
+            color: #fff;
+            border-bottom-right-radius: 0.35rem;
+        }
+
+        .chat-bubble.nexus {
+            align-self: flex-start;
+            background: rgba(255, 255, 255, 0.82);
+            -webkit-backdrop-filter: blur(16px);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 0, 0, 0.07);
+            color: #111;
+            border-bottom-left-radius: 0.35rem;
+        }
+
+        .chat-bubble.nexus .nexus-label {
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: #888;
+            margin-bottom: 4px;
+        }
+
+        @keyframes bubbleIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px) scale(0.97);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Typing indicator */
+        .typing-dots {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+            padding: 0.5rem 0;
+        }
+
+        .typing-dots span {
+            width: 7px;
+            height: 7px;
+            background: #bbb;
+            border-radius: 50%;
+            animation: dotPulse 1.2s ease-in-out infinite;
+        }
+
+        .typing-dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes dotPulse {
+
+            0%,
+            80%,
+            100% {
+                transform: scale(0.7);
+                opacity: 0.4;
+            }
+
+            40% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface": "#f9f9fb",
+                        "on-primary-fixed": "#ffffff",
+                        "inverse-surface": "#2f3132",
+                        "primary": "#000000",
+                        "secondary": "#5f5e5e",
+                        "tertiary-fixed": "#5e5e63",
+                        "outline-variant": "#c6c6c6",
+                        "on-tertiary-fixed": "#ffffff",
+                        "tertiary-fixed-dim": "#46464b",
+                        "tertiary": "#3a3b40",
+                        "secondary-fixed": "#c8c6c5",
+                        "on-secondary-container": "#1c1b1b",
+                        "on-primary-fixed-variant": "#e2e2e2",
+                        "outline": "#777777",
+                        "on-secondary": "#ffffff",
+                        "tertiary-container": "#747479",
+                        "surface-dim": "#d9dadc",
+                        "surface-container-highest": "#e2e2e4",
+                        "surface-container-high": "#e8e8ea",
+                        "on-primary-container": "#ffffff",
+                        "secondary-fixed-dim": "#adabaa",
+                        "surface-variant": "#e2e2e4",
+                        "on-primary": "#e2e2e2",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-container": "#3b3b3b",
+                        "background": "#f9f9fb",
+                        "inverse-on-surface": "#f0f0f2",
+                        "secondary-container": "#d6d4d3",
+                        "on-tertiary-container": "#ffffff",
+                        "on-background": "#1a1c1d",
+                        "on-error": "#ffffff",
+                        "inverse-primary": "#c6c6c6",
+                        "on-secondary-fixed-variant": "#3c3b3b",
+                        "surface-container-low": "#f3f3f5",
+                        "on-secondary-fixed": "#1c1b1b",
+                        "primary-fixed-dim": "#474747",
+                        "on-surface-variant": "#474747",
+                        "error": "#ba1a1a",
+                        "primary-fixed": "#5e5e5e",
+                        "on-surface": "#1a1c1d",
+                        "surface-container": "#eeeef0",
+                        "on-error-container": "#410002",
+                        "error-container": "#ffdad6",
+                        "on-tertiary": "#e3e2e7",
+                        "on-tertiary-fixed-variant": "#e3e2e7",
+                        "surface-tint": "#5e5e5e",
+                        "surface-bright": "#f9f9fb"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.125rem",
+                        lg: "0.25rem",
+                        xl: "0.5rem",
+                        full: "0.75rem"
+                    },
+                    fontFamily: {
+                        headline: ["Space Grotesk"],
+                        body: ["Inter"],
+                        label: ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="corporate-theme.css">
+    <link rel="stylesheet" href="responsive-fix.css" />
+</head>
+
+<body
+    class="font-body bg-background text-on-surface min-h-screen flex flex-col overflow-x-hidden selection:bg-primary selection:text-white">
+    <canvas id="canvas-mesh"></canvas>
+
+    <div id="warp-overlay"></div>
+    <!-- Floating Left Sidebar -->
+    <aside
+        class="fixed left-6 top-12 bottom-12 w-[22rem] bg-white/15 backdrop-blur-[4px] border border-white/70 z-40 rounded-[2rem] shadow-[0_24px_70px_rgba(0,0,0,0.10)] transition-transform duration-500 sidebar-left-closed flex flex-col p-5"
+        id="sidebar-left">
+        <!-- Pull Tab Handle Left -->
+        <div class="sidebar-handle -right-8 bg-white/15 backdrop-blur-[4px] border border-white/70 rounded-r-xl shadow-[4px_0_10px_-4px_rgba(0,0,0,0.1)]"
+            onclick="toggleLeftSidebar()">
+            <span class="material-symbols-outlined text-gray-500 text-lg transition-transform duration-300"
+                id="left-arrow">chevron_right</span>
+        </div>
+        <div class="flex items-center gap-3 mb-8 px-2 py-1">
+            <div class="w-10 h-10 bg-primary rounded-2xl flex items-center justify-center shadow-lg shrink-0">
+                <span class="material-symbols-outlined text-white text-base icon-fill">deployed_code</span>
+            </div>
+            <div>
+                <h2 class="text-[11px] font-label font-bold uppercase tracking-[0.28em] text-black">Project Hub</h2>
+                <p class="text-[10px] text-gray-400 mt-1">Workspace overview</p>
+            </div>
+        </div>
+        <nav class="flex-1 space-y-4 overflow-y-auto pr-1">
+            <div
+                class="flex items-center gap-3 px-4 py-4 bg-black text-white rounded-2xl cursor-pointer transition-all duration-300 shadow-[0_12px_24px_rgba(0,0,0,0.18)] mb-6 hover:scale-[1.01] active:scale-[0.99]">
+                <span class="material-symbols-outlined text-[20px]" data-icon="add">add</span>
+                <span class="text-sm font-semibold tracking-wide">New Project</span>
+            </div>
+            <div class="space-y-4">
+                <div class="flex items-center justify-between px-1">
+                    <h3 class="text-[10px] font-label font-bold uppercase tracking-[0.22em] text-gray-400">Message
+                        History</h3>
+                </div>
+                <div class="space-y-3" id="history-container">
+                    <!-- History will appear here -->
+                </div>
+            </div>
+        </nav>
+        <div class="mt-auto pt-5 border-t border-black/5 flex items-center gap-1">
+            <div class="flex-1 flex items-center gap-2.5 px-3 py-3 text-gray-500 hover:bg-black/5 rounded-2xl cursor-pointer transition-colors duration-200"
+                id="open-account-popup-btn">
+                <span class="material-symbols-outlined text-[20px]" data-icon="account_circle">account_circle</span>
+                <span class="text-sm font-medium">Profile</span>
+            </div>
+            <div
+                class="flex-1 flex items-center gap-2.5 px-3 py-3 text-gray-500 hover:bg-black/5 rounded-2xl cursor-pointer transition-colors duration-200">
+                <span class="material-symbols-outlined text-[20px]" data-icon="settings">settings</span>
+                <span class="text-sm font-medium">Config</span>
+            </div>
+        </div>
+    </aside>
+    <!-- Main Content Area -->
+    <main class="flex-1 flex flex-col relative pt-24 pb-12 bg-transparent" id="main-content">
+        <!-- Floating Header Info -->
+
+
+        <!-- Chat Canvas -->
+        <section
+            class="flex-1 overflow-y-auto px-4 sm:px-6 lg:px-8 pt-24 pb-36 space-y-12 max-w-4xl mx-auto w-full bg-transparent relative">
+            <div id="avatar-zone" class="pointer-events-none fixed inset-0 z-10 flex items-center justify-center">
+                <!-- Session Title Badge -->
+                <div class="absolute top-[calc(50%-485px)] left-1/2 -translate-x-1/2 z-30 w-full max-w-[42rem] px-4 flex flex-col items-center gap-4 pointer-events-auto"
+                    id="session-title">
+                    <div
+                        class="w-full text-[11px] font-label font-bold tracking-[0.25em] text-black/60 uppercase bg-white/40 backdrop-blur-md px-6 py-3 rounded-2xl border border-black/5 shadow-sm flex items-center justify-center">
+                        <span class="opacity-40 select-none">Current Session:&nbsp;</span>
+                        <span class="outline-none cursor-text" contenteditable="true" spellcheck="false"
+                            id="editable-session-name">Alpha-7</span>
+                    </div>
+                </div>
+
+                <!-- Audio Visualizer Component -->
+                <div id="nexus-visualizer"
+                    class="absolute top-[calc(50%-425px)] left-1/2 -translate-x-1/2 z-30 w-full max-w-[42rem] px-4 h-[65px] rounded-3xl flex items-center justify-center overflow-hidden border shadow-2xl z-[60]">
+                    <div class="viz-bars flex items-center gap-[4.5px] h-full w-full justify-between">
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                        <div class="viz-bar"></div>
+                    </div>
+                </div>
+
+                <div class="center-glass-shell relative">
+                    <div class="absolute inset-0 translate-x-5 translate-y-5 rounded-[2.25rem] bg-black/12 blur-3xl">
+                    </div>
+                    <div
+                        class="absolute inset-0 rounded-[2.25rem] border border-white/75 bg-white/18 backdrop-blur-3xl shadow-[inset_0_1px_0_rgba(255,255,255,0.95),0_26px_60px_rgba(0,0,0,0.12),0_2px_0_rgba(255,255,255,0.35)]">
+                    </div>
+                    <div
+                        class="absolute inset-[8px] rounded-[1.95rem] bg-gradient-to-br from-white/70 via-white/24 to-white/5 shadow-[inset_-16px_-18px_28px_rgba(255,255,255,0.32),inset_18px_18px_30px_rgba(255,255,255,0.18)]">
+                    </div>
+                    <div class="absolute inset-[12px] rounded-[1.8rem] border border-white/55"></div>
+                    <div class="absolute left-[7%] right-[7%] top-[10%] h-[22%] rounded-full bg-white/30 blur-2xl">
+                    </div>
+                    <div
+                        class="absolute left-[5%] top-[12%] bottom-[12%] w-[18%] rounded-full bg-gradient-to-r from-white/40 to-transparent blur-lg">
+                    </div>
+                    <div
+                        class="absolute right-[7%] top-[14%] bottom-[14%] w-[14%] rounded-full bg-gradient-to-l from-white/20 to-transparent blur-md">
+                    </div>
+                    <div
+                        class="absolute inset-[18px] rounded-[1.55rem] border border-white/25 bg-gradient-to-b from-white/10 via-transparent to-black/5">
+                    </div>
+                    <div
+                        class="glass-shimmer absolute inset-[6px] rounded-[2rem] bg-[linear-gradient(115deg,transparent_18%,rgba(255,255,255,0.55)_46%,rgba(255,255,255,0.12)_54%,transparent_80%)] mix-blend-screen opacity-40">
+                    </div>
+                    <div
+                        class="glass-glare absolute inset-y-0 left-[-40%] w-[28%] rounded-full bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.8),rgba(255,255,255,0.18),transparent)] blur-sm">
+                    </div>
+                    <!-- Nexus Avatar Container -->
+                    <div id="nexus-avatar-wrap" class="relative w-full h-full">
+                        <video id="video-greeting"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-300 pointer-events-none z-10 opacity-100"
+                            preload="auto">
+                            <source src="placeholderanims/GREETING1.mp4" type="video/mp4">
+                        </video>
+                        <video id="video-idle"
+                            class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-300 pointer-events-none"
+                            loop preload="auto">
+                            <source src="placeholderanims/IDLE1.mp4" type="video/mp4">
+                        </video>
+                        <video id="video-listening"
+                            class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-300 pointer-events-none"
+                            loop preload="auto">
+                            <source src="placeholderanims/LISTENING1.mp4" type="video/mp4">
+                        </video>
+                        <video id="video-thinking"
+                            class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-300 pointer-events-none"
+                            loop preload="auto">
+                            <source src="placeholderanims/THINKING1.mp4" type="video/mp4">
+                        </video>
+                        <video id="video-talking"
+                            class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-300 pointer-events-none"
+                            loop preload="auto">
+                            <source src="placeholderanims/TALKING1.mp4" type="video/mp4">
+                        </video>
+                        <div id="nexus-state-badge">Initializing</div>
+                    </div>
+                </div>
+            </div>
+            <!-- Main canvas content -->
+        </section>
+
+        <!-- ============================================================
+             CHAT HISTORY PANEL — slides in from right on first submit
+        ============================================================ -->
+        <div id="chat-panel">
+            <div id="chat-messages"></div>
+        </div>
+        <!-- Fixed Floating Input Bars (Left and Right) -->
+        <div class="input-bar-container" id="avatar-input-container">
+            <div
+                class="max-w-3xl mx-auto obsidian-glass rounded-3xl p-2.5 flex items-center gap-2 border border-white/10 shadow-2xl pointer-events-auto">
+                <button
+                    class="w-10 h-10 flex items-center justify-center text-white/50 hover:text-white transition-colors">
+                    <span class="material-symbols-outlined" data-icon="attach_file">attach_file</span>
+                </button>
+                <button
+                    class="w-10 h-10 flex items-center justify-center text-white/50 hover:text-white transition-colors">
+                    <span class="material-symbols-outlined" data-icon="mic">mic</span>
+                </button>
+                <input
+                    class="flex-1 bg-transparent border-none focus:ring-0 text-white placeholder-white/30 text-sm py-2 px-3 chat-input-field"
+                    placeholder="Command Nexus AI..." type="text" />
+                <button id="speaker-btn"
+                    class="w-10 h-10 flex items-center justify-center text-white/50 hover:text-white transition-colors"
+                    title="Audio Graph (Speaker Mode)">
+                    <span class="material-symbols-outlined" id="speech-toggle-icon">volume_up</span>
+                </button>
+                <button id="phone-btn"
+                    class="w-10 h-10 flex items-center justify-center text-white/50 hover:text-white transition-colors"
+                    title="Audio Graph (Phone Mode)">
+                    <span class="material-symbols-outlined" data-icon="call">call</span>
+                </button>
+                <button
+                    class="h-10 px-4 sm:px-6 lg:px-8 bg-white text-black rounded-2xl font-label text-[10px] sm:text-[11px] font-bold uppercase tracking-wider hover:scale-[1.02] active:scale-95 transition-all exec-btn">
+                    Execute
+                </button>
+            </div>
+        </div>
+
+        <div class="input-bar-container" id="chat-input-container">
+            <div
+                class="max-w-3xl mx-auto obsidian-glass rounded-3xl p-2.5 flex items-center justify-between border border-white/10 shadow-2xl pointer-events-auto w-full">
+                <!-- Unified Control Group -->
+                <div class="flex items-center gap-2">
+                    <button
+                        class="h-10 w-10 flex items-center justify-center rounded-2xl bg-white/5 border border-white/10 text-white/50 hover:bg-white/10 hover:text-white transition-all"
+                        title="Actions">
+                        <span class="material-symbols-outlined text-[20px]">add</span>
+                    </button>
+
+                    <!-- Engine Selector -->
+                    <div class="relative">
+                        <button
+                            class="h-10 px-4 flex items-center gap-2.5 rounded-2xl bg-white/5 border border-white/10 text-white hover:bg-white/10 transition-all group"
+                            id="engine-selector-trigger">
+                            <span class="text-xs font-semibold tracking-wide text-white/70"
+                                id="current-engine-text">Select Engine</span>
+                            <span
+                                class="material-symbols-outlined text-[18px] text-white/20 group-hover:text-white transition-colors">keyboard_arrow_up</span>
+                        </button>
+                        <div id="engine-dropdown"
+                            class="dropdown-menu absolute bottom-[calc(100%+12px)] left-0 w-48 obsidian-glass rounded-2xl border border-white/10 p-1 shadow-2xl opacity-0 translate-y-2 pointer-events-none transition-all duration-300 z-[100] flex flex-col gap-0.5">
+                            <div class="px-4 py-8 text-center">
+                                <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-white/20">Empty for now
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mode Selector (Moved Here) -->
+                    <div class="relative">
+                        <button
+                            class="h-10 px-5 flex items-center gap-3 rounded-2xl bg-white/5 border border-white/10 text-white hover:bg-white/10 transition-all group"
+                            id="model-selector-trigger">
+                            <span class="text-xs font-semibold tracking-[0.05em]" id="current-mode-text">Private
+                                Chat</span>
+                            <span
+                                class="material-symbols-outlined text-[18px] text-white/30 group-hover:text-white transition-colors">keyboard_arrow_up</span>
+                        </button>
+                        <div id="model-dropdown"
+                            class="dropdown-menu absolute bottom-[calc(100%+12px)] left-0 w-64 obsidian-glass rounded-2xl border border-white/10 p-1 shadow-2xl opacity-0 translate-y-2 pointer-events-none transition-all duration-300 z-[100] flex flex-col gap-0.5">
+                            <button
+                                class="flex items-center justify-between px-4 py-3 rounded-xl hover:bg-white/10 transition-all text-white/70 hover:text-white group text-left"
+                                onclick="selectMode('Private Chat')">
+                                <div class="flex items-center gap-3">
+                                    <span
+                                        class="material-symbols-outlined text-[20px] text-white/30 group-hover:text-white">chat_bubble</span>
+                                    <span class="text-xs font-semibold tracking-wide">Private Chat</span>
+                                </div>
+                                <span
+                                    class="material-symbols-outlined text-[16px] opacity-0 group-hover:opacity-40">chevron_right</span>
+                            </button>
+                            <button
+                                class="flex items-center justify-between px-4 py-3 rounded-xl hover:bg-white/10 transition-all text-white/70 hover:text-white group text-left"
+                                onclick="selectMode('Summarize')">
+                                <div class="flex items-center gap-3">
+                                    <span
+                                        class="material-symbols-outlined text-[20px] text-white/30 group-hover:text-white">auto_awesome</span>
+                                    <span class="text-xs font-semibold tracking-wide">Summarize</span>
+                                </div>
+                                <span
+                                    class="material-symbols-outlined text-[16px] opacity-0 group-hover:opacity-40">chevron_right</span>
+                            </button>
+                            <button
+                                class="flex items-center justify-between px-4 py-3 rounded-xl hover:bg-white/10 transition-all text-white/70 hover:text-white group text-left"
+                                onclick="selectMode('Text to Speech')">
+                                <div class="flex items-center gap-3">
+                                    <span
+                                        class="material-symbols-outlined text-[20px] text-white/30 group-hover:text-white">volume_up</span>
+                                    <span class="text-xs font-semibold tracking-wide">Text to Speech</span>
+                                </div>
+                                <span
+                                    class="material-symbols-outlined text-[16px] opacity-0 group-hover:opacity-40">chevron_right</span>
+                            </button>
+                            <button
+                                class="flex items-center justify-between px-4 py-3 rounded-xl hover:bg-white/10 transition-all text-white/70 hover:text-white group text-left"
+                                onclick="selectMode('Translate')">
+                                <div class="flex items-center gap-3">
+                                    <span
+                                        class="material-symbols-outlined text-[20px] text-white/30 group-hover:text-white">translate</span>
+                                    <span class="text-xs font-semibold tracking-wide">Translate</span>
+                                </div>
+                                <span
+                                    class="material-symbols-outlined text-[16px] opacity-0 group-hover:opacity-40">chevron_right</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Character Selector -->
+                    <div class="relative">
+                        <button
+                            class="h-10 px-5 flex items-center gap-3 rounded-2xl bg-white/5 border border-white/10 text-white hover:bg-white/10 transition-all group"
+                            id="character-selector-trigger">
+                            <span class="text-xs font-semibold tracking-[0.05em]"
+                                id="current-character-text">Character</span>
+                            <span
+                                class="material-symbols-outlined text-[18px] text-white/30 group-hover:text-white transition-colors">keyboard_arrow_up</span>
+                        </button>
+                        <div id="character-dropdown"
+                            class="dropdown-menu absolute bottom-[calc(100%+12px)] left-0 w-48 obsidian-glass rounded-2xl border border-white/10 p-1 shadow-2xl opacity-0 translate-y-2 pointer-events-none transition-all duration-300 z-[100] flex flex-col gap-0.5">
+                            <button
+                                class="flex items-center justify-between px-4 py-3 rounded-xl hover:bg-white/10 transition-all text-white/70 hover:text-white group text-left"
+                                onclick="selectCharacter('CHR_M')">
+                                <div class="flex items-center gap-3">
+                                    <span
+                                        class="material-symbols-outlined text-[20px] text-white/30 group-hover:text-white">man</span>
+                                    <span class="text-xs font-semibold tracking-wide">CHR_M</span>
+                                </div>
+                                <span
+                                    class="material-symbols-outlined text-[16px] opacity-0 group-hover:opacity-40">chevron_right</span>
+                            </button>
+                            <button
+                                class="flex items-center justify-between px-4 py-3 rounded-xl hover:bg-white/10 transition-all text-white/70 hover:text-white group text-left"
+                                onclick="selectCharacter('CHR_F')">
+                                <div class="flex items-center gap-3">
+                                    <span
+                                        class="material-symbols-outlined text-[20px] text-white/30 group-hover:text-white">woman</span>
+                                    <span class="text-xs font-semibold tracking-wide">CHR_F</span>
+                                </div>
+                                <span
+                                    class="material-symbols-outlined text-[16px] opacity-0 group-hover:opacity-40">chevron_right</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Spacer for alignment -->
+                <div class="w-2"></div>
+            </div>
+        </div>
+    </main>
+    <div class="fixed inset-0 z-[140] hidden items-center justify-center p-4 sm:p-6" id="account-popup-overlay">
+        <div class="absolute inset-0 bg-black/35 backdrop-blur-[2px]" id="account-popup-backdrop"></div>
+        <div
+            class="relative w-full max-w-3xl rounded-3xl border border-white/50 bg-white/85 backdrop-blur-2xl shadow-[0_24px_70px_rgba(0,0,0,0.22)] p-5 sm:p-7 max-h-[88vh] overflow-y-auto">
+            <div class="flex items-start justify-between gap-4 mb-6">
+                <div>
+                    <p class="text-[10px] font-label uppercase tracking-[0.22em] text-gray-500">Account Details</p>
+                    <h3 class="text-2xl font-semibold text-black mt-1">Nexus User Profile</h3>
+                </div>
+                <button
+                    class="h-9 w-9 rounded-full border border-black/10 bg-white text-gray-500 hover:text-black hover:border-black/20 transition-colors flex items-center justify-center"
+                    id="close-account-popup-btn" type="button">
+                    <span class="material-symbols-outlined text-[18px]">close</span>
+                </button>
+            </div>
+            <div class="rounded-2xl border border-black/5 bg-white/80 p-4 sm:p-5 mb-4">
+                <div class="flex flex-col sm:flex-row sm:items-center gap-4">
+                    <div class="h-16 w-16 rounded-2xl bg-black text-white flex items-center justify-center shadow-lg">
+                        <span class="material-symbols-outlined text-[30px]">account_circle</span>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-lg font-semibold text-black profile-editable" data-field="name">Nexus Operator
+                        </p>
+                        <p class="text-sm text-gray-500 profile-editable" data-field="email">operator@nexus.ai</p>
+                        <div class="mt-3 flex flex-wrap gap-2">
+                            <span
+                                class="inline-flex items-center rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-[11px] font-semibold text-emerald-700">Active</span>
+                            <span
+                                class="inline-flex items-center rounded-full border border-black/10 bg-white px-3 py-1 text-[11px] font-semibold text-gray-600">Administrator</span>
+                            <span
+                                class="inline-flex items-center rounded-full border border-black/10 bg-white px-3 py-1 text-[11px] font-semibold text-gray-600">2FA
+                                Enabled</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="rounded-2xl border border-black/5 bg-white/80 p-4">
+                    <p class="text-[10px] font-label uppercase tracking-[0.18em] text-gray-400 mb-3">Personal Info</p>
+                    <div class="space-y-3">
+                        <div>
+                            <p class="text-[10px] uppercase tracking-[0.14em] text-gray-400">Full Name</p>
+                            <p class="text-sm font-medium text-black mt-1 profile-editable" data-field="full-name">Nexus
+                                Operator</p>
+                        </div>
+                        <div>
+                            <p class="text-[10px] uppercase tracking-[0.14em] text-gray-400">Phone</p>
+                            <p class="text-sm font-medium text-black mt-1 profile-editable" data-field="phone">+1 (555)
+                                294-7781</p>
+                        </div>
+                        <div>
+                            <p class="text-[10px] uppercase tracking-[0.14em] text-gray-400">Location</p>
+                            <p class="text-sm font-medium text-black mt-1 profile-editable" data-field="location">San
+                                Francisco, CA</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rounded-2xl border border-black/5 bg-white/80 p-4">
+                    <p class="text-[10px] font-label uppercase tracking-[0.18em] text-gray-400 mb-3">Account Info</p>
+                    <div class="space-y-3">
+                        <div>
+                            <p class="text-[10px] uppercase tracking-[0.14em] text-gray-400">User ID</p>
+                            <p class="text-sm font-medium text-black mt-1 profile-editable" data-field="user-id">
+                                NX-OPR-78214</p>
+                        </div>
+                        <div>
+                            <p class="text-[10px] uppercase tracking-[0.14em] text-gray-400">Plan</p>
+                            <p class="text-sm font-medium text-black mt-1 profile-editable" data-field="plan">Enterprise
+                                Core</p>
+                        </div>
+                        <div>
+                            <p class="text-[10px] uppercase tracking-[0.14em] text-gray-400">Last Login</p>
+                            <p class="text-sm font-medium text-black mt-1 profile-editable" data-field="last-login">Apr
+                                13, 2026 10:37 AM</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rounded-2xl border border-black/5 bg-white/80 p-4 md:col-span-2">
+                    <p class="text-[10px] font-label uppercase tracking-[0.18em] text-gray-400 mb-3">Security and
+                        Preferences</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <div class="rounded-xl border border-black/5 bg-white px-3 py-3">
+                            <p class="text-[10px] uppercase tracking-[0.14em] text-gray-400">MFA</p>
+                            <p class="text-sm font-semibold text-emerald-700 mt-1">Enabled</p>
+                        </div>
+                        <div class="rounded-xl border border-black/5 bg-white px-3 py-3">
+                            <p class="text-[10px] uppercase tracking-[0.14em] text-gray-400">API Key Status</p>
+                            <p class="text-sm font-semibold text-black mt-1">2 Active Keys</p>
+                        </div>
+                        <div class="rounded-xl border border-black/5 bg-white px-3 py-3">
+                            <p class="text-[10px] uppercase tracking-[0.14em] text-gray-400">Notifications</p>
+                            <p class="text-sm font-semibold text-black mt-1">Priority Only</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="md:col-span-2 flex flex-col sm:flex-row gap-3 pt-1">
+                    <button
+                        class="flex-1 rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm font-semibold text-black hover:border-black/20 transition-colors"
+                        id="edit-profile-btn" type="button">Edit Profile</button>
+                    <button
+                        class="flex-1 rounded-2xl bg-black px-4 py-3 text-sm font-semibold text-white hover:opacity-90 transition-opacity"
+                        id="manage-account-btn" type="button">Manage Account</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Nexus Avatar Controller + Cinematic Layout -->
+    <script>
+            (function () {
+                // Nexus responses pool
+                const RESPONSES = [
+                    "Processing your request. Neural pathways aligned — here is my analysis.",
+                    "Understood. Running inference across available data vectors.",
+                    "Command acknowledged. Synthesizing a response for you now.",
+                    "Analysing input signature. Output generated and ready for review.",
+                    "Request parsed. Delivering precision output across all relevant parameters."
+                ];
+
+                const videoMap = {
+                    greeting: document.getElementById('video-greeting'),
+                    idle: document.getElementById('video-idle'),
+                    listening: document.getElementById('video-listening'),
+                    thinking: document.getElementById('video-thinking'),
+                    talking: document.getElementById('video-talking')
+                };
+
+                // Initialize all videos to play in background
+                Object.values(videoMap).forEach(v => {
+                    if (v) {
+                        v.muted = true;
+                        v.defaultMuted = true;
+                        v.setAttribute('playsinline', '');
+                        v.setAttribute('webkit-playsinline', '');
+                        v.play().catch(() => { });
+                    }
+                });
+
+                const badge = document.getElementById('nexus-state-badge');
+                const chatMsgs = document.getElementById('chat-messages');
+
+                // Select all inputs and buttons
+                const inputs = document.querySelectorAll('.chat-input-field');
+                const execBtns = document.querySelectorAll('.exec-btn');
+
+                let currentState = '';
+                let resetTimer = null;
+                let chatActivated = false;
+
+                /* ---- Avatar state machine ---- */
+                function setAvatarState(state) {
+                    if (currentState === state) return;
+
+                    const oldVideo = videoMap[currentState];
+                    const newVideo = videoMap[state] || videoMap.idle;
+
+                    if (oldVideo) {
+                        oldVideo.classList.add('opacity-0');
+                        oldVideo.style.zIndex = "5";
+                    }
+                    if (newVideo) {
+                        newVideo.classList.remove('opacity-0');
+                        newVideo.style.zIndex = "10";
+                        newVideo.currentTime = 0;
+                        newVideo.play().catch(() => { });
+                    }
+
+                    currentState = state;
+                    badge.textContent = state.charAt(0).toUpperCase() + state.slice(1);
+                }
+
+                setAvatarState('greeting');
+                videoMap.greeting.onended = () => { if (currentState === 'greeting') setAvatarState('idle'); };
+
+                /* ---- Input listeners ---- */
+                inputs.forEach(input => {
+                    input.addEventListener('focus', () => { if (currentState === 'idle') setAvatarState('listening'); });
+                    input.addEventListener('input', () => {
+                        if (currentState !== 'listening') setAvatarState('listening');
+                        clearTimeout(resetTimer);
+                        resetTimer = setTimeout(() => {
+                            if (document.activeElement !== input && currentState === 'listening') setAvatarState('idle');
+                        }, 5000);
+                    });
+                    input.addEventListener('blur', () => { if (!input.value.trim()) setAvatarState('idle'); });
+                    input.onkeydown = (e) => { if (e.key === 'Enter') triggerResponse(input.value); };
+                });
+
+                /* ---- Chat bubble helpers ---- */
+                function addBubble(text, role) {
+                    const wrap = document.createElement('div');
+                    wrap.className = 'chat-bubble ' + role;
+                    if (role === 'nexus') {
+                        const label = document.createElement('div');
+                        label.className = 'nexus-label';
+                        label.textContent = 'Nexus AI';
+                        wrap.appendChild(label);
+                    }
+                    const p = document.createElement('p');
+                    p.textContent = text;
+                    wrap.appendChild(p);
+                    chatMsgs.appendChild(wrap);
+                    chatMsgs.scrollTop = chatMsgs.scrollHeight;
+                    return wrap;
+                }
+
+                function addTypingIndicator() {
+                    const wrap = document.createElement('div');
+                    wrap.className = 'chat-bubble nexus';
+                    wrap.id = 'typing-indicator';
+                    const label = document.createElement('div');
+                    label.className = 'nexus-label';
+                    label.textContent = 'Nexus AI';
+                    wrap.appendChild(label);
+                    const dots = document.createElement('div');
+                    dots.className = 'typing-dots';
+                    dots.innerHTML = '<span></span><span></span><span></span>';
+                    wrap.appendChild(dots);
+                    chatMsgs.appendChild(wrap);
+                    chatMsgs.scrollTop = chatMsgs.scrollHeight;
+                }
+
+                /* ---- Main trigger ---- */
+                function triggerResponse(val) {
+                    const text = val ? val.trim() : inputs[0].value.trim();
+                    if (!text) return;
+
+                    /* First-time: activate the cinematic split-screen */
+                    if (!chatActivated) {
+                        chatActivated = true;
+                        document.body.classList.add('chat-active');
+                        // Auto-open sidebar on first message
+                        if (typeof toggleLeftSidebar === 'function') {
+                            const sidebar = document.getElementById('sidebar-left');
+                            if (sidebar && sidebar.classList.contains('sidebar-left-closed')) {
+                                toggleLeftSidebar();
+                            }
+                        }
+                    }
+
+                    /* Add user bubble */
+                    addBubble(text, 'user');
+
+                    // Clear all inputs
+                    inputs.forEach(i => i.value = '');
+
+                    /* Avatar: thinking */
+                    setAvatarState('thinking');
+                    addTypingIndicator();
+
+                    /* After thinking delay, show response */
+                    const thinkTime = 2000 + Math.random() * 1000;
+                    setTimeout(() => {
+                        const indicator = document.getElementById('typing-indicator');
+                        if (indicator) indicator.remove();
+
+                        setAvatarState('talking');
+                        const reply = RESPONSES[Math.floor(Math.random() * RESPONSES.length)];
+                        addBubble(reply, 'nexus');
+
+                        setTimeout(() => setAvatarState('idle'), 4000);
+                    }, thinkTime);
+                }
+
+                execBtns.forEach(btn => btn.onclick = () => triggerResponse());
+
+                /* ---- Speech Toggle Logic ---- */
+                window.isSpeechEnabled = true;
+                const speechBtn = document.getElementById('speech-toggle-icon');
+                if (speechBtn) {
+                    speechBtn.parentElement.onclick = () => {
+                        window.isSpeechEnabled = !window.isSpeechEnabled;
+                        speechBtn.textContent = window.isSpeechEnabled ? 'volume_up' : 'volume_off';
+                        speechBtn.classList.toggle('text-white', window.isSpeechEnabled);
+                        speechBtn.classList.toggle('text-white/30', !window.isSpeechEnabled);
+                    };
+                }
+
+                /* ---- Dropdown Modular Logic ---- */
+                function initDropdown(triggerId, menuId) {
+                    const trigger = document.getElementById(triggerId);
+                    const menu = document.getElementById(menuId);
+                    if (!trigger || !menu) return;
+
+                    trigger.onclick = (e) => {
+                        e.stopPropagation();
+                        const isOpen = !menu.classList.contains('opacity-0');
+                        // Close all others
+                        document.querySelectorAll('.dropdown-menu').forEach(m => {
+                            if (m !== menu) m.classList.add('opacity-0', 'translate-y-2', 'pointer-events-none');
+                        });
+                        // Toggle selected
+                        if (isOpen) {
+                            menu.classList.add('opacity-0', 'translate-y-2', 'pointer-events-none');
+                        } else {
+                            menu.classList.remove('opacity-0', 'translate-y-2', 'pointer-events-none');
+                        }
+                    };
+                }
+
+                initDropdown('model-selector-trigger', 'model-dropdown');
+                initDropdown('engine-selector-trigger', 'engine-dropdown');
+                initDropdown('character-selector-trigger', 'character-dropdown');
+
+                // Global click to close
+                window.addEventListener('click', () => {
+                    document.querySelectorAll('.dropdown-menu').forEach(m => {
+                        m.classList.add('opacity-0', 'translate-y-2', 'pointer-events-none');
+                    });
+                });
+
+                window.selectMode = function (mode) {
+                    const textEl = document.getElementById('current-mode-text');
+                    if (textEl) textEl.textContent = mode;
+                    // Auto close
+                    const m = document.getElementById('model-dropdown');
+                    if (m) m.classList.add('opacity-0', 'translate-y-2', 'pointer-events-none');
+                };
+
+                // Audio Visualizer Logic
+                const viz = document.getElementById('nexus-visualizer');
+                const speakerBtn = document.getElementById('speaker-btn');
+                const phoneBtn = document.getElementById('phone-btn');
+
+                let currentMode = null;
+
+                function toggleViz(mode) {
+                    if (currentMode === mode) {
+                        viz.classList.remove('viz-active', 'mode-speaker', 'mode-phone');
+                        currentMode = null;
+                        return;
+                    }
+
+                    viz.classList.remove('mode-speaker', 'mode-phone');
+                    viz.classList.add('viz-active', `mode-${mode}`);
+                    currentMode = mode;
+                }
+
+                if (speakerBtn) speakerBtn.addEventListener('click', () => toggleViz('speaker'));
+                if (phoneBtn) phoneBtn.addEventListener('click', () => toggleViz('phone'));
+
+                window.selectCharacter = function (char) {
+                    const textEl = document.getElementById('current-character-text');
+                    if (textEl) textEl.textContent = char;
+                    // Auto close
+                    const m = document.getElementById('character-dropdown');
+                    if (m) m.classList.add('opacity-0', 'translate-y-2', 'pointer-events-none');
+                };
+            })();
+    </script>
+
+    <script>
+        // Mouse movement grid reaction
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX;
+            const y = e.clientY;
+            document.body.style.setProperty('--mouse-x', `${x}px`);
+            document.body.style.setProperty('--mouse-y', `${y}px`);
+        });
+
+        const sidebarLeft = document.getElementById('sidebar-left');
+        const sidebarRight = document.getElementById('sidebar-right');
+        const leftArrow = document.getElementById('left-arrow');
+        const rightArrow = document.getElementById('right-arrow');
+
+        function toggleLeftSidebar() {
+            const isClosed = sidebarLeft.classList.toggle('sidebar-left-closed');
+            // Rotate arrow based on state
+            leftArrow.style.transform = isClosed ? 'rotate(0deg)' : 'rotate(180deg)';
+        }
+
+        function toggleRightSidebar() {
+            const isClosed = sidebarRight.classList.toggle('sidebar-right-closed');
+            // Rotate arrow 180 degrees when open
+            rightArrow.style.transform = isClosed ? 'rotate(0deg)' : 'rotate(180deg)';
+        }
+
+        const focusComposerBtn = document.getElementById('focus-composer-btn');
+        const showAllHistoryBtn = document.getElementById('show-all-history-btn');
+        const historyFilterButtons = Array.from(document.querySelectorAll('.history-filter-btn'));
+        const historyItems = Array.from(document.querySelectorAll('[data-history-item]'));
+        const composerInput = document.querySelector('#floating-input-container input[type="text"]');
+        const openAccountPopupBtn = document.getElementById('open-account-popup-btn');
+        const accountPopupOverlay = document.getElementById('account-popup-overlay');
+        const accountPopupBackdrop = document.getElementById('account-popup-backdrop');
+        const closeAccountPopupBtn = document.getElementById('close-account-popup-btn');
+        const editProfileBtn = document.getElementById('edit-profile-btn');
+        const manageAccountBtn = document.getElementById('manage-account-btn');
+        const editableProfileFields = Array.from(document.querySelectorAll('.profile-editable'));
+        let isEditingProfile = false;
+
+        function setActiveHistoryFilter(filterName) {
+            historyFilterButtons.forEach((button) => {
+                const isActive = button.dataset.filter === filterName;
+                button.classList.toggle('bg-black', isActive);
+                button.classList.toggle('text-white', isActive);
+                button.classList.toggle('bg-white', !isActive);
+                button.classList.toggle('text-gray-600', !isActive);
+            });
+
+            historyItems.forEach((item) => {
+                const shouldShow = filterName === 'all' || item.dataset.historyFilter === filterName;
+                item.classList.toggle('hidden', !shouldShow);
+            });
+        }
+
+        if (focusComposerBtn && composerInput) {
+            focusComposerBtn.addEventListener('click', () => {
+                composerInput.focus();
+                composerInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
+        }
+
+        if (showAllHistoryBtn) {
+            showAllHistoryBtn.addEventListener('click', () => {
+                setActiveHistoryFilter('all');
+            });
+        }
+
+        historyFilterButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+                setActiveHistoryFilter(button.dataset.filter);
+            });
+        });
+
+        function openAccountPopup() {
+            if (!accountPopupOverlay) {
+                return;
+            }
+            accountPopupOverlay.classList.remove('hidden');
+            accountPopupOverlay.classList.add('flex');
+        }
+
+        function closeAccountPopup() {
+            if (!accountPopupOverlay) {
+                return;
+            }
+            accountPopupOverlay.classList.add('hidden');
+            accountPopupOverlay.classList.remove('flex');
+        }
+
+        if (openAccountPopupBtn) {
+            openAccountPopupBtn.addEventListener('click', openAccountPopup);
+        }
+
+        if (closeAccountPopupBtn) {
+            closeAccountPopupBtn.addEventListener('click', closeAccountPopup);
+        }
+
+        if (accountPopupBackdrop) {
+            accountPopupBackdrop.addEventListener('click', closeAccountPopup);
+        }
+
+        function setProfileEditMode(editMode) {
+            isEditingProfile = editMode;
+            editableProfileFields.forEach((field) => {
+                field.contentEditable = editMode ? 'true' : 'false';
+                field.spellcheck = false;
+                field.classList.toggle('rounded-md', editMode);
+                field.classList.toggle('bg-white', editMode);
+                field.classList.toggle('px-2', editMode);
+                field.classList.toggle('py-1', editMode);
+                field.classList.toggle('outline', editMode);
+                field.classList.toggle('outline-1', editMode);
+                field.classList.toggle('outline-black/10', editMode);
+            });
+
+            if (editProfileBtn) {
+                editProfileBtn.textContent = editMode ? 'Save Profile' : 'Edit Profile';
+            }
+        }
+
+        if (editProfileBtn) {
+            editProfileBtn.addEventListener('click', () => {
+                if (!isEditingProfile) {
+                    setProfileEditMode(true);
+                    if (editableProfileFields.length > 0) {
+                        editableProfileFields[0].focus();
+                    }
+                    return;
+                }
+
+                setProfileEditMode(false);
+            });
+        }
+
+        if (manageAccountBtn) {
+            manageAccountBtn.addEventListener('click', () => {
+                window.location.href = 'settings-profile.html';
+            });
+        }
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                if (isEditingProfile) {
+                    setProfileEditMode(false);
+                }
+                closeAccountPopup();
+            }
+        });
+
+        setActiveHistoryFilter('all');
+    </script>
+    <script id="mesh-script">
+        const canvas = document.getElementById('canvas-mesh');
+        if (canvas) {
+            const ctx = canvas.getContext('2d');
+            let width, height;
+            let mouse = { x: -1000, y: -1000 };
+
+            function resize() {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            }
+
+            window.addEventListener('resize', resize);
+            window.addEventListener('mousemove', (e) => {
+                mouse.x = e.clientX;
+                mouse.y = e.clientY;
+            });
+
+            resize();
+
+            const gridSize = 45;
+
+            const mouseForce = 150;
+
+            function applyPhysics(x, y) {
+                let px = x;
+                let py = y;
+
+                const dxM = px - mouse.x;
+                const dyM = py - mouse.y;
+                const distM = Math.sqrt(dxM * dxM + dyM * dyM);
+                if (distM < mouseForce) {
+                    const power = Math.pow((mouseForce - distM) / mouseForce, 1.5);
+                    px -= (dxM / distM) * 30 * power;
+                    py -= (dyM / distM) * 30 * power;
+                }
+                return { x: px, y: py };
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, width, height);
+                ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)';
+                ctx.lineWidth = 1;
+
+                for (let x = 0; x <= width; x += gridSize) {
+                    ctx.beginPath();
+                    for (let y = 0; y <= height; y += 10) {
+                        const pos = applyPhysics(x, y);
+                        if (y === 0) ctx.moveTo(pos.x, pos.y);
+                        else ctx.lineTo(pos.x, pos.y);
+                    }
+                    ctx.stroke();
+                }
+
+                for (let y = 0; y <= height; y += gridSize) {
+                    ctx.beginPath();
+                    for (let x = 0; x <= width; x += 10) {
+                        const pos = applyPhysics(x, y);
+                        if (x === 0) ctx.moveTo(pos.x, pos.y);
+                        else ctx.lineTo(pos.x, pos.y);
+                    }
+                    ctx.stroke();
+                }
+                requestAnimationFrame(draw);
+            }
+            draw();
+        }
+    </script>
+</body>
+
+</html>

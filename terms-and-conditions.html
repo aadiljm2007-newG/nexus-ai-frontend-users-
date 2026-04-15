@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>NEXUS AI | Terms &amp; Conditions</title>
+<style>
+        #canvas-mesh {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .grid-bg {
+            background-image: 
+                linear-gradient(to right, rgba(198, 198, 198, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(198, 198, 198, 0.05) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+        .scroll-progress {
+            transform-origin: 0%;
+            animation: scroll-watch linear;
+            animation-timeline: scroll();
+        }
+        @keyframes scroll-watch {
+            to { transform: scaleX(1); }
+        }
+    </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script id="tailwind-config">
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+        extend: {
+            colors: {
+            "surface": "#f9f9fb",
+            "on-primary-fixed": "#ffffff",
+            "inverse-surface": "#2f3132",
+            "primary": "#000000",
+            "secondary": "#5f5e5e",
+            "tertiary-fixed": "#5e5e63",
+            "outline-variant": "#c6c6c6",
+            "on-tertiary-fixed": "#ffffff",
+            "tertiary-fixed-dim": "#46464b",
+            "tertiary": "#3a3b40",
+            "secondary-fixed": "#c8c6c5",
+            "on-secondary-container": "#1c1b1b",
+            "on-primary-fixed-variant": "#e2e2e2",
+            "outline": "#777777",
+            "on-secondary": "#ffffff",
+            "tertiary-container": "#747479",
+            "surface-dim": "#d9dadc",
+            "surface-container-highest": "#e2e2e4",
+            "surface-container-high": "#e8e8ea",
+            "on-primary-container": "#ffffff",
+            "secondary-fixed-dim": "#adabaa",
+            "surface-variant": "#e2e2e4",
+            "on-primary": "#e2e2e2",
+            "surface-container-lowest": "#ffffff",
+            "primary-container": "#3b3b3b",
+            "background": "#f9f9fb",
+            "inverse-on-surface": "#f0f0f2",
+            "secondary-container": "#d6d4d3",
+            "on-tertiary-container": "#ffffff",
+            "on-background": "#1a1c1d",
+            "on-error": "#ffffff",
+            "inverse-primary": "#c6c6c6",
+            "on-secondary-fixed-variant": "#3c3b3b",
+            "surface-container-low": "#f3f3f5",
+            "on-secondary-fixed": "#1c1b1b",
+            "primary-fixed-dim": "#474747",
+            "on-surface-variant": "#474747",
+            "error": "#ba1a1a",
+            "primary-fixed": "#5e5e5e",
+            "on-surface": "#1a1c1d",
+            "surface-container": "#eeeef0",
+            "on-error-container": "#410002",
+            "error-container": "#ffdad6",
+            "on-tertiary": "#e3e2e7",
+            "on-tertiary-fixed-variant": "#e3e2e7",
+            "surface-tint": "#5e5e5e",
+            "surface-bright": "#f9f9fb"
+            },
+            borderRadius: {
+            DEFAULT: "0.125rem",
+            lg: "0.25rem",
+            xl: "0.5rem",
+            full: "0.75rem"
+            },
+            fontFamily: {
+            headline: ["Space Grotesk"],
+            body: ["Inter"],
+            label: ["Inter"]
+            }
+        }
+        }
+    }
+</script><link rel="stylesheet" href="corporate-theme.css">
+<link rel="stylesheet" href="responsive-fix.css" />
+</head>
+<body class="font-body bg-background text-on-surface min-h-screen flex flex-col overflow-x-hidden selection:bg-primary selection:text-white"><canvas id="canvas-mesh"></canvas>
+
+    <!-- Global Navigation Header -->
+    <header class="fixed top-0 w-full z-[100] bg-surface/80 backdrop-blur-xl border-b border-outline-variant/10">
+      <div class="flex justify-between items-center px-8 py-5 w-full max-w-screen-2xl mx-auto">
+        <a class="flex items-center gap-2" href="login.html">
+          <span class="text-2xl font-bold tracking-tighter text-black uppercase font-headline">NEXUS AI</span>
+        </a>
+        <div class="flex items-center gap-8">
+          <nav class="hidden md:flex gap-6">
+            <a class="text-xs font-label uppercase tracking-widest text-primary hover:opacity-70 transition-opacity font-bold" href="login.html">Gateway</a>
+            <a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="help-center.html">Help Center</a>
+            <a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="system-status.html">System Status</a>
+            <a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="settings-profile.html">Settings</a>
+          </nav>
+          <a class="material-symbols-outlined text-black cursor-pointer hover:opacity-70 transition-opacity" href="user-account.html">account_circle</a>
+        </div>
+      </div>
+    </header>
+
+<!-- Top Progress Bar -->
+<div class="fixed top-0 left-0 w-full h-[2px] bg-outline-variant/10 z-[60]">
+<div class="scroll-progress h-full bg-primary scale-x-0"></div>
+</div>
+<!-- TopNavBar -->
+
+    
+    
+    
+    
+
+
+<!-- Side Indicators (Right) -->
+<aside class="fixed right-8 top-1/2 -translate-y-1/2 z-40 flex flex-col gap-6 items-end">
+<a class="group flex items-center gap-4" href="#introduction">
+<span class="text-zinc-950 dark:text-zinc-50 font-bold scale-110 font-['Inter'] text-[10px] uppercase tracking-[0.05em] opacity-0 group-hover:opacity-100 transition-opacity">Introduction</span>
+<div class="w-2 h-2 rounded-full bg-primary transition-transform duration-500 group-hover:scale-150"></div>
+</a>
+<a class="group flex items-center gap-4" href="privacy-policy.html">
+<span class="text-zinc-300 dark:text-zinc-700 hover:text-zinc-500 font-['Inter'] text-[10px] uppercase tracking-[0.05em] opacity-0 group-hover:opacity-100 transition-opacity">Privacy</span>
+<div class="w-1.5 h-1.5 rounded-full bg-outline-variant transition-transform duration-500 group-hover:scale-150 group-hover:bg-primary"></div>
+</a>
+<a class="group flex items-center gap-4" href="#governance">
+<span class="text-zinc-300 dark:text-zinc-700 hover:text-zinc-500 font-['Inter'] text-[10px] uppercase tracking-[0.05em] opacity-0 group-hover:opacity-100 transition-opacity">Governance</span>
+<div class="w-1.5 h-1.5 rounded-full bg-outline-variant transition-transform duration-500 group-hover:scale-150 group-hover:bg-primary"></div>
+</a>
+<a class="group flex items-center gap-4" href="#compliance">
+<span class="text-zinc-300 dark:text-zinc-700 hover:text-zinc-500 font-['Inter'] text-[10px] uppercase tracking-[0.05em] opacity-0 group-hover:opacity-100 transition-opacity">Compliance</span>
+<div class="w-1.5 h-1.5 rounded-full bg-outline-variant transition-transform duration-500 group-hover:scale-150 group-hover:bg-primary"></div>
+</a>
+</aside>
+
+    
+    
+    
+    
+
+
+    <main class="grid-bg min-h-screen pt-24 pb-12 bg-transparent">
+    <!-- Hero Section -->
+<!-- Scroll Story Sections -->
+<div class="max-w-[1440px] mx-auto px-8 lg:px-24">
+<!-- Use of Service -->
+<section class="relative py-48 md:flex gap-20 bg-transparent" id="privacy">
+<div class="md:w-1/2">
+<div class="sticky top-40">
+<span class="font-label text-xs font-bold text-primary/30 tracking-[0.3em]">01</span>
+<h2 class="font-headline text-5xl md:text-7xl font-bold tracking-tighter mt-4 text-on-surface">Use of Service</h2>
+<p class="font-body text-primary-fixed mt-6 max-w-sm italic">Guidelines for interfacing with our neural architecture.</p>
+</div>
+</div>
+<div class="md:w-1/2 mt-12 md:mt-0 space-y-12">
+<div class="bg-surface-container-lowest p-12 rounded-lg border border-outline-variant/10 shadow-sm">
+<h3 class="font-headline text-2xl font-bold mb-6">User Autonomy</h3>
+<p class="text-secondary leading-relaxed mb-6">
+                            By accessing NEXUS AI, you acknowledge that our platform operates on distributed intelligence protocols. Users are granted a non-exclusive, revocable license to utilize the analytical capabilities of our core models for legitimate professional purposes.
+                        </p>
+<div class="flex items-center gap-4 text-sm font-medium text-primary">
+<span class="material-symbols-outlined text-lg">verified</span>
+<span>SLA compliant v2.0</span>
+</div>
+</div>
+<div class="space-y-8">
+<div class="flex gap-6">
+<div class="flex-none w-1 h-12 bg-primary"></div>
+<div>
+<h4 class="font-headline text-lg font-bold">Prohibited Operations</h4>
+<p class="text-secondary text-sm mt-2 leading-relaxed">Reverse engineering, automated scraping beyond specified API limits, and malicious prompt injection are strictly monitored and categorized as critical violations.</p>
+</div>
+</div>
+<div class="flex gap-6">
+<div class="flex-none w-1 h-12 bg-outline-variant/30"></div>
+<div>
+<h4 class="font-headline text-lg font-bold">Access Protocols</h4>
+<p class="text-secondary text-sm mt-2 leading-relaxed">Each node access requires valid cryptographic credentials. Multi-tenant isolation is enforced at the hardware level.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Intellectual Property -->
+<section class="relative py-48 md:flex gap-20 bg-transparent" id="governance">
+<div class="md:w-1/2 order-2">
+<div class="sticky top-40">
+<span class="font-label text-xs font-bold text-primary/30 tracking-[0.3em]">02</span>
+<h2 class="font-headline text-5xl md:text-7xl font-bold tracking-tighter mt-4 text-on-surface">Intellectual Property</h2>
+<p class="font-body text-primary-fixed mt-6 max-w-sm italic">Protecting the digital DNA of our system and your creations.</p>
+</div>
+</div>
+<div class="md:w-1/2 mt-12 md:mt-0 space-y-12">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="bg-surface-container-low p-8 rounded-lg aspect-square flex flex-col justify-between">
+<span class="material-symbols-outlined text-4xl text-primary" style="font-variation-settings: 'FILL' 1;">copyright</span>
+<div>
+<h4 class="font-headline font-bold text-xl">The Core</h4>
+<p class="text-xs text-secondary mt-2">Proprietary weights, architecture, and training methodologies remain the sole property of Nexus AI.</p>
+</div>
+</div>
+<div class="bg-white p-8 rounded-lg aspect-square flex flex-col justify-between border border-outline-variant/10 shadow-lg">
+<span class="material-symbols-outlined text-4xl text-primary" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<div>
+<h4 class="font-headline font-bold text-xl">The Output</h4>
+<p class="text-xs text-secondary mt-2">Users retain ownership of specific creative artifacts generated through the interface, subject to platform attribution guidelines.</p>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-12 rounded-lg border border-outline-variant/10">
+<p class="text-secondary text-lg leading-relaxed font-light">
+                            "Innovation is the bridge between human intent and machine execution. We ensure that bridge remains structurally sound through rigorous IP protections."
+                        </p>
+</div>
+</div>
+</section>
+<!-- Liability & Termination -->
+<section class="relative py-48 md:flex gap-20 bg-transparent" id="compliance">
+<div class="md:w-1/2">
+<div class="sticky top-40">
+<span class="font-label text-xs font-bold text-primary/30 tracking-[0.3em]">03</span>
+<h2 class="font-headline text-5xl md:text-7xl font-bold tracking-tighter mt-4 text-on-surface">Liability &amp; Ends</h2>
+<p class="font-body text-primary-fixed mt-6 max-w-sm italic">The final boundaries of our collaborative engagement.</p>
+</div>
+</div>
+<div class="md:w-1/2 mt-12 md:mt-0">
+<div class="space-y-4">
+<!-- Liability Card -->
+<div class="group bg-surface-container-low hover:bg-surface-container-lowest transition-all duration-500 p-8 rounded-lg border border-transparent hover:border-outline-variant/20">
+<div class="flex justify-between items-start">
+<h3 class="font-headline text-2xl font-bold">Limitation of Liability</h3>
+<span class="material-symbols-outlined opacity-0 group-hover:opacity-100 transition-opacity">info</span>
+</div>
+<p class="text-secondary mt-4 leading-relaxed text-sm">
+                                NEXUS AI provides analytical insights based on probabilistic modeling. We are not liable for autonomous decisions made by third-party integrations or downstream implementations. The service is provided "as-is" with 99.9% uptime guarantee.
+                            </p>
+</div>
+<!-- Termination Card -->
+<div class="group bg-surface-container-low hover:bg-surface-container-lowest transition-all duration-500 p-8 rounded-lg border border-transparent hover:border-outline-variant/20">
+<div class="flex justify-between items-start">
+<h3 class="font-headline text-2xl font-bold">Termination Protocols</h3>
+<span class="material-symbols-outlined opacity-0 group-hover:opacity-100 transition-opacity">dangerous</span>
+</div>
+<p class="text-secondary mt-4 leading-relaxed text-sm">
+                                Either party may terminate the agreement with 30-day notice. In the event of ethical breach or governance violation, NEXUS AI reserves the right to initiate an immediate "Deep-Purge" of access tokens and associated temporary cached data.
+                            </p>
+</div>
+<!-- Data Export -->
+<div class="group bg-surface-container-low hover:bg-surface-container-lowest transition-all duration-500 p-8 rounded-lg border border-transparent hover:border-outline-variant/20">
+<div class="flex justify-between items-start">
+<h3 class="font-headline text-2xl font-bold">Data Portability</h3>
+<span class="material-symbols-outlined opacity-0 group-hover:opacity-100 transition-opacity">download</span>
+</div>
+<p class="text-secondary mt-4 leading-relaxed text-sm">
+                                Upon termination, users have 15 days to export their contextual history and training logs via our standardized JSON endpoints.
+                            </p>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Call to Action -->
+<section class="py-32 px-8 bg-transparent">
+<div class="max-w-4xl mx-auto bg-primary text-on-primary p-16 rounded-xl relative overflow-hidden">
+<div class="absolute top-0 right-0 p-12 opacity-10">
+<span class="material-symbols-outlined text-[12rem]">gavel</span>
+</div>
+<div class="relative z-10">
+<h2 class="font-headline text-4xl md:text-5xl font-bold mb-6">Accepted &amp; Understood?</h2>
+<p class="text-on-primary/70 text-lg mb-10 max-w-xl">Continuing to interface with NEXUS AI implies full consent to these governance protocols. Let's build the future together.</p>
+<div class="flex flex-wrap gap-4">
+<button class="bg-on-primary text-primary px-8 py-4 rounded-full font-bold hover:scale-105 transition-transform">Accept Terms</button>
+<button class="border border-on-primary/30 px-8 py-4 rounded-full font-bold hover:bg-on-primary/10 transition-colors">Download PDF</button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="relative z-20 w-full border-t border-outline-variant/10 bg-surface mt-auto">
+<div class="flex flex-col md:flex-row justify-between items-center px-12 py-10 w-full max-w-screen-2xl mx-auto">
+<div class="font-label text-[10px] tracking-widest uppercase text-secondary">
+            © 2024 NEXUS AI ECOSYSTEM
+        </div>
+<nav class="flex gap-8 mt-6 md:mt-0">
+<a class="font-label text-[10px] tracking-widest uppercase text-secondary hover:text-primary transition-colors duration-300" href="terms-and-conditions.html">Terms &amp; Conditions</a>
+<a class="font-label text-[10px] tracking-widest uppercase text-secondary hover:text-primary transition-colors duration-300" href="api-documentation.html">API Docs</a>
+<a class="font-label text-[10px] tracking-widest uppercase text-secondary hover:text-primary transition-colors duration-300" href="privacy-policy.html">Privacy</a>
+</nav>
+</div>
+</footer>
+<script id="mesh-script">
+    const canvas = document.getElementById('canvas-mesh');
+    if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let mouse = { x: -1000, y: -1000 };
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resize);
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+
+        resize();
+
+        const gridSize = 45;
+        
+        const mouseForce = 150;
+
+        function applyPhysics(x, y) {
+            let px = x;
+            let py = y;
+            
+            const dxM = px - mouse.x;
+            const dyM = py - mouse.y;
+            const distM = Math.sqrt(dxM * dxM + dyM * dyM);
+            if (distM < mouseForce) {
+                const power = Math.pow((mouseForce - distM) / mouseForce, 1.5);
+                px -= (dxM / distM) * 30 * power;
+                py -= (dyM / distM) * 30 * power;
+            }
+            return { x: px, y: py };
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, width, height);
+            ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)';
+            ctx.lineWidth = 1;
+            
+            
+
+            for (let x = 0; x <= width; x += gridSize) {
+                ctx.beginPath();
+                for (let y = 0; y <= height; y += 10) {
+                    const pos = applyPhysics(x, y);
+                    if (y === 0) ctx.moveTo(pos.x, pos.y);
+                    else ctx.lineTo(pos.x, pos.y);
+                }
+                ctx.stroke();
+            }
+
+            for (let y = 0; y <= height; y += gridSize) {
+                ctx.beginPath();
+                for (let x = 0; x <= width; x += 10) {
+                    const pos = applyPhysics(x, y);
+                    if (x === 0) ctx.moveTo(pos.x, pos.y);
+                    else ctx.lineTo(pos.x, pos.y);
+                }
+                ctx.stroke();
+            }
+            requestAnimationFrame(draw);
+        }
+        draw();
+    }
+</script></body></html>
+

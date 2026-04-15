@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<title>Nexus AI - Appearance</title>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<style>
+        .space-grid {
+            background-image: 
+                linear-gradient(to right, #000 1px, transparent 1px),
+                linear-gradient(to bottom, #000 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.03;
+            transition: transform 0.2s cubic-bezier(0.2, 0, 0.2, 1);
+            perspective: 1000px;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.02);
+        }
+        .theme-button.active {
+            border-color: #000;
+            background-color: #fff;
+        }
+        .toggle-switch.active {
+            background-color: #000;
+        }
+        .toggle-switch.active span {
+            transform: translateX(1.25rem);
+        }
+        .sidebar-link-active {
+            color: black !important;
+            background: rgba(0, 0, 0, 0.03);
+            border-right: 2px solid black;
+        }
+    
+        #canvas-mesh { position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index: 5; }
+    
+        .fill-icon { font-variation-settings: 'FILL' 1; }
+    </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script id="tailwind-config">
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+        extend: {
+            colors: {
+            "surface": "#f9f9fb",
+            "on-primary-fixed": "#ffffff",
+            "inverse-surface": "#2f3132",
+            "primary": "#000000",
+            "secondary": "#5f5e5e",
+            "tertiary-fixed": "#5e5e63",
+            "outline-variant": "#c6c6c6",
+            "on-tertiary-fixed": "#ffffff",
+            "tertiary-fixed-dim": "#46464b",
+            "tertiary": "#3a3b40",
+            "secondary-fixed": "#c8c6c5",
+            "on-secondary-container": "#1c1b1b",
+            "on-primary-fixed-variant": "#e2e2e2",
+            "outline": "#777777",
+            "on-secondary": "#ffffff",
+            "tertiary-container": "#747479",
+            "surface-dim": "#d9dadc",
+            "surface-container-highest": "#e2e2e4",
+            "surface-container-high": "#e8e8ea",
+            "on-primary-container": "#ffffff",
+            "secondary-fixed-dim": "#adabaa",
+            "surface-variant": "#e2e2e4",
+            "on-primary": "#e2e2e2",
+            "surface-container-lowest": "#ffffff",
+            "primary-container": "#3b3b3b",
+            "background": "#f9f9fb",
+            "inverse-on-surface": "#f0f0f2",
+            "secondary-container": "#d6d4d3",
+            "on-tertiary-container": "#ffffff",
+            "on-background": "#1a1c1d",
+            "on-error": "#ffffff",
+            "inverse-primary": "#c6c6c6",
+            "on-secondary-fixed-variant": "#3c3b3b",
+            "surface-container-low": "#f3f3f5",
+            "on-secondary-fixed": "#1c1b1b",
+            "primary-fixed-dim": "#474747",
+            "on-surface-variant": "#474747",
+            "error": "#ba1a1a",
+            "primary-fixed": "#5e5e5e",
+            "on-surface": "#1a1c1d",
+            "surface-container": "#eeeef0",
+            "on-error-container": "#410002",
+            "error-container": "#ffdad6",
+            "on-tertiary": "#e3e2e7",
+            "on-tertiary-fixed-variant": "#e3e2e7",
+            "surface-tint": "#5e5e5e",
+            "surface-bright": "#f9f9fb"
+            },
+            borderRadius: {
+            DEFAULT: "0.125rem",
+            lg: "0.25rem",
+            xl: "0.5rem",
+            full: "0.75rem"
+            },
+            fontFamily: {
+            headline: ["Space Grotesk"],
+            body: ["Inter"],
+            label: ["Inter"]
+            }
+        }
+        }
+    }
+</script><style id="responsive-settings-patch">
+  @media (max-width: 1200px) {
+    body {
+      overflow-x: hidden;
+    }
+
+    header .max-w-screen-2xl {
+      padding-left: 1rem !important;
+      padding-right: 1rem !important;
+    }
+
+    div[class*="flex min-h-screen pt-24"] {
+      display: block !important;
+      min-height: auto !important;
+      padding-top: 5.5rem !important;
+    }
+
+    aside[class*="fixed left-0 top-20"][class*="w-64"] {
+      position: relative !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      height: auto !important;
+      max-height: none !important;
+      border-right: 0 !important;
+      border-bottom: 1px solid rgba(0,0,0,0.08) !important;
+      z-index: 20 !important;
+    }
+
+    aside[class*="fixed left-0 top-20"][class*="w-64"] nav {
+      max-height: 42vh;
+      overflow-y: auto;
+      padding-bottom: 0.5rem;
+    }
+
+    main[class*="ml-64"],
+    main[class*="ml-72"] {
+      margin-left: 0 !important;
+    }
+
+    main[class*="pt-40"] {
+      padding-top: 6rem !important;
+    }
+
+    main[class*="p-12"],
+    main[class*="px-16"],
+    main[class*="py-20"] {
+      padding: 1rem !important;
+    }
+  }
+
+  @media (max-width: 640px) {
+    header .max-w-screen-2xl {
+      padding-left: 0.75rem !important;
+      padding-right: 0.75rem !important;
+    }
+
+    [class*="max-w-7xl"],
+    [class*="max-w-6xl"],
+    [class*="max-w-5xl"],
+    [class*="max-w-4xl"] {
+      max-width: 100% !important;
+    }
+
+    [class*="grid-cols-2"],
+    [class*="grid-cols-3"],
+    [class*="grid-cols-4"] {
+      grid-template-columns: 1fr !important;
+    }
+
+    .nav-item {
+      padding-top: 0.65rem !important;
+      padding-bottom: 0.65rem !important;
+    }
+
+    h1,
+    h2 {
+      word-break: break-word;
+    }
+  }
+</style>
+<link rel="stylesheet" href="responsive-fix.css" />
+</head>
+<body class="font-body bg-background text-on-surface min-h-screen flex flex-col overflow-x-hidden selection:bg-primary selection:text-white"><canvas id="canvas-mesh"></canvas>
+
+    <!-- Global Navigation Header -->
+    <header class="fixed top-0 w-full z-[100] bg-surface/80 backdrop-blur-xl border-b border-outline-variant/10">
+      <div class="flex justify-between items-center px-8 py-5 w-full max-w-screen-2xl mx-auto">
+        <a class="flex items-center gap-2" href="login.html">
+          <span class="text-2xl font-bold tracking-tighter text-black uppercase font-headline">NEXUS AI</span>
+        </a>
+        <div class="flex items-center gap-8">
+          <nav class="hidden md:flex gap-6">
+            <a class="text-xs font-label uppercase tracking-widest text-primary hover:opacity-70 transition-opacity font-bold" href="login.html">Gateway</a>
+            <a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="help-center.html">Help Center</a>
+            <a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="system-status.html">System Status</a>
+            <a class="text-xs font-label uppercase tracking-widest text-secondary hover:text-primary transition-opacity font-bold" href="settings-profile.html">Settings</a>
+          </nav>
+          <a class="material-symbols-outlined text-black cursor-pointer hover:opacity-70 transition-opacity" href="user-account.html">account_circle</a>
+        </div>
+      </div>
+    </header>
+
+<!-- Navbar -->
+
+    
+    
+    
+    
+
+
+<div class="flex min-h-screen pt-24">
+<!-- Unified SideNavBar -->
+<aside class="fixed left-0 top-20 h-full flex flex-col bg-surface/80 backdrop-blur-xl w-64 border-r border-outline-variant/10 z-50">
+<div class="p-8">
+<h1 class="text-2xl font-bold tracking-tighter text-zinc-900 dark:text-zinc-50 font-headline uppercase">Nexus AI</h1>
+<p class="text-[10px] uppercase tracking-[0.2em] text-zinc-400 mt-1 font-label">Celestial Precision</p>
+</div>
+<nav class="flex-1 px-4 space-y-1 overflow-y-auto custom-scrollbar">
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings-profile.html">
+<span class="material-symbols-outlined text-xl" data-icon="person">person</span>
+<span class="text-sm">Profile</span>
+</a>
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings-ai-behavior.html">
+<span class="material-symbols-outlined text-xl" data-icon="psychology">psychology</span>
+<span class="text-sm">AI Behavior</span>
+</a>
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings-voice-interaction.html">
+<span class="material-symbols-outlined text-xl" data-icon="settings_voice">settings_voice</span>
+<span class="text-sm">Voice &amp; Interaction</span>
+</a>
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings-system-permissions.html">
+<span class="material-symbols-outlined text-xl" data-icon="verified_user">verified_user</span>
+<span class="text-sm">System Permissions</span>
+</a>
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings-automation.html">
+<span class="material-symbols-outlined text-xl" data-icon="settings_suggest">settings_suggest</span>
+<span class="text-sm">Automation Settings</span>
+</a>
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings-integrations.html">
+<span class="material-symbols-outlined text-xl" data-icon="hub">hub</span>
+<span class="text-sm">Integrations</span>
+</a>
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings-notifications.html">
+<span class="material-symbols-outlined text-xl" data-icon="notifications">notifications</span>
+<span class="text-sm">Notifications</span>
+</a>
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-900 dark:text-zinc-50 font-bold active bg-zinc-100/50 dark:bg-zinc-900/50 font-headline tracking-tight cursor-pointer" href="settings-appearance.html">
+<span class="material-symbols-outlined text-xl" data-icon="palette">palette</span>
+<span class="text-sm">Appearance</span>
+</a>
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings-security-privacy.html">
+<span class="material-symbols-outlined text-xl" data-icon="security">security</span>
+<span class="text-sm">Privacy &amp; Security</span>
+</a>
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings_api_keys_unified.html">
+<span class="material-symbols-outlined text-xl" data-icon="key">key</span>
+<span class="text-sm">API Keys</span>
+</a>
+<a class="nav-item flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 font-headline tracking-tight cursor-pointer" href="settings-advanced.html">
+<span class="material-symbols-outlined text-xl" data-icon="manufacturing">manufacturing</span>
+<span class="text-sm">Advanced</span>
+</a>
+</nav>
+<div class="p-6 border-t border-zinc-200/10 dark:border-zinc-800/10">
+<div class="flex items-center gap-3 group cursor-pointer">
+<img alt="Dr. Aris Thorne" class="w-10 h-10 rounded-full border border-zinc-200/20 shadow-sm transition-transform group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFZcVhStw82T7UXsxELE0USEE75b3DIIRE6nCaOm1HY4a0JVKx4MnhNOIm-P0Guom5LeM1d2UV7vryx1CAkdxbBAVlFejP9NZbpRA-5HbgrWnMp9TOHf7vqRuRBHOaW9R_6GCSTzwvaZQxwjS3GMXE7ksH2SIbkcRcF7oaIhVTKVAUHw0x8y61CYv4Vm7mHVSjqZ38yKHVO9E6EXKkxDq9SnSmyjL7YiAlqdhpz167ZXYcQry7g2Dm_4VuPwXlTi1uR6pY5DbpTLZR"/>
+<div class="overflow-hidden">
+<p class="text-sm font-bold font-headline truncate">Dr. Aris Thorne</p>
+<p class="text-[10px] text-zinc-400 uppercase tracking-widest truncate">Enterprise Tier</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 relative overflow-hidden bg-transparent" id="main-canvas">
+<!-- Space-Time Grid Background -->
+<div class="absolute inset-0 space-grid pointer-events-none" id="interactive-grid"></div>
+<div class="relative z-10 p-16 max-w-6xl mx-auto">
+
+    
+    
+    
+    
+
+
+<div class="grid grid-cols-12 gap-12">
+<section class="col-span-12 lg:col-span-8 space-y-16 bg-transparent">
+<!-- Theme Selection -->
+<div>
+<h3 class="font-headline text-xs font-bold uppercase tracking-[0.2em] text-zinc-400 mb-8 flex items-center gap-3">
+<span class="h-px w-8 bg-zinc-200"></span> Theme Environment
+                            </h3>
+<div class="grid grid-cols-3 gap-6">
+<button class="theme-button active glass-card p-6 rounded-2xl flex flex-col gap-6 text-left transition-all hover:-translate-y-1 active:scale-[0.98]">
+<div class="aspect-[4/3] w-full rounded-xl bg-zinc-100 flex items-center justify-center border border-black/5 overflow-hidden">
+<div class="w-2/3 h-2/3 bg-white rounded-lg shadow-2xl"></div>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-headline font-bold text-sm">Light Mode</span>
+<div class="h-5 w-5 rounded-full border-2 border-black flex items-center justify-center">
+<div class="h-2.5 w-2.5 rounded-full bg-black"></div>
+</div>
+</div>
+</button>
+<button class="theme-button glass-card p-6 rounded-2xl flex flex-col gap-6 text-left transition-all hover:-translate-y-1 opacity-50 hover:opacity-100 active:scale-[0.98]">
+<div class="aspect-[4/3] w-full rounded-xl bg-zinc-900 flex items-center justify-center border border-white/10 overflow-hidden">
+<div class="w-2/3 h-2/3 bg-zinc-950 rounded-lg shadow-2xl"></div>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-headline font-bold text-sm">Dark Mode</span>
+<div class="h-5 w-5 rounded-full border-2 border-zinc-200"></div>
+</div>
+</button>
+<button class="theme-button glass-card p-6 rounded-2xl flex flex-col gap-6 text-left transition-all hover:-translate-y-1 opacity-50 hover:opacity-100 active:scale-[0.98]">
+<div class="aspect-[4/3] w-full rounded-xl bg-gradient-to-br from-zinc-200 to-zinc-800 flex items-center justify-center border border-black/5 overflow-hidden">
+<div class="w-2/3 h-2/3 bg-zinc-500 rounded-lg shadow-2xl"></div>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-headline font-bold text-sm">System Sync</span>
+<div class="h-5 w-5 rounded-full border-2 border-zinc-200"></div>
+</div>
+</button>
+</div>
+</div>
+<!-- Interface Options -->
+<div>
+<h3 class="font-headline text-xs font-bold uppercase tracking-[0.2em] text-zinc-400 mb-8 flex items-center gap-3">
+<span class="h-px w-8 bg-zinc-200"></span> Interface Dynamics
+                            </h3>
+<div class="space-y-4">
+<div class="glass-card flex items-center justify-between p-8 rounded-2xl group transition-all hover:bg-white">
+<div class="flex gap-6 items-center">
+<div class="h-12 w-12 rounded-xl bg-black/5 flex items-center justify-center transition-transform group-hover:scale-110">
+<span class="material-symbols-outlined text-black">grid_4x4</span>
+</div>
+<div>
+<h4 class="font-headline font-bold text-base">Interactive Space-Time Grid</h4>
+<p class="text-sm text-zinc-500 mt-1">Responsive background grid that reacts to cursor proximity.</p>
+</div>
+</div>
+<button class="toggle-switch active relative inline-flex h-7 w-12 items-center rounded-full bg-zinc-200 transition-colors focus:outline-none" onclick="this.classList.toggle('active')" title="Toggle Setting" aria-label="Toggle Setting">
+<span class="inline-block h-5 w-5 transform rounded-full bg-white transition-transform translate-x-1 shadow-sm"></span>
+</button>
+</div>
+<div class="glass-card flex items-center justify-between p-8 rounded-2xl group transition-all hover:bg-white">
+<div class="flex gap-6 items-center">
+<div class="h-12 w-12 rounded-xl bg-black/5 flex items-center justify-center transition-transform group-hover:scale-110">
+<span class="material-symbols-outlined text-black">blur_on</span>
+</div>
+<div>
+<h4 class="font-headline font-bold text-base">Dynamic Motion Engine</h4>
+<p class="text-sm text-zinc-500 mt-1">High-fidelity animations for smoother contextual transitions.</p>
+</div>
+</div>
+<button class="toggle-switch active relative inline-flex h-7 w-12 items-center rounded-full bg-zinc-200 transition-colors focus:outline-none" onclick="this.classList.toggle('active')" title="Toggle Setting" aria-label="Toggle Setting">
+<span class="inline-block h-5 w-5 transform rounded-full bg-white transition-transform translate-x-1 shadow-sm"></span>
+</button>
+</div>
+<div class="glass-card flex items-center justify-between p-8 rounded-2xl group transition-all hover:bg-white">
+<div class="flex gap-6 items-center">
+<div class="h-12 w-12 rounded-xl bg-black/5 flex items-center justify-center transition-transform group-hover:scale-110">
+<span class="material-symbols-outlined text-black">glass_cup</span>
+</div>
+<div>
+<h4 class="font-headline font-bold text-base">Glassmorphism Intensity</h4>
+<p class="text-sm text-zinc-500 mt-1">Hardware-accelerated backdrop blur for layered interfaces.</p>
+</div>
+</div>
+<button class="toggle-switch relative inline-flex h-7 w-12 items-center rounded-full bg-zinc-200 transition-colors focus:outline-none" onclick="this.classList.toggle('active')" title="Toggle Setting" aria-label="Toggle Setting">
+<span class="inline-block h-5 w-5 transform rounded-full bg-white transition-transform translate-x-1 shadow-sm"></span>
+</button>
+</div>
+</div>
+</div>
+<!-- UI Density -->
+<div>
+<h3 class="font-headline text-xs font-bold uppercase tracking-[0.2em] text-zinc-400 mb-8 flex items-center gap-3">
+<span class="h-px w-8 bg-zinc-200"></span> UI Density
+                            </h3>
+<div class="inline-flex glass-card p-1.5 rounded-2xl">
+<button class="py-3 px-10 rounded-xl font-headline font-bold text-xs uppercase tracking-widest bg-black text-white shadow-xl shadow-black/10 transition-all">Standard</button>
+<button class="py-3 px-10 rounded-xl font-headline font-bold text-xs uppercase tracking-widest text-zinc-400 hover:text-black transition-colors">Compact</button>
+<button class="py-3 px-10 rounded-xl font-headline font-bold text-xs uppercase tracking-widest text-zinc-400 hover:text-black transition-colors">Expansive</button>
+</div>
+</div>
+</section>
+<aside class="col-span-12 lg:col-span-4 space-y-8">
+<!-- Preview Card -->
+<div class="bg-black p-8 rounded-3xl relative overflow-hidden group hover:shadow-2xl transition-all duration-700">
+<div class="absolute -right-20 -top-20 w-64 h-64 bg-white/5 rounded-full blur-[80px] group-hover:scale-150 transition-transform duration-1000"></div>
+<h4 class="font-headline text-white text-lg font-bold mb-8 relative z-10 flex items-center justify-between">
+                                Live Preview
+                                <span class="text-[10px] text-zinc-500 font-medium bg-white/10 px-2 py-1 rounded">Ver 4.2</span>
+</h4>
+<div class="relative z-10 aspect-square rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 p-8 flex flex-col gap-6 group-hover:translate-y-[-4px] transition-transform">
+<div class="flex items-center gap-4">
+<div class="h-10 w-10 rounded-full bg-white/20"></div>
+<div class="h-2 w-32 bg-white/10 rounded-full"></div>
+</div>
+<div class="space-y-3">
+<div class="h-1.5 w-full bg-white/10 rounded-full"></div>
+<div class="h-1.5 w-4/5 bg-white/10 rounded-full"></div>
+<div class="h-1.5 w-3/4 bg-white/10 rounded-full"></div>
+</div>
+<div class="mt-auto h-12 w-full bg-white rounded-xl shadow-inner"></div>
+</div>
+<p class="text-[10px] text-white/40 mt-8 font-headline uppercase tracking-[0.2em] font-bold">Synchronizing Parameters...</p>
+</div>
+<!-- Engine Status -->
+<div class="glass-card p-8 rounded-3xl border-dashed border-zinc-200">
+<h4 class="font-headline font-bold text-sm mb-4">Hardware Acceleration</h4>
+<p class="text-xs text-zinc-500 mb-6 leading-relaxed">Celestial UI leverages WebGL core for real-time grid distortion. Optimal refresh rates detected for your current GPU.</p>
+<div class="flex items-center gap-3">
+<div class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></div>
+<span class="text-[10px] font-bold uppercase tracking-widest text-emerald-600 font-headline">Status: Nominal</span>
+</div>
+</div>
+<!-- Featured Promotion -->
+<div class="relative rounded-3xl overflow-hidden aspect-[4/5] group cursor-pointer shadow-sm">
+<img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAPKzk16Ytl-7tryZYmUR_pTJjJPzOSgZPNkt1LFecdvdQ1S7QPrkXnYFsCtzL8_on6J8m6xvnyyrXkpxwdA8X_E6U9OG6pIqTx5NySBepoVBfZ-II-aRrd4tlPgzRjywB4uv1eNKWhyvIKLpUVI5G55o5JvnHcB3BcAhQL_Hzt_Ypvl5Xi6P8g0fQOIzdZFrsnrZWhwSVnnnNpj-ZyBs82hUjnvWhGqjPfTJ2qCLG9XGm__-7hz4MbtNT-YH0x0JSzkBiIY3Y4Swv1" alt="Image description" />
+<div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent flex flex-col justify-end p-8 transition-colors group-hover:via-black/40">
+<span class="text-[10px] text-white/60 uppercase tracking-[0.3em] mb-2 font-bold">Featured Skin</span>
+<h5 class="text-white font-headline text-xl font-black tracking-tight leading-none mb-6">Monolith Obsidian 2.0</h5>
+<button class="w-full py-3 bg-white text-black text-[10px] font-bold uppercase tracking-[0.2em] rounded-xl transition-all hover:bg-zinc-200 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0">Apply Interface Skin</button>
+</div>
+</div>
+</aside>
+</div>
+</div>
+</main>
+</div>
+<script src="interactivity.js"></script><script id="mesh-script">
+    const canvas = document.getElementById('canvas-mesh');
+    if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let mouse = { x: -1000, y: -1000 };
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resize);
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+
+        resize();
+
+        const gridSize = 45;
+        
+        const mouseForce = 150;
+
+        function applyPhysics(x, y) {
+            let px = x;
+            let py = y;
+            
+            const dxM = px - mouse.x;
+            const dyM = py - mouse.y;
+            const distM = Math.sqrt(dxM * dxM + dyM * dyM);
+            
+            if (distM < mouseForce) {
+                // Liquid lens topographical push against mouse
+                const power = Math.pow((mouseForce - distM) / mouseForce, 2);
+                px += dxM * power * 1.5;
+                py += dyM * power * 1.5;
+            }
+            
+            return { x: px, y: py };
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, width, height);
+            ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)';
+            ctx.lineWidth = 1;
+
+            for (let x = 0; x <= width; x += gridSize) {
+                ctx.beginPath();
+                for (let y = 0; y <= height; y += 4) {
+                    const pos = applyPhysics(x, y);
+                    if (y === 0) ctx.moveTo(pos.x, pos.y);
+                    else ctx.lineTo(pos.x, pos.y);
+                }
+                ctx.stroke();
+            }
+
+            for (let y = 0; y <= height; y += gridSize) {
+                ctx.beginPath();
+                for (let x = 0; x <= width; x += 4) {
+                    const pos = applyPhysics(x, y);
+                    if (x === 0) ctx.moveTo(pos.x, pos.y);
+                    else ctx.lineTo(pos.x, pos.y);
+                }
+                ctx.stroke();
+            }
+            requestAnimationFrame(draw);
+        }
+        draw();
+    }
+</script><script id="settings-nav-active-script">
+(function initSettingsSideNavActive() {
+  var currentPage = (window.location.pathname.split('/').pop() || '').toLowerCase();
+  var items = document.querySelectorAll('a.nav-item[href$=".html"]');
+
+  items.forEach(function (item) {
+    var target = (item.getAttribute('href') || '').toLowerCase();
+    var isActive = target === currentPage;
+
+    item.classList.remove('text-zinc-900', 'dark:text-zinc-50', 'font-bold', 'active', 'bg-zinc-100/50', 'dark:bg-zinc-900/50');
+    item.classList.remove('text-zinc-400', 'hover:text-zinc-900', 'dark:hover:text-zinc-50');
+
+    if (isActive) {
+      item.classList.add('text-zinc-900', 'dark:text-zinc-50', 'font-bold', 'active', 'bg-zinc-100/50', 'dark:bg-zinc-900/50');
+    } else {
+      item.classList.add('text-zinc-400', 'hover:text-zinc-900', 'dark:hover:text-zinc-50');
+    }
+  });
+})();
+</script>
+</body></html>
